@@ -1,0 +1,84 @@
+.create-box {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  width: 30%;
+}
+
+.create-input-name {
+  height: 50px;
+  border-radius: 10px;
+  border: 1px solid gray;
+  font-size: 18px;
+  padding-left: 20px;
+  margin-top: 5px;
+}
+
+.create-input-name:focus {
+  outline: none;
+}
+
+.create-input-quantity {
+  height: 50px;
+  margin-top: 5px;
+  border-radius: 10px;
+  border: 1px solid gray;
+  font-size: 18px;
+  padding-left: 20px;
+}
+
+.create-input-free-sale {
+  margin-top: 5px;
+  height: 18px;
+  width: 18px;
+  background-color: #eee;
+}
+
+.create-input-date {
+  height: 50px;
+  margin-top: 5px;
+  border-radius: 10px;
+  border: 1px solid gray;
+  font-size: 18px;
+  padding-left: 20px;
+}
+
+.create-input-type {
+  height: 50px;
+  margin-top: 5px;
+  border-radius: 10px;
+  border: 1px solid gray;
+  font-size: 18px;
+  padding-left: 20px;
+}
+
+.create-button-send {
+  width: 60%;
+  margin-top: 5px;
+  align-self: center;
+  text-align: center;
+  height: 50px;
+  border-radius: 10px;
+  border: none;
+  background-color: #42b72a;
+  color: white;
+  font-size: 20px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.create-button-send:focus {
+  outline: none;
+}
+
+.create-button-send:disabled {
+  cursor: not-allowed;
+}
+
+.create-free-sale-text {
+  font-size: 20px;
+  font-weight: 700;
+}
