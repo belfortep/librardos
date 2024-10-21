@@ -6,19 +6,16 @@ const { HttpCodesEnum } = require('../enum/httpCodes');
 const register = async (req, res) => {
     try {
         const { username, email, password } = req.body
-
+        const user_exists = await User.findOne({ username: req.body.username });
+        if (user_exists) return res.status(HttpCodesEnum.BAD_REQUEST).JSON({ message: "User already exists"})
         const salt = bcrypt.genSaltSync(10);
-
         const hash = bcrypt.hashSync(password, salt);
-
         const user = new User({
             username,
             email,
             password: hash
         })
-
         await user.save();
-
         return res.status(HttpCodesEnum.CREATED).send('User created');
     } catch (err) {
         return res.status(HttpCodesEnum.SERVER_INTERNAL_ERROR).json({ message: err.message });
@@ -27,10 +24,7 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
     try {
-
-
         const user = await User.findOne({ username: req.body.username });
-
         if (!user) return res.status(HttpCodesEnum.NOT_FOUND).send('User not found');
 
         const isPasswordCorrect = await bcrypt.compare(req.body.password, user.password);
