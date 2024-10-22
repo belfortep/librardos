@@ -31,12 +31,6 @@ connectDB();
 
 //------------------------------ROUTES------------------------------
 
-app.use('/api/solid', solidRoute);
-
-app.use('/api/liquid', liquidRoute);
-
-app.use('/api/psycho', psychoRoute);
-
 app.use("/api/book", bookRoute);
 
 app.use('/auth/', authRoute);
