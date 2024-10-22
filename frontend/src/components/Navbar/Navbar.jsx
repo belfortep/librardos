@@ -21,11 +21,14 @@ export const Navbar = () => {
         <div className="navbar-collapse" id="navbarNav">
           <ul className="navbar-nav">
             <li className="nav-item">
-            <Link className="nav-link" to={'/'}>Lista</Link>
+            <Link className="nav-link" to={'/'}>Catalogo</Link>
             </li>
             <li className="nav-item">
-            <Link className="nav-link" to={'/agregar'}>Agregar</Link>
+            <Link className="nav-link" to={'/favourites'}>Favourites</Link>
             </li>
+            {/* <li className="nav-item">
+            <Link className="nav-link" to={'/agregar'}>Agregar</Link>
+            </li> */}
             <li className="nav-item">
             <Link className="nav-link" to={'/por_fecha'}>Por Fecha</Link>
             </li>

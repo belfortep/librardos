@@ -10,6 +10,7 @@ import { Login } from './pages/login/Login';
 import { CreateMedicine } from './pages/createMedicine/CreateMedicine';
 import { MedicineByDate } from './pages/medicineByDate/MedicineByDate';
 import './app.css'
+import { Favourites } from './pages/favourites/favourites';
 
 
 
@@ -25,6 +26,7 @@ function App() {
           <Route path='/agregar' element={<CreateMedicine />} />
           <Route path='/agregar/:id' element={<CreateMedicine />} />
           <Route path='/por_fecha' element={<MedicineByDate/>}/>
+          <Route path='/favourites'element={<Favourites/>}/>
         </Routes>
       </BrowserRouter>
     </>

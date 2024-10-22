@@ -1,15 +1,15 @@
-.medicine-title {
+.favourite-title {
         text-align: center;
         margin: 5px;
 }
 
-.medicine-sub-title {
+.favourite-sub-title {
         margin-left: 10px;
 }
 
 
 
-.medicine-sub-container {
+.favourite-sub-container {
         grid-template-columns: repeat(4, minmax(0, 1fr));
         gap: 1rem;
         display: grid;
@@ -17,7 +17,7 @@
         
         
 }
-.medicine-sub-container-div{
+.favourite-sub-container-div{
         border: 2px #333 solid;
         background-color: #eee;
         border-radius: 12px;
@@ -29,38 +29,38 @@ li{
         
 }
 
-.medicine-container {
+.favourite-container {
         color: black;
         font-size: 18px;
         
 }
 
-.medicine-button-div {
+.favourite-button-div {
         float: right;
 }
 
-.button-medicine-delete{
+.button-favourite-delete{
         background-color: #eee;
         border: none;
 }
 
-.button-medicine-update{
+.button-favourite-update{
         background-color: #eee;
         border: none;
 }
 
-.medicine-container .medicine-name{
+.favourite-container .favourite-name{
         color: green;
         transition: color 0.25s ease-out;
         padding-right: 12px;
         font-weight: 600;
 }
 
-.medicine-container .medicine-name:hover{
+.favourite-container .favourite-name:hover{
         color: blue;
 }
 
-.medicine-expired-text{
+.favourite-expired-text{
         color:red;
         font-weight: 600;
 }

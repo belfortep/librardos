@@ -12,8 +12,10 @@ export const Medicine = () => {
   const [book, setBook] = useState({});
   const {user} = useContext(AuthContext);
   const params = useParams()
-  const handleFavorite = async (id) => {
 
+  const handleFavorite = async (id) => {
+    // alert("Libro añadido a favoritos");
+    await axios.post(`/api/book/fav/${id}`, { user_id: user._id });
   }
   useEffect(()=>{
     
