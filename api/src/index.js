@@ -7,6 +7,7 @@ const solidRoute = require('./routes/solid');
 const liquidRoute = require('./routes/liquid');
 const psychoRoute = require('./routes/psycho');
 const authRoute = require('./routes/auth');
+const bookRoute = require('./routes/book');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 
@@ -35,6 +36,8 @@ app.use('/api/solid', solidRoute);
 app.use('/api/liquid', liquidRoute);
 
 app.use('/api/psycho', psychoRoute);
+
+app.use("/api/book", bookRoute);
 
 app.use('/auth/', authRoute);
 
