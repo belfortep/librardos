@@ -7,7 +7,7 @@ const { verifyUser } = require('../util/verifyToken');
 
 router.get('/', verifyUser, getAllBooks);
 router.get('/:id', verifyUser, getBookById);
-router.get('/fav/:id', verifyUser, addBookToFavoriteById)
+router.post('/fav/:id', addBookToFavoriteById)
 
 
 module.exports = router
