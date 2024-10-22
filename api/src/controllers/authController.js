@@ -39,7 +39,18 @@ const login = async (req, res) => {
     }
 }
 
+const getFavorites = async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);
+
+        return res.status(HttpCodesEnum.OK).json(user._doc.books);
+    } catch (err) {
+        return res.status(HttpCodesEnum.SERVER_INTERNAL_ERROR).json({ message: err.message });
+    }
+}
+
 module.exports = {
     register,
-    login
+    login,
+    getFavorites
 }
