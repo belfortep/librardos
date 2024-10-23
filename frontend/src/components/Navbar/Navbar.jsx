@@ -24,14 +24,11 @@ export const Navbar = () => {
             <Link className="nav-link" to={'/'}>Catalogo</Link>
             </li>
             <li className="nav-item">
-            <Link className="nav-link" to={'/favourites'}>Favourites</Link>
+            <Link className="nav-link" to={'/favourites'}>Favoritos</Link>
             </li>
             {/* <li className="nav-item">
             <Link className="nav-link" to={'/agregar'}>Agregar</Link>
             </li> */}
-            <li className="nav-item">
-            <Link className="nav-link" to={'/por_fecha'}>Por Fecha</Link>
-            </li>
             <li className="nav-item">
             <Link className="nav-link"  onClick={handleClick} to={'/login'}>Logout</Link>
             </li>
