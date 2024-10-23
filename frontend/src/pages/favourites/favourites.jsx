@@ -77,9 +77,6 @@ export const Favourites = () => {
                         format="MM/YYYY"
                       />
                     </li>
-                    <li>
-                      <span>Favorito: {book.isFavorite ? "Sí" : "No"}</span>
-                    </li>
                   </div>
                 ))}
               </ul>

@@ -3,14 +3,12 @@ import {
   Routes,
   Route
 } from 'react-router-dom'
-import { Medicine } from './pages/medicine/Medicine';
-import { Medicines } from './pages/medicines/Medicines';
+import { Book } from './pages/book/Book';
+import { Books } from './pages/books/Books';
 import { Register } from './pages/register/Register';
 import { Login } from './pages/login/Login';
-import { CreateMedicine } from './pages/createMedicine/CreateMedicine';
-import { MedicineByDate } from './pages/medicineByDate/MedicineByDate';
+import { Favourites } from './pages/favourites/Favourites';
 import './app.css'
-import { Favourites } from './pages/favourites/favourites';
 
 
 
@@ -19,13 +17,10 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={<Medicines />} />
+          <Route path='/' element={<Books />} />
           <Route path='/register' element={<Register />} />
           <Route path='/login' element={<Login />} />
-          <Route path='/:id' element={<Medicine />} />
-          <Route path='/agregar' element={<CreateMedicine />} />
-          <Route path='/agregar/:id' element={<CreateMedicine />} />
-          <Route path='/por_fecha' element={<MedicineByDate/>}/>
+          <Route path='/:id' element={<Book />} />
           <Route path='/favourites'element={<Favourites/>}/>
         </Routes>
       </BrowserRouter>
