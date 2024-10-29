@@ -7,6 +7,7 @@ import { Footer } from '../../components/Footer/Footer'
 import Moment from 'react-moment'
 import { AuthContext } from '../../context/AuthContext';
 import './book.css';
+// import { stat } from 'fs';
 
 export const Book = () => {
   const [book, setBook] = useState({});
@@ -18,8 +19,20 @@ export const Book = () => {
     await axios.post(`/api/book/fav/${id}`, { user_id: user._id });
   }
 
-  const handleStatusChange = (id, status) => {
-    
+  const handleStatusChange = async (id, status) => {
+    if (status === "Leido") {
+      // Logic for when the status is "Leido"
+      await axios.post(`/api/book/readBooks/${id}`, { user_id: user._id});
+      console.log("The book has been read.");
+    } else if (status === "Leyendo") {
+      await axios.post(`/api/book/readingBooks/${id}`, { user_id: user._id});
+      // Logic for when the status is "Leyendo"
+      console.log("The book is being read.");
+    } else if (status === "Por Leer") {
+      await axios.post(`/api/book/toReadBooks/${id}`, { user_id: user._id});
+      // Logic for when the status is "Por Leer"
+      console.log("The book will be read.");
+    }
     // You can add your logic to handle the status change here
   };
 
@@ -66,6 +79,7 @@ export const Book = () => {
             <option value="Nada">Status</option>
             <option value="Leido">Leido</option>
             <option value="Leyendo">Leyendo</option>
+            <option value="Por Leer">Por Leer</option>
           </select>
           <Link className="nav-link" to={'/create/' + book._id}>Crear comunidad</Link>
         </div>
