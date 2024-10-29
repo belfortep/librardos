@@ -11,6 +11,7 @@ import "./books.css";
 
 
 export const Books = () => {
+  const [bookToSearch, setBookToSearch] = useState(""); // Estado para el término de búsqueda
   const [books, setBooks] = useState([]);
   const { user } = useContext(AuthContext);
 
@@ -30,6 +31,12 @@ export const Books = () => {
     }
   }, []);
 
+   // Filtra los libros según el término de búsqueda
+  const filteredBooks = books.filter((book) =>
+    book.title.toLowerCase().includes(bookToSearch.toLowerCase())
+  );
+
+
   return (
     <>
       {user ? (
@@ -38,9 +45,19 @@ export const Books = () => {
           <div className="medicine-main-div">
             <h1 className="medicine-title">Librardos</h1>
             <h2 className="medicine-sub-title">Lista de libros</h2>
+            
+            {/* Input de búsqueda */}
+            <input
+              type="text"
+              placeholder="Buscar por nombre"
+              value={bookToSearch}
+              onChange={(e) => setBookToSearch(e.target.value)}
+              className="search-input"
+            />
+  
             <div className="medicine-container">
               <ul className="medicine-sub-container">
-                {books.map((book) => (
+                {filteredBooks.map((book) => (
                   <div className="medicine-sub-container-div" key={book._id}>
                     <li className="medicine-name-container">
                       <Link
