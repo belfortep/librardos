@@ -1,0 +1,66 @@
+.medicine-title {
+    text-align: center;
+    margin: 5px;
+}
+
+.medicine-sub-title {
+    margin-left: 10px;
+}
+
+
+
+.medicine-sub-container {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+    display: grid;
+    
+    
+    
+}
+.medicine-sub-container-div{
+    border: 2px #333 solid;
+    background-color: #eee;
+    border-radius: 12px;
+    padding: 4px;
+}
+
+li{
+    list-style: none;
+    
+}
+
+.medicine-container {
+    color: black;
+    font-size: 18px;
+    
+}
+
+.medicine-button-div {
+    float: right;
+}
+
+.button-medicine-delete{
+    background-color: #eee;
+    border: none;
+}
+
+.button-medicine-update{
+    background-color: #eee;
+    border: none;
+}
+
+.medicine-container .medicine-name{
+    color: green;
+    transition: color 0.25s ease-out;
+    padding-right: 12px;
+    font-weight: 600;
+}
+
+.medicine-container .medicine-name:hover{
+    color: blue;
+}
+
+.medicine-expired-text{
+    color:red;
+    font-weight: 600;
+}
