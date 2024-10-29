@@ -14,6 +14,7 @@ export const Community = () => {
   const [members, setMembers] = useState([]);
   const {user} = useContext(AuthContext);
   const params = useParams()
+  const navigate = useNavigate();
 
 
 
@@ -23,6 +24,11 @@ export const Community = () => {
         if (book_res.data !== null) {
             setBook(book_res.data);
         }
+  }
+
+  const handleExit = async (id) => {
+    await axios.post("/api/community/exit/" + id, { id: user._id });
+    navigate("/")
   }
 
   useEffect(()=>{
@@ -66,6 +72,7 @@ export const Community = () => {
                     </div>
                 ))}
       </ul>
+      <button className='btn btn-danger' onClick={()=>handleExit(community._id)}>🗑️</button>
     </div>
     </>
   )

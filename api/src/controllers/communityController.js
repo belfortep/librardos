@@ -46,6 +46,23 @@ const joinCommunity = async (req, res) => {
     }
 }
 
+const exitCommunity = async (req, res) => {
+    try {
+        const community = await Community.findById(req.params.id);
+        if (!community) {
+            return res.status(HttpCodesEnum.NOT_FOUND).json({message: "Comunidad no encontrada"})
+        }
+       
+        if (!community.users.includes(req.body.id)) {
+            return res.status(HttpCodesEnum.FORBBIDEN).json({ message: "No podes salir de una comunidad que no pertenecias" });
+        }
+        await community.updateOne({$pull: {users: req.body.id}})
+        return res.status(HttpCodesEnum.OK).json("Unido a comunidad")
+    } catch (err) {
+        return res.status(HttpCodesEnum.SERVER_INTERNAL_ERROR).json({ message: err.message });
+    }
+}
+
 const getCommunity = async (req, res) => {
     try {
         const community = await Community.findById(req.params.id);
@@ -72,4 +89,5 @@ module.exports = {
     joinCommunity,
     getCommunity,
     getCommunityByName,
+    exitCommunity,
 }
