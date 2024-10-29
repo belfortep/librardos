@@ -83,6 +83,20 @@ const getCommunityByName = async (req, res) => {
     }
 }
 
+const addMessageToCommunity = async (req, res) => {
+    try {
+        const community = await Community.findById(req.params.id);
+        if (!community) {
+            return res.status(HttpCodesEnum.NOT_FOUND).json({message: "Comunidad no encontrada"})
+        }
+        
+        await community.updateOne({$push: {messages: req.body.message}})
+        return res.status(HttpCodesEnum.OK).json("Mensaje añadido")
+    } catch (err) {
+        return res.status(HttpCodesEnum.SERVER_INTERNAL_ERROR).json({ message: err.message });
+    }
+}
+
 module.exports = {
     getAllCommunities,
     createCommunity,
@@ -90,4 +104,5 @@ module.exports = {
     getCommunity,
     getCommunityByName,
     exitCommunity,
+    addMessageToCommunity
 }
