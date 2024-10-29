@@ -5,6 +5,7 @@ const app = express();
 const { connectDB } = require('./db/db');
 const authRoute = require('./routes/auth');
 const bookRoute = require('./routes/book');
+const communityRoute = require("./routes/community");
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 
@@ -31,6 +32,8 @@ connectDB();
 app.use("/api/book", bookRoute);
 
 app.use('/auth/', authRoute);
+
+app.use("/api/community", communityRoute);
 
 //------------------------------SERVER------------------------------
 

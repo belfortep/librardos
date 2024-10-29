@@ -9,6 +9,7 @@ import { Register } from './pages/register/Register';
 import { Login } from './pages/login/Login';
 import { Favourites } from './pages/favourites/Favourites';
 import './app.css'
+import { CreateCommunities } from './pages/createCommunities/CreateCommunities';
 
 
 
@@ -18,6 +19,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<Books />} />
+          <Route path="/create/:id" element={<CreateCommunities/>} />
           <Route path='/register' element={<Register />} />
           <Route path='/login' element={<Login />} />
           <Route path='/:id' element={<Book />} />

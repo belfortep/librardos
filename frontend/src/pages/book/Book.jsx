@@ -53,6 +53,7 @@ export const Book = () => {
         
       </ul>
       <button className='btn btn-danger' onClick={()=>handleFavorite(book._id)}>❤️</button>
+      <Link className="nav-link" to={'/create/' + book._id}>Crear comunidad</Link>
     </div>
     </>
   )
