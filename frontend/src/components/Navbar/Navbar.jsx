@@ -38,6 +38,11 @@ export const Navbar = () => {
           </ul>
         </div>
       </div>
+      <div className="d-flex">
+        <span className="navbar-text">
+          {user.username}
+        </span>
+      </div>
     </nav> : <><nav className="navbar navbar-expand-lg navbar-light bg-light">
       
       <div className="container-fluid">

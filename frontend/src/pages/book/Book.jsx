@@ -17,6 +17,12 @@ export const Book = () => {
     // alert("Libro añadido a favoritos");
     await axios.post(`/api/book/fav/${id}`, { user_id: user._id });
   }
+
+  const handleStatusChange = (id, status) => {
+    
+    // You can add your logic to handle the status change here
+  };
+
   useEffect(()=>{
     
     const fetchBook = async () =>{
@@ -36,25 +42,35 @@ export const Book = () => {
 
   return (
     <>
-    <Navbar/>
+      <Navbar/>
       <h1>Libro</h1>
-      <div className="card medicine-wrapper ">
-      <div className="card-header ">
-        {book.title}
+      <div className="card medicine-wrapper">
+        <div className="card-header">
+          {book.title}
+        </div>
+        <ul className="list-group list-group-flush">
+          <li className="list-group-item">Descripcion: {book.description}</li>
+          <li className="list-group-item">Editorial: {book.editorial}</li>
+          <li className="list-group-item">Genero: {book.gender}</li>
+          <li className="list-group-item">Escritor: {book.writer}</li>
+          <li className="list-group-item">Paginas: {book.num_pages}</li>
+          <li className="list-group-item">Fecha edicion: <Moment format='MM/YYYY'>{book.date_edition}</Moment></li>
+          <li className="list-group-item"><img src={book.image} alt="Book cover" /></li>
+        </ul>
+        <div className="d-flex flex-column align-items-start">
+          <button className='btn btn-danger mb-2' onClick={()=>handleFavorite(book._id)}>❤️</button>
+          <select
+            className="btn btn-secondary mb-2"
+            onChange={(e) => handleStatusChange(book._id, e.target.value)}
+          >
+            <option value="Nada">Status</option>
+            <option value="Leido">Leido</option>
+            <option value="Leyendo">Leyendo</option>
+          </select>
+          <Link className="nav-link" to={'/create/' + book._id}>Crear comunidad</Link>
+        </div>
       </div>
-      <ul className="list-group list-group-flush">
-        <li className="list-group-item">Descripcion: {book.description}</li>
-        <li className="list-group-item">Editorial: {book.editorial}</li>
-        <li className="list-group-item">Genero: {book.gender}</li>
-        <li className="list-group-item">Escritor:  {book.writer}</li>
-        <li className="list-group-item">Paginas: {book.num_pages}</li>
-        <li className="list-group-item">Fecha edicion: <Moment format='MM/YYYY'>{book.date_edition}</Moment></li>
-        <li className="list-group-item"><img src={book.image} /></li>
-        
-      </ul>
-      <button className='btn btn-danger' onClick={()=>handleFavorite(book._id)}>❤️</button>
-      <Link className="nav-link" to={'/create/' + book._id}>Crear comunidad</Link>
-    </div>
+      <Footer/>
     </>
   )
 }

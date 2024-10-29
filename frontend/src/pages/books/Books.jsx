@@ -43,14 +43,14 @@ export const Books = () => {
                 {books.map((book) => (
                   <div className="medicine-sub-container-div" key={book._id}>
                     <li className="medicine-name-container">
-                    <Link
-                          className="btn btn-secondary button-medicine-update"
-                          to={"/" + book._id}
-                        >
-                          <span className="medicine-name">
-                        {book.title}
-                      </span>
-                        </Link>
+                      <Link
+                        className="btn btn-secondary button-medicine-update"
+                        to={"/" + book._id}
+                      >
+                        <span className="medicine-name">
+                          {book.title}
+                        </span>
+                      </Link>
                       <div className="medicine-button-div">
                         <button
                           className="btn btn-danger button-medicine-delete"
