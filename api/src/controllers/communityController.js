@@ -46,8 +46,21 @@ const joinCommunity = async (req, res) => {
     }
 }
 
+
+
+const getCommunity = async (req, res) => {
+    try {
+        const community = await Community.findById(req.params.id);
+
+        return res.status(HttpCodesEnum.OK).json(community);
+    } catch (err) {
+        return res.status(HttpCodesEnum.SERVER_INTERNAL_ERROR).json({ message: err.message });
+    }
+}
+
 module.exports = {
     getAllCommunities,
     createCommunity,
     joinCommunity,
+    getCommunity
 }

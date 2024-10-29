@@ -26,6 +26,9 @@ export const Navbar = () => {
             <li className="nav-item">
             <Link className="nav-link" to={'/favourites'}>Favoritos</Link>
             </li>
+            <li className="nav-item">
+            <Link className="nav-link" to={'/communities'}>Comunidades</Link>
+            </li>
             {/* <li className="nav-item">
             <Link className="nav-link" to={'/agregar'}>Agregar</Link>
             </li> */}

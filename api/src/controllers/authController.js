@@ -49,8 +49,19 @@ const getFavorites = async (req, res) => {
     }
 }
 
+const getUserById = async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);
+
+        return res.status(HttpCodesEnum.OK).json(user);
+    } catch (err) {
+        return res.status(HttpCodesEnum.SERVER_INTERNAL_ERROR).json({ message: err.message });
+    }
+}
+
 module.exports = {
     register,
     login,
-    getFavorites
+    getFavorites,
+    getUserById
 }
