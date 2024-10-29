@@ -10,22 +10,40 @@ import "./communities.css";
 
 export const Communities = () => {
   const [communities, setCommunities] = useState([]);
+  const [name, setName] = useState("");
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const fetchBooks = async () => {
+  const fetchCommunities = async () => {
     const res = await axios.get("/api/community");
     setCommunities(res.data)
   }
 
+  const handleChange = async (e) => {
+    if (e.target.id === "name") {
+      if (e.target.value.length > 3) {
+        setName(e.target.value);
+      } else {
+        setName("")
+      }
+    }
+    const res = await axios.post("/api/community/name", {name: name})
+    setCommunities(res.data)
+  };
+
   const handleJoin = async (id) => {
-    await axios.post("/api/community/" + id, { id: user._id });
-    navigate("/community/" + id)
+    try {
+      await axios.post("/api/community/" + id, { id: user._id });
+      navigate("/community/" + id)
+    } catch (err) {
+      alert("Ya formas parte de esta comunidad")
+    }
+    
   }
 
   useEffect(() => {
     if (user) {
-      fetchBooks();
+      fetchCommunities();
     }
   }, []);
 
@@ -37,6 +55,7 @@ export const Communities = () => {
           <div className="medicine-main-div">
             <h1 className="medicine-title">Librardos</h1>
             <h2 className="medicine-sub-title">Lista de comunidades</h2>
+            <input id="name" placeholder="name" type="text" onChange={handleChange} required className="loginInput" />
             <div className="medicine-container">
               <ul className="medicine-sub-container">
                 {communities.map((community) => (

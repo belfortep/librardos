@@ -56,10 +56,14 @@ export const Community = () => {
         {community.name}
       </div>
       <ul className="list-group list-group-flush">
+      <span>Miembros:</span>
       {members.map((member) => (
+        <div>
+                    
                     <li className="medicine-name-container">
                         {member.username}
                     </li>
+                    </div>
                 ))}
       </ul>
     </div>

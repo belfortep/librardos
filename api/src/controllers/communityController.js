@@ -46,8 +46,6 @@ const joinCommunity = async (req, res) => {
     }
 }
 
-
-
 const getCommunity = async (req, res) => {
     try {
         const community = await Community.findById(req.params.id);
@@ -58,9 +56,20 @@ const getCommunity = async (req, res) => {
     }
 }
 
+const getCommunityByName = async (req, res) => {
+    console.log(req.body.name)
+    try {
+        const community = await Community.find({ name: {$regex: req.body.name, $options: "i"}});
+        return res.status(HttpCodesEnum.OK).json(community);
+    } catch (err) {
+        return res.status(HttpCodesEnum.SERVER_INTERNAL_ERROR).json({ message: err.message });
+    }
+}
+
 module.exports = {
     getAllCommunities,
     createCommunity,
     joinCommunity,
-    getCommunity
+    getCommunity,
+    getCommunityByName,
 }
