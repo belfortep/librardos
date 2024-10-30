@@ -21,7 +21,7 @@ export const Users = () => {
 
   const handleChange = async (e) => {
     if (e.target.id === "name") {
-      if (e.target.value.length > 3) {
+      if (e.target.value.length > 2) {
         setName(e.target.value);
       } else {
         setName("")
@@ -58,7 +58,7 @@ export const Users = () => {
                           <span className="medicine-name">
                         {user.username}
                       </span>
-                        </Link>
+                    </Link>
                     </li>
                   </div>
                 ))}
