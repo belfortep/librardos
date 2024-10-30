@@ -7,6 +7,7 @@ import { Footer } from '../../components/Footer/Footer'
 import Moment from 'react-moment'
 import { AuthContext } from '../../context/AuthContext';
 import './book.css';
+import BookRating from '../../components/Stars/Stars';
 // import { stat } from 'fs';
 
 export const Book = () => {
@@ -81,10 +82,10 @@ export const Book = () => {
             <option value="Leyendo">Leyendo</option>
             <option value="Por Leer">Por Leer</option>
           </select>
+          <BookRating bookId={book._id}/>
           <Link className="nav-link" to={'/create/' + book._id}>Crear comunidad</Link>
         </div>
       </div>
-      <Footer/>
     </>
   )
 }
