@@ -10,7 +10,7 @@ router.get("/fav/:id", verifyUser, getFavorites)
 // router.get("/reading/:id", verifyUser, getReadingBooks)
 // router.get("/toRead/:id", verifyUser, getToReadBooks)
 // router.get("/read/:id", verifyUser, getRead)
-router.get("/status/:id", verifyUser, getToReadBooks)
+//router.get("/status/:id", verifyUser, getToReadBooks)
 router.get("/:id", verifyUser, getUserById)
 
 router.get('/', verifyUser,getAllUsers);
