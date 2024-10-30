@@ -93,11 +93,33 @@ const addBookToReadingList = async (req, res) => {
     }
 }
 
+const scoreBook = async (req, res) => {
+    try {
+        const book = await Book.findOne({_id: req.params.id, "scores.user": req.body.user_id})
+        if (book) {
+            await Book.updateOne(
+                {_id: req.params.id, "scores.user": req.body.user_id},
+                {$set: {"scores.$.score": req.body.score}}
+            );
+            return res.status(HttpCodesEnum.OK).json("Libro actualizado") 
+        }
+        await Book.updateOne(
+            {_id: req.params.id},
+            {$push: {scores: {score: req.body.score, user: req.body.user_id}}}
+        )
+
+        return res.status(HttpCodesEnum.OK).json("Libro actualizado")
+    } catch (err) {
+        return res.status(HttpCodesEnum.SERVER_INTERNAL_ERROR).json({ message: err.message });
+    }
+}
+
 module.exports = {
     getBookById,
     getAllBooks,
     addBookToFavoriteById,
     addBookToReadList,
     addBookToReadingList,
-    addBookToToReadList
+    addBookToToReadList,
+    scoreBook
 }

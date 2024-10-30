@@ -41,6 +41,12 @@ const BookSchema = new mongoose.Schema({
         type: String,
         required: false,
     },
+    scores: [
+        {
+            score: Number,
+            user: String
+        }
+    ]
 
 }, {
     timestamps: true
