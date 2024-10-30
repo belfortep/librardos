@@ -69,6 +69,16 @@ const getAllUsers = async (req, res) => {
     }
 }
 
+// const getToReadBooks = async (req, res) => {
+//     try {
+//         const user = await User.findById(req.params.id);
+
+//         return res.status(HttpCodesEnum.OK).json(user._doc.toReadBooks);
+//     } catch (err) {
+//         return res.status(HttpCodesEnum.SERVER_INTERNAL_ERROR).json({ message: err.message });
+//     }
+// }
+
 const getUserByName = async (req, res) => {
     console.log(req.body.name)
     try {
@@ -78,6 +88,26 @@ const getUserByName = async (req, res) => {
         return res.status(HttpCodesEnum.SERVER_INTERNAL_ERROR).json({ message: err.message });
     }
 }
+  
+// const getRead = async (req, res) => {
+//     try {
+//         const user = await User.findById(req.params.id);
+
+//         return res.status(HttpCodesEnum.OK).json(user._doc.readBooks);
+//     } catch (err) {
+//         return res.status(HttpCodesEnum.SERVER_INTERNAL_ERROR).json({ message: err.message });
+//     }
+// }
+
+// const getReadingBooks = async (req, res) => {
+//     try {
+//         const user = await User.findById(req.params.id);
+
+//         return res.status(HttpCodesEnum.OK).json(user._doc.readingBooks);
+//     } catch (err) {
+//         return res.status(HttpCodesEnum.SERVER_INTERNAL_ERROR).json({ message: err.message });
+//     }
+// }
 
 module.exports = {
     register,
@@ -86,4 +116,7 @@ module.exports = {
     getUserById,
     getAllUsers,
     getUserByName
+//     getToReadBooks,
+//     getRead,
+//     getReadingBooks
 }

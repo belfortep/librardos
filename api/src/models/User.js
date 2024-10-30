@@ -27,6 +27,18 @@ const UserSchema = new mongoose.Schema({
     books: {
         type: Array,
         default: []
+    },
+    readBooks: {
+        type: Array,
+        default: []
+    },
+    toReadBooks: {
+        type: Array,
+        default: []
+    },
+    readingBooks: {
+        type: Array,
+        default: []
     }
 
 }, {

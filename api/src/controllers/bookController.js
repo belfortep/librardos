@@ -39,8 +39,65 @@ const addBookToFavoriteById = async (req, res) => {
     }
 }
 
+const addBookToToReadList = async (req, res) => {
+    try {
+        const book = await Book.findById(req.params.id);
+        if (!book) {
+            return res.status(HttpCodesEnum.NOT_FOUND).json({message: "Libro no encontrado"})
+        }
+        const currentUser = await User.findById(req.body.user_id);
+        if (currentUser.toReadBooks.includes(req.params.id)) {
+            return res.status(HttpCodesEnum.FORBBIDEN).json({ message: "Ya tienes este libro en Por Leer" });
+        }
+        await currentUser.updateOne({$push: {toReadBooks: req.params.id}})
+        console.log(`Book with ID ${req.params.id} added to the to-read list of user ${req.body.user_id}`);
+        return res.status(HttpCodesEnum.OK).json("Libro agregado a Por Leer")
+    } catch (err) {
+        return res.status(HttpCodesEnum.SERVER_INTERNAL_ERROR).json({ message: err.message });
+    }
+}
+
+const addBookToReadList = async (req, res) => {
+    try {
+        const book = await Book.findById(req.params.id);
+        if (!book) {
+            return res.status(HttpCodesEnum.NOT_FOUND).json({message: "Libro no encontrado"})
+        }
+        const currentUser = await User.findById(req.body.user_id);
+        if (currentUser.readBooks.includes(req.params.id)) {
+            return res.status(HttpCodesEnum.FORBBIDEN).json({ message: "Ya tienes este libro en Leidos" });
+        }
+        await currentUser.updateOne({$push: {readBooks: req.params.id}})
+        console.log(`Book with ID ${req.params.id} added to the read list of user ${req.body.user_id}`);
+        return res.status(HttpCodesEnum.OK).json("Libro agregado a Leidos")
+    } catch (err) {
+        return res.status(HttpCodesEnum.SERVER_INTERNAL_ERROR).json({ message: err.message });
+    }
+}
+
+const addBookToReadingList = async (req, res) => {
+    try {
+        const book = await Book.findById(req.params.id);
+        if (!book) {
+            return res.status(HttpCodesEnum.NOT_FOUND).json({message: "Libro no encontrado"})
+        }
+        const currentUser = await User.findById(req.body.user_id);
+        if (currentUser.readingBooks.includes(req.params.id)) {
+            return res.status(HttpCodesEnum.FORBBIDEN).json({ message: "Ya tienes este libro en leyendo" });
+        }
+        await currentUser.updateOne({$push: {readingBooks: req.params.id}})
+        console.log(`Book with ID ${req.params.id} added to the reading list of user ${req.body.user_id}`);
+        return res.status(HttpCodesEnum.OK).json("Libro agregado a Leyendo")
+    } catch (err) {
+        return res.status(HttpCodesEnum.SERVER_INTERNAL_ERROR).json({ message: err.message });
+    }
+}
+
 module.exports = {
     getBookById,
     getAllBooks,
-    addBookToFavoriteById
+    addBookToFavoriteById,
+    addBookToReadList,
+    addBookToReadingList,
+    addBookToToReadList
 }
