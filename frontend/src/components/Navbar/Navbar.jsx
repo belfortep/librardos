@@ -33,6 +33,9 @@ export const Navbar = () => {
             <Link className="nav-link" to={'/agregar'}>Agregar</Link>
             </li> */}
             <li className="nav-item">
+            <Link className="nav-link" to={'/users'}>Usuarios</Link>
+            </li>
+            <li className="nav-item">
             <Link className="nav-link"  onClick={handleClick} to={'/login'}>Logout</Link>
             </li>
           </ul>

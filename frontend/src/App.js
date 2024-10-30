@@ -12,6 +12,7 @@ import './app.css'
 import { CreateCommunities } from './pages/createCommunities/CreateCommunities';
 import { Communities } from './pages/communities/Communities';
 import { Community } from './pages/community/Community';
+import { Users} from './pages/users/Users';
 
 
 
@@ -28,6 +29,7 @@ function App() {
           <Route path='/login' element={<Login />} />
           <Route path='/:id' element={<Book />} />
           <Route path='/favourites'element={<Favourites/>}/>
+          <Route path='/users' element={<Users/>}/>
         </Routes>
       </BrowserRouter>
     </>
