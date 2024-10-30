@@ -114,6 +114,20 @@ const scoreBook = async (req, res) => {
     }
 }
 
+const addCommentToBook = async (req, res) => {
+    try {
+        const book = await Book.findById(req.params.id);
+        if (!book) {
+            return res.status(HttpCodesEnum.NOT_FOUND).json({message: "Libro no encontrado"})
+        }
+        
+        await book.updateOne({$push: {comments: req.body.comment}})
+        return res.status(HttpCodesEnum.OK).json("Comentario añadido")
+    } catch (err) {
+        return res.status(HttpCodesEnum.SERVER_INTERNAL_ERROR).json({ message: err.message });
+    }
+}
+
 module.exports = {
     getBookById,
     getAllBooks,
@@ -121,5 +135,6 @@ module.exports = {
     addBookToReadList,
     addBookToReadingList,
     addBookToToReadList,
-    scoreBook
+    scoreBook,
+    addCommentToBook
 }

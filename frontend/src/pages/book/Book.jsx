@@ -12,6 +12,7 @@ import BookRating from '../../components/Stars/Stars';
 
 export const Book = () => {
   const [book, setBook] = useState({});
+  const [comment, setComment] = useState("");
   const {user} = useContext(AuthContext);
   const params = useParams()
 
@@ -37,17 +38,31 @@ export const Book = () => {
     // You can add your logic to handle the status change here
   };
 
+
+  const handleChange = (e) => {
+    if (e.target.id === "comment") {
+      setComment(e.target.value)
+    }
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await axios.post("/api/book/message/" + params.id, {comment: comment});
+    setComment("")
+    await fetchBook()
+  };
+  const fetchBook = async () =>{
+    let res = await axios.get("/api/book/" + params.id);
+    if (res.data !== null) {
+      setBook(res.data);
+    } else {
+
+    }
+
+  };
+
   useEffect(()=>{
     
-    const fetchBook = async () =>{
-      let res = await axios.get("/api/book/" + params.id);
-      if (res.data !== null) {
-        setBook(res.data);
-      } else {
-
-      }
-
-    };
+    
     if(user){
       fetchBook();
     }
@@ -62,6 +77,21 @@ export const Book = () => {
         <div className="card-header">
           {book.title}
         </div>
+        <form onSubmit={handleSubmit} className="loginBox">
+              <input id="comment" value={comment} placeholder="message" type="text" onChange={handleChange} required className="loginInput" />
+              <button className="loginButton" type='submit'>Enviar</button>
+            </form>
+      <ul className="list-group list-group-flush">
+      <span>Comentarios:</span>
+      {book?.comments?.map((comment) => (
+        <div>
+                    
+                    <li className="medicine-name-container">
+                        {comment}
+                    </li>
+                    </div>
+                ))}
+        </ul>
         <ul className="list-group list-group-flush">
           <li className="list-group-item">Descripcion: {book.description}</li>
           <li className="list-group-item">Editorial: {book.editorial}</li>
