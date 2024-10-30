@@ -13,6 +13,7 @@ import { CreateCommunities } from './pages/createCommunities/CreateCommunities';
 import { Communities } from './pages/communities/Communities';
 import { Community } from './pages/community/Community';
 import { Users} from './pages/users/Users';
+import { Welcome} from './pages/welcome/Welcome';
 
 
 
@@ -21,14 +22,15 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={<Books />} />
+          <Route path='/' element={<Welcome />}/>
+          <Route path='/catalog' element={<Books />} />
           <Route path='/communities' element={<Communities />} />
           <Route path='/community/:id' element={<Community />} />
           <Route path="/create/:id" element={<CreateCommunities/>} />
           <Route path='/register' element={<Register />} />
           <Route path='/login' element={<Login />} />
           <Route path='/:id' element={<Book />} />
-          <Route path='/favourites'element={<Favourites/>}/>
+          <Route path='/myBooks' element={<Favourites/>}/>
           <Route path='/users' element={<Users/>}/>
         </Routes>
       </BrowserRouter>
