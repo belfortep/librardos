@@ -59,9 +59,31 @@ const getUserById = async (req, res) => {
     }
 }
 
+const getAllUsers = async (req, res) => {
+    try {
+        const users = await User.find();
+
+        return res.status(HttpCodesEnum.OK).json(users);
+    } catch (err) {
+        return res.status(HttpCodesEnum.SERVER_INTERNAL_ERROR).json({ message: err.message });
+    }
+}
+
+const getUserByName = async (req, res) => {
+    console.log(req.body.name)
+    try {
+        const user = await User.find({ username: {$regex: req.body.username, $options: "i"}});
+        return res.status(HttpCodesEnum.OK).json(user);
+    } catch (err) {
+        return res.status(HttpCodesEnum.SERVER_INTERNAL_ERROR).json({ message: err.message });
+    }
+}
+
 module.exports = {
     register,
     login,
     getFavorites,
-    getUserById
+    getUserById,
+    getAllUsers,
+    getUserByName
 }

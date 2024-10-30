@@ -15,7 +15,7 @@ export const Users = () => {
   const navigate = useNavigate();
 
   const fetchUsers = async () => {
-    const res = await axios.get("/api/user");
+    const res = await axios.get("/auth");
     setUsers(res.data)
   }
 
@@ -27,7 +27,7 @@ export const Users = () => {
         setName("")
       }
     }
-    const res = await axios.get("/api/user/name", {name: name})
+    const res = await axios.post("/auth/name", {username: name})
     setUsers(res.data)
   };
 
@@ -56,7 +56,7 @@ export const Users = () => {
                           to={"/user/" + user._id}
                         >
                           <span className="medicine-name">
-                        {user.name}
+                        {user.username}
                       </span>
                         </Link>
                     </li>
