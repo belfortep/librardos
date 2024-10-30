@@ -30,7 +30,8 @@ const addBookToFavoriteById = async (req, res) => {
         }
         const currentUser = await User.findById(req.body.user_id);
         if (currentUser.books.includes(req.params.id)) {
-            return res.status(HttpCodesEnum.FORBBIDEN).json({ message: "Ya tienes este libro en favoritos" });
+            await currentUser.updateOne({$pull: {books: req.params.id}})
+            return res.status(HttpCodesEnum.OK).json({ message: "Quitado de favoritos" });
         }
         await currentUser.updateOne({$push: {books: req.params.id}})
         return res.status(HttpCodesEnum.OK).json("Libro agregado")
@@ -49,6 +50,15 @@ const addBookToToReadList = async (req, res) => {
         if (currentUser.toReadBooks.includes(req.params.id)) {
             return res.status(HttpCodesEnum.FORBBIDEN).json({ message: "Ya tienes este libro en Por Leer" });
         }
+        if (currentUser.readBooks.includes(req.params.id)) {
+            console.log("CAMBIANDO, ESTABA EN READ")
+            await currentUser.updateOne({$pull: {readBooks: req.params.id}})
+        }
+        if (currentUser.readingBooks.includes(req.params.id)) {
+            console.log("CAMBIANDO, ESTABA EN READING")
+            await currentUser.updateOne({$pull: {readingBooks: req.params.id}})
+        }
+
         await currentUser.updateOne({$push: {toReadBooks: req.params.id}})
         console.log(`Book with ID ${req.params.id} added to the to-read list of user ${req.body.user_id}`);
         return res.status(HttpCodesEnum.OK).json("Libro agregado a Por Leer")
@@ -66,6 +76,14 @@ const addBookToReadList = async (req, res) => {
         const currentUser = await User.findById(req.body.user_id);
         if (currentUser.readBooks.includes(req.params.id)) {
             return res.status(HttpCodesEnum.FORBBIDEN).json({ message: "Ya tienes este libro en Leidos" });
+        }
+        if (currentUser.toReadBooks.includes(req.params.id)) {
+            console.log("CAMBIANDO, ESTABA EN TOREADBOOKS")
+            await currentUser.updateOne({$pull: {toReadBooks: req.params.id}})
+        }
+        if (currentUser.readingBooks.includes(req.params.id)) {
+            console.log("CAMBIANDO, ESTABA EN READING")
+            await currentUser.updateOne({$pull: {readingBooks: req.params.id}})
         }
         await currentUser.updateOne({$push: {readBooks: req.params.id}})
         console.log(`Book with ID ${req.params.id} added to the read list of user ${req.body.user_id}`);
@@ -85,6 +103,14 @@ const addBookToReadingList = async (req, res) => {
         if (currentUser.readingBooks.includes(req.params.id)) {
             return res.status(HttpCodesEnum.FORBBIDEN).json({ message: "Ya tienes este libro en leyendo" });
         }
+        if (currentUser.readBooks.includes(req.params.id)) {
+            await currentUser.updateOne({$pull: {readBooks: req.params.id}})
+        }
+        if (currentUser.toReadBooks.includes(req.params.id)) {
+            await currentUser.updateOne({$pull: {toReadBooks: req.params.id}})
+        }
+
+
         await currentUser.updateOne({$push: {readingBooks: req.params.id}})
         console.log(`Book with ID ${req.params.id} added to the reading list of user ${req.body.user_id}`);
         return res.status(HttpCodesEnum.OK).json("Libro agregado a Leyendo")

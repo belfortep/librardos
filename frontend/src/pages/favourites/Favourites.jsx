@@ -58,6 +58,8 @@ export const Favourites = () => {
   const handleFavorite = async (id) => {
     // alert("Libro añadido a favoritos");
     // await axios.post(`/api/user/${user._id}/favorites`, { bookId: id });
+    await axios.post(`/api/book/fav/${id}`, { user_id: user._id });
+    await fetchAllBooks();
   }
 
   useEffect(() => {
