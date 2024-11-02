@@ -7,6 +7,7 @@ import { Footer } from '../../components/Footer/Footer'
 import Moment from 'react-moment'
 import { AuthContext } from '../../context/AuthContext';
 import './community.css';
+import { deleteCommunity } from '../../../../api/src/controllers/communityController';
 
 export const Community = () => {
   const [community, setCommunity] = useState({});
@@ -43,6 +44,12 @@ export const Community = () => {
     await axios.post("/api/community/exit/" + id, { id: user._id });
     navigate("/")
   }
+
+  const deleteCommunity = async (id) => {
+    await axios.delete("/api/community/" + id);
+    navigate("/")
+  }
+
   const fetchCommunity = async () =>{
     let res = await axios.get("/api/community/" + params.id);
     if (res.data) {
@@ -100,6 +107,7 @@ export const Community = () => {
                 ))}
       </ul>
       <button className='btn btn-danger' onClick={()=>handleExit(community._id)}>🗑️</button>
+      <button className='btn btn-danger' onClick={()=>deleteCommunity(community._id)}>ELIMINAR COMUNIDAD</button>
     </div>
     </>
   )
