@@ -19,7 +19,7 @@ export const Communities = () => {
     setCommunities(res.data)
   }
 
-  const handleChange = async (e) => {
+  const handleTitleChange = async (e) => {
     if (e.target.id === "name") {
       if (e.target.value.length > 3) {
         setName(e.target.value);
@@ -28,6 +28,30 @@ export const Communities = () => {
       }
     }
     const res = await axios.post("/api/community/name", {name: name})
+    setCommunities(res.data)
+  };
+
+  const handleBookChange = async (e) => {
+    if (e.target.id === "book") {
+      if (e.target.value.length > 3) {
+        setName(e.target.value);
+      } else {
+        setName("")
+      }
+    }
+    const res = await axios.post("/api/community/book", {bookName: e.target.value})
+    setCommunities(res.data)
+  };
+
+  const handleGenderChange = async (e) => {
+    if (e.target.id === "gender") {
+      if (e.target.value.length > 3) {
+        setName(e.target.value);
+      } else {
+        setName("")
+      }
+    }
+    const res = await axios.post("/api/community/gender", {bookGender: e.target.value})
     setCommunities(res.data)
   };
 
@@ -55,7 +79,9 @@ export const Communities = () => {
           <div className="medicine-main-div">
             <h1 className="medicine-title">Librardos</h1>
             <h2 className="medicine-sub-title">Lista de comunidades</h2>
-            <input id="name" placeholder="name" type="text" onChange={handleChange} required className="loginInput" />
+            <input id="name" placeholder="name" type="text" onChange={handleTitleChange} required className="loginInput" />
+            <input id="book" placeholder="book" type="text" onChange={handleBookChange} required className="loginInput" />
+            <input id="gender" placeholder="gender" type="text" onChange={handleGenderChange} required className="loginInput" />
             <div className="medicine-container">
               <ul className="medicine-sub-container">
                 {communities.map((community) => (

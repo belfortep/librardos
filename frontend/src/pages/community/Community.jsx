@@ -70,7 +70,7 @@ export const Community = () => {
   return (
     <>
     <Navbar/>
-      <h1>Comunidad sobre {book.title}</h1>
+      <h1>Comunidad sobre {community.bookName}</h1>
       <div className="card medicine-wrapper ">
       <div className="card-header ">
         {community.name}

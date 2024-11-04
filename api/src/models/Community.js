@@ -8,7 +8,15 @@ const CommunitySchema = new mongoose.Schema({
         min: 3,
         max: 25
     },
-    book: {
+    bookId: {
+        type: String,
+        require: true,
+    },
+    bookName: {
+        type: String,
+        require: true,
+    },
+    bookGender: {
         type: String,
         require: true,
     },
