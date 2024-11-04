@@ -13,6 +13,8 @@ import BookRatingDisplay from "../../components/DisplayBookRating/DisplayBookRat
 
 export const Books = () => {
   const [bookToSearch, setBookToSearch] = useState(""); // Estado para el término de búsqueda
+  const [writerToSearch, setWriterToSearch] = useState(""); // Estado para el término de búsqueda
+  const [genderToSearch, setGenderToSearch] = useState(""); // Estado para el término de búsqueda
   const [books, setBooks] = useState([]);
   const { user } = useContext(AuthContext);
 
@@ -45,7 +47,7 @@ export const Books = () => {
 
    // Filtra los libros según el término de búsqueda
   const filteredBooks = books.filter((book) =>
-    book.title.toLowerCase().includes(bookToSearch.toLowerCase())
+    book.title.toLowerCase().includes(bookToSearch.toLowerCase()) && book.writer.toLowerCase().includes(writerToSearch.toLowerCase()) && book.gender.toLowerCase().includes(genderToSearch.toLowerCase())
   );
 
 
@@ -64,6 +66,20 @@ export const Books = () => {
               placeholder="Buscar por nombre"
               value={bookToSearch}
               onChange={(e) => setBookToSearch(e.target.value)}
+              className="search-input"
+            />
+            <input
+              type="text"
+              placeholder="Buscar por genero"
+              value={genderToSearch}
+              onChange={(e) => setGenderToSearch(e.target.value)}
+              className="search-input"
+            />
+            <input
+              type="text"
+              placeholder="Buscar por escritor"
+              value={writerToSearch}
+              onChange={(e) => setWriterToSearch(e.target.value)}
               className="search-input"
             />
   
