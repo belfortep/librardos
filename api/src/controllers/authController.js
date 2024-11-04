@@ -46,8 +46,8 @@ const updateAuthInformation = async (req, res) => {
         const salt = bcrypt.genSaltSync(10);
         const hash = bcrypt.hashSync(password, salt);
         const new_data = {
-            "email" : email,
-            "password": hash
+            email,
+            password: hash
         }
         const user = await User.findByIdAndUpdate(req.params.id, {$set: new_data}, {new:true})
         if (!user) {

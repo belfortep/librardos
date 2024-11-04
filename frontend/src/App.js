@@ -15,6 +15,7 @@ import { Community } from './pages/community/Community';
 import { Users} from './pages/users/Users';
 import { Welcome} from './pages/welcome/Welcome';
 import { User } from './pages/user/User';
+import { Profile } from './pages/profile/Profile';
 
 
 
@@ -33,6 +34,7 @@ function App() {
           <Route path='/login' element={<Login />} />
           <Route path='/:id' element={<Book />} />
           <Route path='/myBooks' element={<Favourites/>}/>
+          <Route path="/profile" element= {<Profile/>}/>
           <Route path='/users' element={<Users/>}/>
           <Route path='/user/:id' element={<User/>}/>
         </Routes>
