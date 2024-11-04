@@ -58,7 +58,16 @@ const UserSchema = new mongoose.Schema({
     genres: {
         type: Array,
         default: []
+    },
+    friends: {
+        type: Array,
+        default: [],
+    },
+    pending_friend_request: {
+        type: Array,
+        default: []
     }
+
 }, {
     timestamps: true
 });

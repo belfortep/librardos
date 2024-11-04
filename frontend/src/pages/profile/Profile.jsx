@@ -11,6 +11,11 @@ import moment from 'moment';
 
 export const Profile = () => {
   const {user} = useContext(AuthContext);
+  const { loading, error, dispatch } = useContext(AuthContext);
+  const acceptFriend = async (friend_name) => {
+    const res = await axios.put("/auth/acceptFriend/" + user._id, {friend_name:friend_name})
+    dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
+  }
 
   return (
     <>
@@ -32,6 +37,18 @@ export const Profile = () => {
           </div>
           {user?.writers?.map((writer) => (
             <li className="">{writer}</li>
+          ))}
+          <div>
+            Amigos
+          </div>
+          {user?.friends?.map((friend) => (
+            <li className="">{friend}</li>
+          ))}
+          <div>
+            Solicitudes
+          </div>
+          {user?.pending_friend_request?.map((friend_request) => (
+            <button className="" onClick={() => acceptFriend(friend_request)}>{friend_request}</button>
           ))}
           <li className="list-group-item">Email: {user.email}</li>
           <li className="list-group-item">Direccion: {user.address}</li>
