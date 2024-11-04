@@ -178,6 +178,40 @@ const getReadingBooks = async (req, res) => {
     }
 }
 
+const sendFriendRequest = async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);    // id de quien quiero ser pana
+        if (!user) {
+            return res.status(HttpCodesEnum.NOT_FOUND).json({message: "Usuario no encontrado"})
+        }
+        
+        await user.updateOne({$push: {pending_friend_request: req.body.my_name}})   // mi propio nombre
+
+        return res.status(HttpCodesEnum.OK).json({ message: "Solicitud enviada"})
+    } catch (err) {
+        return res.status(HttpCodesEnum.SERVER_INTERNAL_ERROR).json({ message: err.message });
+    }
+}
+
+const accepFriendRequest = async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);    // mi propio id
+        if (!user) {
+            return res.status(HttpCodesEnum.NOT_FOUND).json({message: "Usuario no encontrado"})
+        }
+
+        const my_friend = await User.findOne({ username: req.body.friend_name });
+        await my_friend.updateOne({$push: {friends: user._doc.username}})
+        await user.updateOne({$push: {friends: req.body.friend_name}})   // nombre de mi pana
+        await user.updateOne({$pull: {pending_friend_request: req.body.friend_name}})   // lo quito de pending
+        const new_user = await User.findById(req.params.id);
+        const {password, isAdmin, ...otherDetails} = new_user._doc
+        return res.status(HttpCodesEnum.OK).json({ details: {...otherDetails}})
+    } catch (err) {
+        return res.status(HttpCodesEnum.SERVER_INTERNAL_ERROR).json({ message: err.message });
+    }
+}
+
 module.exports = {
     register,
     login,
@@ -191,5 +225,7 @@ module.exports = {
     updateAuthInformation,
     updateUserInformation,
     addFavoriteGenres,
-    addFavoriteWriters
+    addFavoriteWriters,
+    sendFriendRequest,
+    accepFriendRequest
 }
