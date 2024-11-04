@@ -39,6 +39,70 @@ const login = async (req, res) => {
     }
 }
 
+const updateAuthInformation = async (req, res) => {
+    try {
+
+        const { email, password } = req.body
+        const salt = bcrypt.genSaltSync(10);
+        const hash = bcrypt.hashSync(password, salt);
+        const new_data = {
+            "email" : email,
+            "password": hash
+        }
+        const user = await User.findByIdAndUpdate(req.params.id, {$set: new_data}, {new:true})
+        if (!user) {
+            return res.status(HttpCodesEnum.NOT_FOUND).json({message: "Usuario no encontrado"})
+        }
+        
+        return res.status(HttpCodesEnum.OK).json(user)
+    } catch (err) {
+        return res.status(HttpCodesEnum.SERVER_INTERNAL_ERROR).json({ message: err.message });
+    }
+}
+
+
+const updateUserInformation = async (req, res) => {
+    try {
+        const user = await User.findByIdAndUpdate(req.params.id, {$set: req.body}, {new:true})
+        if (!user) {
+            return res.status(HttpCodesEnum.NOT_FOUND).json({message: "Usuario no encontrado"})
+        }
+        return res.status(HttpCodesEnum.OK).json(user)
+    } catch (err) {
+        return res.status(HttpCodesEnum.SERVER_INTERNAL_ERROR).json({ message: err.message });
+    }
+}
+
+const addFavoriteGenres = async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);
+        if (!user) {
+            return res.status(HttpCodesEnum.NOT_FOUND).json({message: "Usuario no encontrado"})
+        }
+        
+        await user.updateOne({$push: {genres: req.body.genre}})
+        return res.status(HttpCodesEnum.OK).json("Comentario añadido")
+    } catch (err) {
+        return res.status(HttpCodesEnum.SERVER_INTERNAL_ERROR).json({ message: err.message });
+    }
+}
+
+const addFavoriteWriters = async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);
+        if (!user) {
+            return res.status(HttpCodesEnum.NOT_FOUND).json({message: "Usuario no encontrado"})
+        }
+        
+        await user.updateOne({$push: {writers: req.body.writer}})
+        return res.status(HttpCodesEnum.OK).json("Comentario añadido")
+    } catch (err) {
+        return res.status(HttpCodesEnum.SERVER_INTERNAL_ERROR).json({ message: err.message });
+    }
+}
+
+
+
 const getFavorites = async (req, res) => {
     try {
         const user = await User.findById(req.params.id);
@@ -118,5 +182,9 @@ module.exports = {
     getUserByName,
     getToReadBooks,
     getRead,
-    getReadingBooks
+    getReadingBooks,
+    updateAuthInformation,
+    updateUserInformation,
+    addFavoriteGenres,
+    addFavoriteWriters
 }
