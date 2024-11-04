@@ -24,6 +24,9 @@ export const EditProfile = () => {
     username: user.username,
   })
 
+  const [genre, setGenre] = useState("")
+  const [writer, setWriter] = useState("")
+
   const handleUserChange = (e) => {
     setUserInfo((prev) => ({...prev, [e.target.id]: e.target.value}))
   }
@@ -41,6 +44,31 @@ export const EditProfile = () => {
       dispatch({ type: "LOGIN_FAILURE", payload: err.response.data });
     }
   };
+
+  const handleGenreSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      let res = await axios.put("/auth/genre/" + user._id, {genre: genre});
+      dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
+      setGenre("")
+      alert("Añadido nuevo genero preferido")
+    } catch (err) {
+      
+    }
+  };
+
+  const handleWriterSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      let res = await axios.put("/auth/writer/" + user._id, {writer: writer});
+      dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
+      setWriter("")
+      alert("Añadido nuevo escritor preferido")
+    } catch (err) {
+      
+    }
+  };
+
 
   const handleUserSubmit = async (e) => {
     e.preventDefault();
@@ -116,6 +144,32 @@ export const EditProfile = () => {
         />
         <button className="btn btn-secondary">
           Confirmar
+        </button>
+        </form>
+        <form  className="form-control" onSubmit={handleGenreSubmit}>
+        <input
+          type="text"
+          placeholder="genre"
+          id="genre"
+          value={genre}
+          onChange={(e) => setGenre(e.target.value)}
+          className="form-control"
+        />
+        <button className="btn btn-secondary">
+          Agregar
+        </button>
+        </form>
+        <form  className="form-control" onSubmit={handleWriterSubmit}>
+        <input
+          type="text"
+          placeholder="writer"
+          id="writer"
+          value={writer}
+          onChange={(e) => setWriter(e.target.value)}
+          className="form-control"
+        />
+        <button className="btn btn-secondary">
+          Agregar
         </button>
         </form>
       </div>

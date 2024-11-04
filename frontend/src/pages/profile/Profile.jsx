@@ -25,13 +25,13 @@ export const Profile = () => {
             Generos favoritos
           </div>
           {user?.genres?.map((genre) => (
-            <li className="list-group-item">{genre}</li>
+            <li className="">{genre}</li>
           ))}
           <div>
             Escritores favoritos
           </div>
           {user?.writers?.map((writer) => (
-            <li className="list-group-item">{writer}</li>
+            <li className="">{writer}</li>
           ))}
           <li className="list-group-item">Email: {user.email}</li>
           <li className="list-group-item">Direccion: {user.address}</li>
