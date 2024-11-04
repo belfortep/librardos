@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import {Link, useNavigate} from 'react-router-dom'
 import { AuthContext } from '../../context/AuthContext'
+import "./navbar.css"
 
 export const Navbar = () => {
   const { dispatch, user } = useContext(AuthContext);
@@ -43,7 +44,10 @@ export const Navbar = () => {
       </div>
       <div className="d-flex">
         <span className="navbar-text">
-          {user.username}
+        <Link style={{marginRight: 10}} className="nav-link" to={'/profile'}>{user.username} </Link>
+        </span>
+        <span className="navbar-text">
+        <img style={{ marginRight: 10, float: "right", width: 24, height:24}} src={user.photo_url ? user.photo_url : "https://i.pinimg.com/736x/c0/27/be/c027bec07c2dc08b9df60921dfd539bd.jpg"} alt="Profile picture"/>
         </span>
       </div>
     </nav> : <><nav className="navbar navbar-expand-lg navbar-light bg-light">

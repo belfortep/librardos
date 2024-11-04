@@ -113,6 +113,7 @@ export const Book = () => {
             <option value="Por Leer">Por Leer</option>
           </select>
           <BookRating bookId={book._id}/>
+          <a className='nav-link' href={"https://www.amazon.com/s?k=" + book.title} target="_blank">Encuentra este libro en Amazon!</a>
           <Link className="nav-link" to={'/create/' + book._id}>Crear comunidad</Link>
         </div>
       </div>
