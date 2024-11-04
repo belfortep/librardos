@@ -16,6 +16,10 @@ const CommunitySchema = new mongoose.Schema({
         type: String,
         require: true,
     },
+    bookGender: {
+        type: String,
+        require: true,
+    },
     users: {
         type: Array,
         default: []
