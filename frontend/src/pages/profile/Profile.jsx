@@ -36,6 +36,7 @@ export const Profile = () => {
           <li className="list-group-item">Direccion: {user.address}</li>
           <li className="list-group-item">Fecha de nacimiento: {user.birth_date}</li>
         </ul>
+        <Link className="nav-link" to={'/edit'}>Editar perfil</Link>
       </div>
     </>
   )

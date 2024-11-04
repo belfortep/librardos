@@ -42,9 +42,9 @@ const login = async (req, res) => {
 const updateAuthInformation = async (req, res) => {
     try {
 
-        const { email, password } = req.body
+        const { email, user_password } = req.body
         const salt = bcrypt.genSaltSync(10);
-        const hash = bcrypt.hashSync(password, salt);
+        const hash = bcrypt.hashSync(user_password, salt);
         const new_data = {
             email,
             password: hash
@@ -53,8 +53,8 @@ const updateAuthInformation = async (req, res) => {
         if (!user) {
             return res.status(HttpCodesEnum.NOT_FOUND).json({message: "Usuario no encontrado"})
         }
-        
-        return res.status(HttpCodesEnum.OK).json(user)
+        const {password, isAdmin, ...otherDetails} = user._doc
+        return res.status(HttpCodesEnum.OK).json({ details: {...otherDetails}})
     } catch (err) {
         return res.status(HttpCodesEnum.SERVER_INTERNAL_ERROR).json({ message: err.message });
     }
