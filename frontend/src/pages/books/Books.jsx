@@ -82,7 +82,51 @@ export const Books = () => {
               onChange={(e) => setWriterToSearch(e.target.value)}
               className="search-input"
             />
-  
+            <div className="sort-container">
+              <label htmlFor="sort">Ordenar por:</label>
+              <select
+              id="sort"
+              onChange={(e) => {
+                const sortBy = e.target.value;
+                const sortedBooks = [...filteredBooks].sort((a, b) => {
+                if (sortBy === "title") {
+                  return a.title.localeCompare(b.title);
+                } else if (sortBy === "writer") {
+                  return a.writer.localeCompare(b.writer);
+                } else if (sortBy === "gender") {
+                  return a.gender.localeCompare(b.gender);
+                } else if (sortBy === "date") {
+                  return new Date(a.date_edition) - new Date(b.date_edition);
+                } else if (sortBy === "rating") {
+                  return calculateAverageScore(b) - calculateAverageScore(a);
+                } else if (sortBy === "title - desc") {
+                  return b.title.localeCompare(a.title);
+                } else if (sortBy === "writer - desc") {
+                  return b.writer.localeCompare(a.writer);
+                } else if (sortBy === "gender - desc") {
+                  return b.gender.localeCompare(a.gender);
+                } else if (sortBy === "date - desc") {
+                  return new Date(b.date_edition) - new Date(a.date_edition);
+                } else if (sortBy === "rating - desc") {
+                  return calculateAverageScore(a) - calculateAverageScore(b);
+                }
+                return 0;
+                });
+                setBooks(sortedBooks);
+              }}
+              >
+              <option value="title">Título</option>
+              <option value="writer">Escritor</option>
+              <option value="gender">Género</option>
+              <option value="date">Fecha de edición</option>
+              <option value="rating">Calificación</option>
+              <option value="title - desc">Título - desc</option>
+              <option value="writer - desc">Escritor - desc</option>
+              <option value="gender - desc">Género - desc</option>
+              <option value="date - desc">Fecha de edición - desc</option>
+              <option value="rating - desc">Calificación - desc</option>
+              </select>
+            </div>
             <div className="medicine-container">
               <ul className="medicine-sub-container">
                 {filteredBooks.map((book) => {
