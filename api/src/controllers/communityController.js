@@ -15,12 +15,14 @@ const getAllCommunities = async (req, res) => {
 
 const createCommunity = async (req, res) => {
     try {
-        const { name, book } = req.body
+        const { name, bookId } = req.body
         const community_exists = await Community.findOne({ name: name });
+        const book = await book.findById(bookId)
         if (community_exists) return res.status(HttpCodesEnum.BAD_REQUEST).JSON({ message: "Community already exists"})
         const community = new Community({
             name: name,
-            book: book
+            bookId: bookId,
+            bookName: book.title
         })
         await community.save();
         return res.status(HttpCodesEnum.CREATED).send(community._id);
@@ -83,6 +85,16 @@ const getCommunityByName = async (req, res) => {
     }
 }
 
+const getCommunityByBook = async (req, res) => {
+    console.log(req.body.bookName)
+    try {
+        const community = await Community.find({ bookName: {$regex: req.body.bookName, $options: "i"}});
+        return res.status(HttpCodesEnum.OK).json(community);
+    } catch (err) {
+        return res.status(HttpCodesEnum.SERVER_INTERNAL_ERROR).json({ message: err.message });
+    }
+}
+
 const addMessageToCommunity = async (req, res) => {
     try {
         const community = await Community.findById(req.params.id);
@@ -103,6 +115,7 @@ module.exports = {
     joinCommunity,
     getCommunity,
     getCommunityByName,
+    getCommunityByBook,
     exitCommunity,
     addMessageToCommunity
 }
