@@ -82,7 +82,9 @@ const addFavoriteGenres = async (req, res) => {
         }
         
         await user.updateOne({$push: {genres: req.body.genre}})
-        return res.status(HttpCodesEnum.OK).json("Comentario añadido")
+        const new_user = await User.findById(req.params.id);
+        const {password, isAdmin, ...otherDetails} = new_user._doc
+        return res.status(HttpCodesEnum.OK).json({ details: {...otherDetails}})
     } catch (err) {
         return res.status(HttpCodesEnum.SERVER_INTERNAL_ERROR).json({ message: err.message });
     }
@@ -96,7 +98,9 @@ const addFavoriteWriters = async (req, res) => {
         }
         
         await user.updateOne({$push: {writers: req.body.writer}})
-        return res.status(HttpCodesEnum.OK).json("Comentario añadido")
+        const new_user = await User.findById(req.params.id);
+        const {password, isAdmin, ...otherDetails} = new_user._doc
+        return res.status(HttpCodesEnum.OK).json({ details: {...otherDetails}})
     } catch (err) {
         return res.status(HttpCodesEnum.SERVER_INTERNAL_ERROR).json({ message: err.message });
     }
