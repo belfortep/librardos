@@ -39,8 +39,26 @@ const UserSchema = new mongoose.Schema({
     readingBooks: {
         type: Array,
         default: []
+    },
+    photo_url: {
+        type: String,
+        default: "https://i.pinimg.com/736x/c0/27/be/c027bec07c2dc08b9df60921dfd539bd.jpg"  // es una imagen sin nada (?
+    },
+    address: {
+        type: String,
+        default: "Campana, Buenos Aires"
+    },
+    birth_date: {
+        type: Date
+    },
+    writers: {
+        type: Array,
+        default: []
+    },
+    genres: {
+        type: Array,
+        default: []
     }
-
 }, {
     timestamps: true
 });
