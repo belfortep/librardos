@@ -7,6 +7,7 @@ import { Footer } from '../../components/Footer/Footer'
 import Moment from 'react-moment'
 import { AuthContext } from '../../context/AuthContext';
 import './profile.css';
+import moment from 'moment';
 
 export const Profile = () => {
   const {user} = useContext(AuthContext);
@@ -34,7 +35,11 @@ export const Profile = () => {
           ))}
           <li className="list-group-item">Email: {user.email}</li>
           <li className="list-group-item">Direccion: {user.address}</li>
-          <li className="list-group-item">Fecha de nacimiento: {user.birth_date}</li>
+          <li className="list-group-item">Fecha de nacimiento:<Moment
+                          className="medicine-date"
+                          date={moment(user.birth_date)}
+                          format="DD/MM/YYYY"
+                        /></li>
         </ul>
         <Link className="nav-link" to={'/edit'}>Editar perfil</Link>
       </div>

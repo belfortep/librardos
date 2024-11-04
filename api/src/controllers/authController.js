@@ -67,7 +67,8 @@ const updateUserInformation = async (req, res) => {
         if (!user) {
             return res.status(HttpCodesEnum.NOT_FOUND).json({message: "Usuario no encontrado"})
         }
-        return res.status(HttpCodesEnum.OK).json(user)
+        const {password, isAdmin, ...otherDetails} = user._doc
+        return res.status(HttpCodesEnum.OK).json({ details: {...otherDetails}})
     } catch (err) {
         return res.status(HttpCodesEnum.SERVER_INTERNAL_ERROR).json({ message: err.message });
     }
