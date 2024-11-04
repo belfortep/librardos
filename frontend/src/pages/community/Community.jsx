@@ -43,6 +43,12 @@ export const Community = () => {
     await axios.post("/api/community/exit/" + id, { id: user._id });
     navigate("/")
   }
+
+  const deleteCommunity = async (id) => {
+    await axios.delete("/api/community/" + id);
+    navigate("/")
+  }
+
   const fetchCommunity = async () =>{
     let res = await axios.get("/api/community/" + params.id);
     if (res.data) {
@@ -100,6 +106,7 @@ export const Community = () => {
                 ))}
       </ul>
       <button className='btn btn-danger' onClick={()=>handleExit(community._id)}>🗑️</button>
+      <button className='btn btn-danger' onClick={()=>deleteCommunity(community._id)}>ELIMINAR COMUNIDAD</button>
     </div>
     </>
   )

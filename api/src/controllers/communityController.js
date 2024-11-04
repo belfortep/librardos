@@ -33,6 +33,19 @@ const createCommunity = async (req, res) => {
     }
 }
 
+const deleteCommunity = async (req, res) => {
+    try {
+        const community = await Community.findById(req.params.id);
+        if (!community) {
+            return res.status(HttpCodesEnum.NOT_FOUND).json({message: "Comunidad no encontrada"})
+        }
+        await community.deleteOne(); // deleteOne() es un método de mongoose
+        return res.status(HttpCodesEnum.OK).json("Comunidad eliminada")
+    } catch (err) {
+        return res.status(HttpCodesEnum.SERVER_INTERNAL_ERROR).json({ message: err.message });
+    }
+}
+
 const joinCommunity = async (req, res) => {
     try {
         const community = await Community.findById(req.params.id);
@@ -130,5 +143,6 @@ module.exports = {
     getCommunityByBook,
     getCommunityByGender,
     exitCommunity,
-    addMessageToCommunity
+    addMessageToCommunity,
+    deleteCommunity
 }
