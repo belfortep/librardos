@@ -7,7 +7,6 @@ import { Footer } from '../../components/Footer/Footer'
 import Moment from 'react-moment'
 import { AuthContext } from '../../context/AuthContext';
 import './community.css';
-import { deleteCommunity } from '../../../../api/src/controllers/communityController';
 
 export const Community = () => {
   const [community, setCommunity] = useState({});
