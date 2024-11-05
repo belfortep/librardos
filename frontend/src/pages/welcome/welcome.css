@@ -54,3 +54,16 @@ body {
 .button:hover {
     background-color: #45a049;
 }
+
+.image-container {
+    display: flex;              /* Usa flexbox para alinear contenido */
+    justify-content: center;    /* Centra horizontalmente */
+    margin: 20px 0;            /* Espacio arriba y abajo */
+  }
+  
+  .welcome-image {
+    width: 100%;                /* La imagen ocupará el 100% del ancho del contenedor */
+    max-width: 800px;          /* Ajusta el tamaño máximo que deseas */
+    height: auto;              /* Mantiene la proporción de la imagen */
+    border-radius: 8px;        /* Redondear bordes opcional */
+  }
