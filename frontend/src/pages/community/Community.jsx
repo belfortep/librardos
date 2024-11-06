@@ -7,6 +7,7 @@ import { Footer } from '../../components/Footer/Footer'
 import Moment from 'react-moment'
 import { AuthContext } from '../../context/AuthContext';
 import './community.css';
+import moment from 'moment';
 
 export const Community = () => {
   const [community, setCommunity] = useState({});
@@ -79,7 +80,11 @@ export const Community = () => {
       <h1>Comunidad sobre {community.bookName}</h1>
       <div className="card medicine-wrapper ">
       <div className="card-header ">
-        {community.name}
+        {community.name}. Creada en: <Moment
+                          className="medicine-date"
+                          date={moment(community.createdAt)}
+                          format="DD/MM/YYYY"
+                        />
       </div>
       <form onSubmit={handleSubmit} className="loginBox">
               <input id="message" value={message} placeholder="message" type="text" onChange={handleChange} required className="loginInput" />
