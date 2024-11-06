@@ -11,9 +11,10 @@ import moment from 'moment';
 
 export const Community = () => {
   const [community, setCommunity] = useState({});
-  const [book, setBook] = useState({});
   const [members, setMembers] = useState([]);
   const [message, setMessage] = useState("");
+  const [isMember, setIsMember] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const {user} = useContext(AuthContext);
   const params = useParams()
   const navigate = useNavigate();
@@ -43,13 +44,6 @@ export const Community = () => {
     await fetchCommunity()
   };
 
-  const fetchBook = async (id) => {
-    let book_res = await axios.get("/api/book/" + id);
-        console.log(book_res)
-        if (book_res.data !== null) {
-            setBook(book_res.data);
-        }
-  }
 
   const handleExit = async (id) => {
     await axios.post("/api/community/exit/" + id, { id: user._id });
@@ -64,15 +58,18 @@ export const Community = () => {
   const fetchCommunity = async () =>{
     let res = await axios.get("/api/community/" + params.id);
     if (res.data) {
-      console.log(res.data)
       setCommunity(res.data);
-      await fetchBook(res.data.book)
       const users = [];
-      for (const user of res.data.users) {
-          const response = await axios.get(`/auth/${user}`);
+      for (const user_data of res.data.users) {
+          const response = await axios.get("/auth/" + user_data);
+          if (user_data === user._id) {
+            setIsMember(true)
+          }
           users.push(response.data);
       }
       setMembers(users);
+      console.log(user.isAdmin)
+      setIsAdmin(user.isAdmin)
     } 
 
   };
@@ -97,10 +94,10 @@ export const Community = () => {
                           format="DD/MM/YYYY"
                         />
       </div>
-      <form onSubmit={handleSubmit} className="loginBox">
+      {isMember ? <form onSubmit={handleSubmit} className="loginBox">
               <input id="message" value={message} placeholder="message" type="text" onChange={handleChange} required className="loginInput" />
               <button className="loginButton" type='submit'>Enviar</button>
-            </form>
+            </form> : ""}
       <ul className="list-group list-group-flush">
       <span onClick={handleMessagesClick}>{isReversed ? "Mensajes en orden de mas nuevos" : "Mensajes en orden de mas antiguos"}</span>
       {messages?.map((message) => (
@@ -112,7 +109,7 @@ export const Community = () => {
                     </div>
                 ))}
       <span>Miembros:</span>
-      {members.map((member) => (
+      {members?.map((member) => (
         <div>
                     
                     <li className="medicine-name-container">
@@ -121,8 +118,8 @@ export const Community = () => {
                     </div>
                 ))}
       </ul>
-      <button className='btn btn-danger' onClick={()=>handleExit(community._id)}>🗑️</button>
-      <button className='btn btn-danger' onClick={()=>deleteCommunity(community._id)}>ELIMINAR COMUNIDAD</button>
+      {isMember ? <button className='btn btn-danger' onClick={()=>handleExit(community._id)}>Salir de comunidad</button> : ""}
+      {isAdmin ? <button className='btn btn-danger' onClick={()=>deleteCommunity(community._id)}>Eliminar Comunidad</button> : ""}
     </div>
     </>
   )

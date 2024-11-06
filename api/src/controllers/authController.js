@@ -31,8 +31,8 @@ const login = async (req, res) => {
         if (!isPasswordCorrect) return res.status(HttpCodesEnum.NOT_FOUND).send('Incorrect password or user');
 
         const token = jwt.sign({ id: user._id, isAdmin: user.isAdmin }, process.env.JWT)
-        const { password, isAdmin, ...otherDetails } = user._doc;
-        return res.cookie("access_token", token, { httpOnly: true }).status(HttpCodesEnum.OK).json({ details: { ...otherDetails }, isAdmin });
+        const { password, ...otherDetails } = user._doc;
+        return res.cookie("access_token", token, { httpOnly: true }).status(HttpCodesEnum.OK).json({ details: { ...otherDetails }, isAdmin: user._doc.isAdmin });
 
     } catch (err) {
         return res.status(HttpCodesEnum.SERVER_INTERNAL_ERROR).json({ message: err.message });
@@ -53,7 +53,7 @@ const updateAuthInformation = async (req, res) => {
         if (!user) {
             return res.status(HttpCodesEnum.NOT_FOUND).json({message: "Usuario no encontrado"})
         }
-        const {password, isAdmin, ...otherDetails} = user._doc
+        const {password, ...otherDetails} = user._doc
         return res.status(HttpCodesEnum.OK).json({ details: {...otherDetails}})
     } catch (err) {
         return res.status(HttpCodesEnum.SERVER_INTERNAL_ERROR).json({ message: err.message });
@@ -67,7 +67,7 @@ const updateUserInformation = async (req, res) => {
         if (!user) {
             return res.status(HttpCodesEnum.NOT_FOUND).json({message: "Usuario no encontrado"})
         }
-        const {password, isAdmin, ...otherDetails} = user._doc
+        const {password, ...otherDetails} = user._doc
         return res.status(HttpCodesEnum.OK).json({ details: {...otherDetails}})
     } catch (err) {
         return res.status(HttpCodesEnum.SERVER_INTERNAL_ERROR).json({ message: err.message });
@@ -83,7 +83,7 @@ const addFavoriteGenres = async (req, res) => {
         
         await user.updateOne({$push: {genres: req.body.genre}})
         const new_user = await User.findById(req.params.id);
-        const {password, isAdmin, ...otherDetails} = new_user._doc
+        const {password, ...otherDetails} = new_user._doc
         return res.status(HttpCodesEnum.OK).json({ details: {...otherDetails}})
     } catch (err) {
         return res.status(HttpCodesEnum.SERVER_INTERNAL_ERROR).json({ message: err.message });
@@ -99,7 +99,7 @@ const addFavoriteWriters = async (req, res) => {
         
         await user.updateOne({$push: {writers: req.body.writer}})
         const new_user = await User.findById(req.params.id);
-        const {password, isAdmin, ...otherDetails} = new_user._doc
+        const {password, ...otherDetails} = new_user._doc
         return res.status(HttpCodesEnum.OK).json({ details: {...otherDetails}})
     } catch (err) {
         return res.status(HttpCodesEnum.SERVER_INTERNAL_ERROR).json({ message: err.message });
@@ -205,7 +205,7 @@ const accepFriendRequest = async (req, res) => {
         await user.updateOne({$push: {friends: req.body.friend_name}})   // nombre de mi pana
         await user.updateOne({$pull: {pending_friend_request: req.body.friend_name}})   // lo quito de pending
         const new_user = await User.findById(req.params.id);
-        const {password, isAdmin, ...otherDetails} = new_user._doc
+        const {password, ...otherDetails} = new_user._doc
         return res.status(HttpCodesEnum.OK).json({ details: {...otherDetails}})
     } catch (err) {
         return res.status(HttpCodesEnum.SERVER_INTERNAL_ERROR).json({ message: err.message });
