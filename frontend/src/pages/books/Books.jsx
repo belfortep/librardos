@@ -15,6 +15,7 @@ export const Books = () => {
   const [bookToSearch, setBookToSearch] = useState(""); // Estado para el término de búsqueda
   const [writerToSearch, setWriterToSearch] = useState(""); // Estado para el término de búsqueda
   const [genderToSearch, setGenderToSearch] = useState(""); // Estado para el término de búsqueda
+  const [starsToSearch, setStarsToSearch] = useState(""); // Estado para el término de búsqueda
   const [books, setBooks] = useState([]);
   const { user } = useContext(AuthContext);
 
@@ -47,7 +48,10 @@ export const Books = () => {
 
    // Filtra los libros según el término de búsqueda
   const filteredBooks = books.filter((book) =>
-    book.title.toLowerCase().includes(bookToSearch.toLowerCase()) && book.writer.toLowerCase().includes(writerToSearch.toLowerCase()) && book.gender.toLowerCase().includes(genderToSearch.toLowerCase())
+    book.title.toLowerCase().includes(bookToSearch.toLowerCase()) &&
+    book.writer.toLowerCase().includes(writerToSearch.toLowerCase()) &&
+    book.gender.toLowerCase().includes(genderToSearch.toLowerCase()) &&
+    (starsToSearch === "" ? true : calculateAverageScore(book) === Number(starsToSearch))
   );
 
 
@@ -80,6 +84,13 @@ export const Books = () => {
               placeholder="Buscar por escritor"
               value={writerToSearch}
               onChange={(e) => setWriterToSearch(e.target.value)}
+              className="search-input"
+            />
+            <input
+              type="number"
+              placeholder="Buscar por calificacion"
+              value={starsToSearch}
+              onChange={(e) => setStarsToSearch(e.target.value)}
               className="search-input"
             />
             <div className="sort-container">
