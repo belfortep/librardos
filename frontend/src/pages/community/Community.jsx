@@ -60,6 +60,12 @@ export const Community = () => {
     if (res.data) {
       setCommunity(res.data);
       const users = [];
+      console.log(res.data.users.length)
+      if (res.data.users.length === 0) {
+        await deleteCommunity(params.id);
+      }
+      const admin_id = res.data.users[0]
+      setIsAdmin(admin_id == user._id)
       for (const user_data of res.data.users) {
           const response = await axios.get("/auth/" + user_data);
           if (user_data === user._id) {
@@ -68,8 +74,6 @@ export const Community = () => {
           users.push(response.data);
       }
       setMembers(users);
-      console.log(user.isAdmin)
-      setIsAdmin(user.isAdmin)
     } 
 
   };
