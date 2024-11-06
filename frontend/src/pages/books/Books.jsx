@@ -51,7 +51,7 @@ export const Books = () => {
     book.title.toLowerCase().includes(bookToSearch.toLowerCase()) &&
     book.writer.toLowerCase().includes(writerToSearch.toLowerCase()) &&
     book.gender.toLowerCase().includes(genderToSearch.toLowerCase()) &&
-    (starsToSearch === "" ? true : calculateAverageScore(book) === starsToSearch)
+    (starsToSearch === "" ? true : calculateAverageScore(book) === Number(starsToSearch))
   );
 
 
