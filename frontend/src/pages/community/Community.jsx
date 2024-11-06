@@ -18,6 +18,17 @@ export const Community = () => {
   const params = useParams()
   const navigate = useNavigate();
 
+  const [isReversed, setIsReversed] = useState(false);
+
+  // Función para manejar el clic y alternar el orden
+  const handleMessagesClick = () => {
+    setIsReversed((prev) => !prev);
+  };
+
+  // Ordena los mensajes dependiendo del estado isReversed
+  const messages = isReversed
+    ? [...(community?.messages || [])].reverse()
+    : community?.messages || [];
 
 
   const handleChange = (e) => {
@@ -91,8 +102,8 @@ export const Community = () => {
               <button className="loginButton" type='submit'>Enviar</button>
             </form>
       <ul className="list-group list-group-flush">
-      <span>Mensajes:</span>
-      {community?.messages?.map((message) => (
+      <span onClick={handleMessagesClick}>{isReversed ? "Mensajes en orden de mas nuevos" : "Mensajes en orden de mas antiguos"}</span>
+      {messages?.map((message) => (
         <div>
                     
                     <li className="medicine-name-container">
