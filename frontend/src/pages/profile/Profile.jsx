@@ -12,9 +12,26 @@ import moment from 'moment';
 export const Profile = () => {
   const {user} = useContext(AuthContext);
   const { loading, error, dispatch } = useContext(AuthContext);
+  const [friendCommunity, setFriendCommunity] = useState([])
   const acceptFriend = async (friend_name) => {
     const res = await axios.put("/auth/acceptFriend/" + user._id, {friend_name:friend_name})
     dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
+  }
+
+  const handleListOfCommunities = async (friend_name) => {
+    const communities = await axios.get("/api/community");  // todas las communities
+    const friend = await axios.post("/auth/name", {username: friend_name});
+    const communities_of_my_friend = []
+    for (const community of communities.data) {
+      for (const user of community.users) {
+        console.log(user)
+        if (friend.data[0]._id === user) {
+          communities_of_my_friend.push(community)
+        }
+      }
+    }
+    console.log(communities_of_my_friend)
+    setFriendCommunity(communities_of_my_friend)    
   }
 
   return (
@@ -42,7 +59,20 @@ export const Profile = () => {
             Amigos
           </div>
           {user?.friends?.map((friend) => (
-            <li className="">{friend}</li>
+            <li className="" onClick={() => handleListOfCommunities(friend)}>{friend}</li>
+          ))}
+          <div>
+            {friendCommunity.length == 0 ? "" : "Comunidades de mi amigo"}
+          </div>
+          {friendCommunity?.map((community) => (
+            <li className=""><Link
+            className=""
+            to={"/community/" + community._id}
+          >
+            <span className="medicine-name">
+          {community.name}
+        </span>
+          </Link></li>
           ))}
           <div>
             Solicitudes
