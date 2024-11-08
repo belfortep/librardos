@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import {Navbar} from '../../components/Navbar/Navbar';
 import "./login.css";
+import welcomeImage from '../../images/welcomeimage.jpeg';
 
 export const Login = () => {
   const [credentials, setCredentials] = useState({
@@ -36,6 +37,59 @@ export const Login = () => {
     <>
     <Navbar/>
     <div className="center-screen container">
+    <div className="row">
+      <div className="col s5">
+        <div className="card">
+          <div className="card-content">
+            <form className="form-signin" onSubmit={handleSubmit}>
+            <h1 className="h3 mb-3 font-weight-normal">Inicia sesion</h1>
+            <img 
+                      src={welcomeImage} 
+                      alt="Welcome to Librardos" 
+                      className="img-fluid rounded bg-light p-3" 
+                    />
+              <label htmlFor="inputEmail" className="sr-only">Nombre de usuario</label>
+              <input
+                type="text"
+                placeholder="username"
+                id="username"
+                onChange={handleChange}
+                className="form-control"
+              />
+              <label htmlFor="inputPassword" className="sr-only">Contraseña</label>
+              <input
+                type="password"
+                placeholder="password"
+                id="password"
+                onChange={handleChange}
+                className="form-control"
+              />
+                <div className="checkbox mb-3">
+                <label>
+                  <input type="checkbox" value="remember-me" /> Remember me
+                </label>
+              </div>
+              <button disabled={loading} className="btn btn-lg btn-primary btn-block"> Login </button>
+            {error && <span>{error.message}</span>}
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+
+
+
+
+
+    
+    </>
+  );
+};
+
+
+
+{/* <div className="center-screen container">
      <div className="row">
       <div className="col s5">
         <div className="card">
@@ -56,7 +110,7 @@ export const Login = () => {
           onChange={handleChange}
           className="form-control"
         />
-        <button disabled={loading} className="btn btn-secondary">
+        <button disabled={loading} className="btn btn-lg btn-primary btn-block">
           Login
         </button>
         {error && <span>{error.message}</span>}
@@ -65,7 +119,4 @@ export const Login = () => {
         </div>
         </div>
         </div>
-    </div>
-    </>
-  );
-};
+    </div> */}
