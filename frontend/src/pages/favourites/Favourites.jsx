@@ -1,12 +1,10 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import axios from "axios";
-import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Navbar } from "../../components/Navbar/Navbar";
 import { Footer } from "../../components/Footer/Footer";
-import Moment from "react-moment";
-import moment from "moment";
 import { AuthContext } from "../../context/AuthContext";
+import 'bootstrap/dist/css/bootstrap.min.css';
 import "./favourites.css";
 
 export const Favourites = () => {
@@ -17,228 +15,120 @@ export const Favourites = () => {
   const { user } = useContext(AuthContext);
 
   const fetchAllBooks = async () => {
-    const favorites_list = await axios.get('/auth/fav/' + user._id)
-    console.log(favorites_list)
+    const favorites_list = await axios.get('/auth/fav/' + user._id);
     const res = [];
     for (const book of favorites_list.data) {
       const response = await axios.get(`/api/book/${book}`);
       res.push(response.data);
     }
-    
-    const read_list = await axios.get('/auth/read/' + user._id)
-    console.log(read_list)
+    setBooks(res);
+
+    const read_list = await axios.get('/auth/read/' + user._id);
     const res_read = [];
     for (const book of read_list.data) {
       const response = await axios.get(`/api/book/${book}`);
       res_read.push(response.data);
     }
+    setRead(res_read);
 
-    const reading_list = await axios.get('/auth/reading/' + user._id)
-    console.log(reading_list)
+    const reading_list = await axios.get('/auth/reading/' + user._id);
     const res_reading = [];
     for (const book of reading_list.data) {
       const response = await axios.get(`/api/book/${book}`);
       res_reading.push(response.data);
     }
+    setReading(res_reading);
 
-    const toRead_list = await axios.get('/auth/toRead/' + user._id)
-    console.log(toRead_list)
+    const toRead_list = await axios.get('/auth/toRead/' + user._id);
     const res_toRead = [];
     for (const book of toRead_list.data) {
       const response = await axios.get(`/api/book/${book}`);
       res_toRead.push(response.data);
     }
-
-    setBooks(res);
-    setRead(res_read);
     setToRead(res_toRead);
-    setReading(res_reading);
-  }
-
-  const handleFavorite = async (id) => {
-    // alert("Libro añadido a favoritos");
-    // await axios.post(`/api/user/${user._id}/favorites`, { bookId: id });
-    await axios.post(`/api/book/fav/${id}`, { user_id: user._id });
-    await fetchAllBooks();
-  }
+  };
 
   useEffect(() => {
     if (user) {
       fetchAllBooks();
     }
-  }, []);
+  }, [user]);
 
   return (
     <>
-      {user ? (
-        <>
-          <Navbar />
-          <div className="favourite-main-div">
-            <h1 className="favourite-title">Librardos</h1>
-            <h2 className="favourite-sub-title">Lista de libros favoritos</h2>
-            <div className="favourite-container">
-              <ul className="favourite-sub-container">
-                {books.map((book) => (
-                  <div className="favourite-sub-container-div" key={book._id}>
-                    <li className="favourite-name-container">
-                      <Link
-                        className="btn btn-secondary button-favourite-update"
-                        to={"/" + book._id}
-                      >
-                        <span className="favourite-name">{book.title}</span>
-                      </Link>
-                      <div className="favourite-button-div">
-                        <button
-                          className="btn btn-danger button-favourite-delete"
-                          onClick={() => handleFavorite(book._id)}
-                        >
-                          ❤️
-                        </button>
-                      </div>
-                    </li>
-                    <li>
-                      <span>Escritor: {book.writer}</span>
-                    </li>
-                    <li>
-                      <span>Genero: {book.gender}</span>
-                    </li>
-                    <li className="favourite-date-container">
-                      <span className="favourite-date-text">Fecha de edicion:</span>
-                      <Moment
-                        className="favourite-date"
-                        date={moment(book.date_edition).add(1, "d")}
-                        format="MM/YYYY"
-                      />
-                    </li>
-                  </div>
-                ))}
-              </ul>
-            </div>
-            <h2 className="favourite-sub-title">Lista de libros leidos</h2>
-            <div className="favourite-container">
-              <ul className="favourite-sub-container">
-                {read.map((book) => (
-                  <div className="favourite-sub-container-div" key={book._id}>
-                    <li className="favourite-name-container">
-                      <Link
-                        className="btn btn-secondary button-favourite-update"
-                        to={"/" + book._id}
-                      >
-                        <span className="favourite-name">{book.title}</span>
-                      </Link>
-                      <div className="favourite-button-div">
-                        <button
-                          className="btn btn-danger button-favourite-delete"
-                          onClick={() => handleFavorite(book._id)}
-                        >
-                          ❤️
-                        </button>
-                      </div>
-                    </li>
-                    <li>
-                      <span>Escritor: {book.writer}</span>
-                    </li>
-                    <li>
-                      <span>Genero: {book.gender}</span>
-                    </li>
-                    <li className="favourite-date-container">
-                      <span className="favourite-date-text">Fecha de edicion:</span>
-                      <Moment
-                        className="favourite-date"
-                        date={moment(book.date_edition).add(1, "d")}
-                        format="MM/YYYY"
-                      />
-                    </li>
-                  </div>
-                ))}
-              </ul>
-            </div>
-            <h2 className="favourite-sub-title">Lista de libros siendo leidos</h2>
-            <div className="favourite-container">
-              <ul className="favourite-sub-container">
-                {reading.map((book) => (
-                  <div className="favourite-sub-container-div" key={book._id}>
-                    <li className="favourite-name-container">
-                      <Link
-                        className="btn btn-secondary button-favourite-update"
-                        to={"/" + book._id}
-                      >
-                        <span className="favourite-name">{book.title}</span>
-                      </Link>
-                      <div className="favourite-button-div">
-                        <button
-                          className="btn btn-danger button-favourite-delete"
-                          onClick={() => handleFavorite(book._id)}
-                        >
-                          ❤️
-                        </button>
-                      </div>
-                    </li>
-                    <li>
-                      <span>Escritor: {book.writer}</span>
-                    </li>
-                    <li>
-                      <span>Genero: {book.gender}</span>
-                    </li>
-                    <li className="favourite-date-container">
-                      <span className="favourite-date-text">Fecha de edicion:</span>
-                      <Moment
-                        className="favourite-date"
-                        date={moment(book.date_edition).add(1, "d")}
-                        format="MM/YYYY"
-                      />
-                    </li>
-                  </div>
-                ))}
-              </ul>
-            </div>
-            <h2 className="favourite-sub-title">Lista de libros por leer</h2>
-            <div className="favourite-container">
-              <ul className="favourite-sub-container">
-                {toRead.map((book) => (
-                  <div className="favourite-sub-container-div" key={book._id}>
-                    <li className="favourite-name-container">
-                      <Link
-                        className="btn btn-secondary button-favourite-update"
-                        to={"/" + book._id}
-                      >
-                        <span className="favourite-name">{book.title}</span>
-                      </Link>
-                      <div className="favourite-button-div">
-                        <button
-                          className="btn btn-danger button-favourite-delete"
-                          onClick={() => handleFavorite(book._id)}
-                        >
-                          ❤️
-                        </button>
-                      </div>
-                    </li>
-                    <li>
-                      <span>Escritor: {book.writer}</span>
-                    </li>
-                    <li>
-                      <span>Genero: {book.gender}</span>
-                    </li>
-                    <li className="favourite-date-container">
-                      <span className="favourite-date-text">Fecha de edicion:</span>
-                      <Moment
-                        className="favourite-date"
-                        date={moment(book.date_edition).add(1, "d")}
-                        format="MM/YYYY"
-                      />
-                    </li>
-                  </div>
+      <Navbar />
+      <div className="container mt-5">
+        <h1 className="text-primary">Mis Libros</h1>
+        <div className="row">
+          <div className="col-md-6 mb-4">
+            <div className="card">
+              <div className="card-header bg-secondary text-white">
+                Libros Favoritos
+              </div>
+              <ul className="list-group list-group-flush">
+                {books.map((book, index) => (
+                  <li key={index} className="list-group-item">
+                    <Link to={`/${book._id}`} className="text-decoration-none text-dark">
+                      {book.title}
+                    </Link>
+                  </li>
                 ))}
               </ul>
             </div>
           </div>
-        </>
-      ) : (
-        <div>
-          <Navbar />
-          Necesita estar conectado
+          <div className="col-md-6 mb-4">
+            <div className="card">
+              <div className="card-header bg-secondary text-white">
+                Libros Leídos
+              </div>
+              <ul className="list-group list-group-flush">
+                {read.map((book, index) => (
+                  <li key={index} className="list-group-item">
+                    <Link to={`/${book._id}`} className="text-decoration-none text-dark">
+                      {book.title}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+          <div className="col-md-6 mb-4">
+            <div className="card">
+              <div className="card-header bg-secondary text-white">
+                Libros Siendo Leídos
+              </div>
+              <ul className="list-group list-group-flush">
+                {reading.map((book, index) => (
+                  <li key={index} className="list-group-item">
+                    <Link to={`/${book._id}`} className="text-decoration-none text-dark">
+                      {book.title}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+          <div className="col-md-6 mb-4">
+            <div className="card">
+              <div className="card-header bg-secondary text-white">
+                Libros por Leer
+              </div>
+              <ul className="list-group list-group-flush">
+                {toRead.map((book, index) => (
+                  <li key={index} className="list-group-item">
+                    <Link to={`/${book._id}`} className="text-decoration-none text-dark">
+                      {book.title}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
         </div>
-      )}
+      </div>
+      <Footer />
     </>
   );
 };
+
+export default Favourites;
