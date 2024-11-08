@@ -142,53 +142,56 @@ export const Books = () => {
               <ul className="medicine-sub-container">
                 {filteredBooks.map((book) => {
                   const averageRating = calculateAverageScore(book); 
-                  return (
+                    return (
                     <div className="medicine-sub-container-div" key={book._id}>
                       <li className="medicine-name-container">
-                        <Link
-                          className="btn btn-secondary button-medicine-update"
-                          to={"/" + book._id}
-                        >
-                          <span className="medicine-name">
-                            {book.title}
-                          </span>
-                        </Link>
-                        <div className="medicine-button-div">
-                          <button
-                            className="btn btn-danger button-medicine-delete"
-                            onClick={() => handleFavorite(book._id)}
-                          >
-                            ❤️
-                          </button>
-                        </div>
+                      <Link
+                      className="btn btn-secondary button-medicine-update"
+                      to={"/" + book._id}
+                      >
+                      <span className="medicine-name">
+                      {book.title}
+                      </span>
+                      </Link>
+                      <div className="medicine-button-div">
+                      <button
+                      className="btn btn-danger button-medicine-delete"
+                      onClick={() => handleFavorite(book._id)}
+                      >
+                      ❤️
+                      </button>
+                      </div>
                       </li>
                       <li>
-                        <span>
-                          Escritor: {book.writer}
-                        </span>
+                      <span>
+                      Escritor: {book.writer}
+                      </span>
                       </li>
                       <li>
-                        <span>
-                          Genero: {book.gender}
-                        </span>
+                      <span>
+                      Genero: {book.gender}
+                      </span>
                       </li>
                       <li>
-                        <span>
-                          Calificacion: <BookRatingDisplay rating={averageRating}/>
-                        </span>
+                      <span>
+                      Calificacion: <BookRatingDisplay rating={averageRating}/>
+                      </span>
                       </li>
                       <li className="medicine-date-container">
-                        <span className="medicine-date-text">
-                          Fecha de edicion:
-                        </span>
-                        <Moment
-                          className="medicine-date"
-                          date={moment(book.date_edition).add(1, "d")}
-                          format="MM/YYYY"
-                        />
+                      <span className="medicine-date-text">
+                      Fecha de edicion:
+                      </span>
+                      <Moment
+                      className="medicine-date"
+                      date={moment(book.date_edition).add(1, "d")}
+                      format="MM/YYYY"
+                      />
+                      </li>
+                      <li>
+                      <img src={book.image} alt={book.title} className="book-image" style={{ width: "25%" }} />
                       </li>
                     </div>
-                  )
+                    )
                 }
                 )}
               </ul>

@@ -73,50 +73,64 @@ export const Book = () => {
     <>
       <Navbar/>
       <h1>Libro</h1>
-      <div className="card medicine-wrapper">
-        <div className="card-header">
-          {book.title}
-        </div>
-        <form onSubmit={handleSubmit} className="loginBox">
+      <div className="container">
+        <div className="row">
+          <div className="col-md-6">
+            <div className="card medicine-wrapper">
+              <div className="card-header">
+                {book.title}
+              </div>
+              <ul className="list-group list-group-flush">
+                <li className="list-group-item">Descripcion: {book.description}</li>
+                <li className="list-group-item">Editorial: {book.editorial}</li>
+                <li className="list-group-item">Genero: {book.gender}</li>
+                <li className="list-group-item">Escritor: {book.writer}</li>
+                <li className="list-group-item">Paginas: {book.num_pages}</li>
+                <li className="list-group-item">Fecha edicion: <Moment format='MM/YYYY'>{book.date_edition}</Moment></li>
+                <li className="list-group-item"><img src={book.image} alt="Book cover" /></li>
+              </ul>
+            </div>
+          </div>
+          <div className="col-md-6">
+            <form onSubmit={handleSubmit} className="loginBox">
               <input id="comment" value={comment} placeholder="message" type="text" onChange={handleChange} required className="loginInput" />
               <button className="loginButton" type='submit'>Enviar</button>
             </form>
-      <ul className="list-group list-group-flush">
-      <span>Comentarios:</span>
-      {book?.comments?.map((comment) => (
-        <div>
-                    
-                    <li className="medicine-name-container">
-                        {comment}
-                    </li>
-                    </div>
-                ))}
-        </ul>
-        <ul className="list-group list-group-flush">
-          <li className="list-group-item">Descripcion: {book.description}</li>
-          <li className="list-group-item">Editorial: {book.editorial}</li>
-          <li className="list-group-item">Genero: {book.gender}</li>
-          <li className="list-group-item">Escritor: {book.writer}</li>
-          <li className="list-group-item">Paginas: {book.num_pages}</li>
-          <li className="list-group-item">Fecha edicion: <Moment format='MM/YYYY'>{book.date_edition}</Moment></li>
-          <li className="list-group-item"><img src={book.image} alt="Book cover" /></li>
-        </ul>
-        <div className="d-flex flex-column align-items-start">
-          <button className='btn btn-danger mb-2' onClick={()=>handleFavorite(book._id)}>❤️</button>
-          <select
-            className="btn btn-secondary mb-2"
-            onChange={(e) => handleStatusChange(book._id, e.target.value)}
-          >
-            <option value="Nada">Status</option>
-            <option value="Leido">Leido</option>
-            <option value="Leyendo">Leyendo</option>
-            <option value="Por Leer">Por Leer</option>
-          </select>
-          <BookRating bookId={book._id}/>
-          <a className='nav-link' href={"https://www.amazon.com/s?k=" + book.title} target="_blank">Encuentra este libro en Amazon!</a>
-          <Link className="nav-link" to={'/create/' + book._id}>Crear comunidad</Link>
+            <ul className="list-group list-group-flush">
+              <span>Comentarios:</span>
+              {book?.comments?.map((comment) => (
+                <div key={comment}>
+                  <li className="medicine-name-container">
+                    {comment}
+                  </li>
+                </div>
+              ))}
+            </ul>
+            <div className="d-flex flex-column align-items-start">
+              <button className='btn btn-danger mb-2' onClick={()=>handleFavorite(book._id)}>❤️</button>
+              <select
+                className="btn btn-secondary mb-2"
+                onChange={(e) => handleStatusChange(book._id, e.target.value)}
+              >
+                <option value="Nada">Status</option>
+                <option value="Leido">Leido</option>
+                <option value="Leyendo">Leyendo</option>
+                <option value="Por Leer">Por Leer</option>
+              </select>
+              <BookRating bookId={book._id}/>
+              <a className='nav-link' href={"https://www.amazon.com/s?k=" + book.title} target="_blank">Encuentra este libro en Amazon!</a>
+              <Link className="nav-link" to={'/create/' + book._id}>Crear comunidad</Link>
+              <button
+                className="btn btn-primary"
+                onClick={() => navigator.clipboard.writeText(window.location.href)}
+              >
+                Copiar enlace del libro
+              </button>
+            </div>
+          </div>
         </div>
       </div>
+      <Footer/>
     </>
   )
 }

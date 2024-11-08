@@ -45,13 +45,20 @@ export const Profile = () => {
           </div>
           <div className="card-body">
             <h5 className="card-title">Datos del Usuario</h5>
-            <ul className="list-group list-group-flush mb-4">
-              <li className="list-group-item">Email: {user.email}</li>
-              <li className="list-group-item">Dirección: {user.address}</li>
-              <li className="list-group-item">
-                Fecha de nacimiento: <Moment date={moment(user.birth_date)} format="DD/MM/YYYY" />
-              </li>
-            </ul>
+            <div className="row mb-4">
+  <div className="col-md-8">
+    <ul className="list-group list-group-flush">
+      <li className="list-group-item">Email: {user.email}</li>
+      <li className="list-group-item">Dirección: {user.address}</li>
+      <li className="list-group-item">
+        Fecha de nacimiento: <Moment date={moment(user.birth_date)} format="DD/MM/YYYY" />
+      </li>
+    </ul>
+  </div>
+  <div className="col-md-4">
+    <li className="list-group-item"><img src={user.photo_url ? user.photo_url : "https://i.pinimg.com/736x/c0/27/be/c027bec07c2dc08b9df60921dfd539bd.jpg"} alt="Profile picture" style={{ width: "30%" }} /></li>
+  </div>
+</div>
             <h5 className="card-title">Información Adicional</h5>
             <ul className="list-group list-group-flush">
               <li className="list-group-item">
