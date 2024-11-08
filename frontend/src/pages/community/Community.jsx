@@ -88,43 +88,69 @@ export const Community = () => {
   
   return (
     <>
-    <Navbar/>
-      <h1>Comunidad sobre {community.bookName}</h1>
-      <div className="card medicine-wrapper ">
-      <div className="card-header ">
-        {community.name}. Creada en: <Moment
-                          className="medicine-date"
-                          date={moment(community.createdAt)}
-                          format="DD/MM/YYYY"
-                        />
+
+  <Navbar />
+        <div className="container mt-5">
+          <h1 className="text-primary">Comunidad sobre {community.bookName}</h1>
+          <div className="card">
+            <div className="card-header bg-secondary text-white">
+            {community.name}. Creada el: <Moment date={moment(community.createdAt)} format="DD/MM/YYYY" />
+            </div>
+            <div className="card-body">
+            {isMember && (
+              <form onSubmit={handleSubmit} className="mb-4">
+                <div className="input-group">
+                  <input
+                    id="message"
+                    value={message}
+                    placeholder="Escribe un mensaje"
+                    type="text"
+                    onChange={handleChange}
+                    required
+                    className="form-control"
+                  />
+                  <button className="btn btn-primary" type="submit">
+                    Enviar
+                  </button>
+                </div>
+              </form>
+            )}
+            <h5 className="card-title">Mensajes</h5>
+            <span onClick={handleMessagesClick} className="btn btn-link">
+              {isReversed ? "Mensajes en orden de más nuevos" : "Mensajes en orden de más antiguos"}
+            </span>
+            <ul className="list-group list-group-flush mb-4">
+              {messages?.map((message, index) => (
+                <li key={index} className="list-group-item">
+                  {message}
+                </li>
+              ))}
+            </ul>
+            <h5 className="card-title">Miembros</h5>
+            <ul className="list-group list-group-flush mb-4">
+              {members?.map((member, index) => (
+                <li key={index} className="list-group-item">
+                  {member.username}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="card-footer">
+            {isMember && (
+              <button className="btn btn-danger me-2" onClick={() => handleExit(community._id)}>
+                Salir de comunidad
+              </button>
+            )}
+            {isAdmin && (
+              <button className="btn btn-danger" onClick={() => deleteCommunity(community._id)}>
+                Eliminar Comunidad
+              </button>
+            )}
+          </div>
+        </div>
       </div>
-      {isMember ? <form onSubmit={handleSubmit} className="loginBox">
-              <input id="message" value={message} placeholder="message" type="text" onChange={handleChange} required className="loginInput" />
-              <button className="loginButton" type='submit'>Enviar</button>
-            </form> : ""}
-      <ul className="list-group list-group-flush">
-      <span onClick={handleMessagesClick}>{isReversed ? "Mensajes en orden de mas nuevos" : "Mensajes en orden de mas antiguos"}</span>
-      {messages?.map((message) => (
-        <div>
-                    
-                    <li className="medicine-name-container">
-                        {message}
-                    </li>
-                    </div>
-                ))}
-      <span>Miembros:</span>
-      {members?.map((member) => (
-        <div>
-                    
-                    <li className="medicine-name-container">
-                        {member.username}
-                    </li>
-                    </div>
-                ))}
-      </ul>
-      {isMember ? <button className='btn btn-danger' onClick={()=>handleExit(community._id)}>Salir de comunidad</button> : ""}
-      {isAdmin ? <button className='btn btn-danger' onClick={()=>deleteCommunity(community._id)}>Eliminar Comunidad</button> : ""}
-    </div>
+      <Footer />
     </>
+
   )
 }
