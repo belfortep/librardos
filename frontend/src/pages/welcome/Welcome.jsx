@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import { Navbar } from "../../components/Navbar/Navbar";
 import { AuthContext } from "../../context/AuthContext";
 import welcomeImage from '../../images/welcomeimage.jpeg';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -11,7 +10,6 @@ export const Welcome = () => {
         <>
           {user ? (
             <>
-              <Navbar />
               <div className="container mt-5">
                 <div className="row">
                   <div className="col text-center">
@@ -32,7 +30,6 @@ export const Welcome = () => {
             </>
           ) : (
             <div className="container mt-5">
-              <Navbar />
               <div className="alert alert-warning text-center" role="alert">
                 Necesita estar conectado
               </div>

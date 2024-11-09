@@ -2,7 +2,6 @@ import axios from "axios";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
-import {Navbar} from '../../components/Navbar/Navbar';
 import "./login.css";
 import welcomeImage from '../../images/welcomeimage.jpeg';
 
@@ -35,7 +34,6 @@ export const Login = () => {
 
   return (
     <>
-    <Navbar/>
     <div className="center-screen container">
     <div className="row">
       <div className="col s5">

@@ -2,10 +2,14 @@
 
 # Ejecucion
 
-Agregar el archivo .env:
+Preparar config de la Base de Dato:
+- Agregar el archivo .env en /api a partir del ejemplo de .envexample
 
-Tirar npm install en /api
-Tirar npm install en /frontend
-Poner el .env
-Correr npm run dev en /api
-Correr npm run start en /frontend
+Instalar dependencias:
+- Tirar npm install en /api
+- Tirar npm install en /frontend
+- Tirar npm install lucid-react en /frontend para los iconos
+
+Correr programas:
+- Correr npm run dev en /api
+- Correr npm run start en /frontend

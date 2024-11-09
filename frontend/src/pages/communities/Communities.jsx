@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Navbar } from "../../components/Navbar/Navbar";
 import { Footer } from "../../components/Footer/Footer";
 import { AuthContext } from "../../context/AuthContext";
 import "./communities.css";
@@ -75,7 +74,6 @@ export const Communities = () => {
     <>
       {user ? (
         <>
-          <Navbar />
           <div className="medicine-main-div">
             <h1 className="medicine-title">Librardos</h1>
             <h2 className="medicine-sub-title">Lista de comunidades</h2>
@@ -112,7 +110,6 @@ export const Communities = () => {
         </>
       ) : (
         <div>
-          <Navbar />
           Necesita estar conectado
         </div>
       )}

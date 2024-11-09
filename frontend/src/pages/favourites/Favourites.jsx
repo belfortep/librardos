@@ -1,7 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { Navbar } from "../../components/Navbar/Navbar";
 import { Footer } from "../../components/Footer/Footer";
 import { AuthContext } from "../../context/AuthContext";
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -56,7 +55,6 @@ export const Favourites = () => {
 
   return (
     <>
-      <Navbar />
       <div className="container mt-5">
         <h1 className="text-primary">Mis Libros</h1>
         <div className="row">

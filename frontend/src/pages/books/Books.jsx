@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Navbar } from "../../components/Navbar/Navbar";
 import { Footer } from "../../components/Footer/Footer";
 import Moment from "react-moment";
 import moment from "moment";
@@ -59,7 +58,6 @@ export const Books = () => {
     <>
       {user ? (
         <>
-          <Navbar />
           <div className="medicine-main-div">
             <h1 className="medicine-title">Librardos</h1>
             <h2 className="medicine-sub-title">Lista de libros</h2>
@@ -200,7 +198,6 @@ export const Books = () => {
         </>
       ) : (
         <div>
-          <Navbar />
           Necesita estar conectado
         </div>
       )}

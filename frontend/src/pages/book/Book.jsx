@@ -2,7 +2,6 @@ import React, { useContext } from 'react'
 import axios from 'axios'
 import { useState, useEffect } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { Navbar } from '../../components/Navbar/Navbar'
 import { Footer } from '../../components/Footer/Footer'
 import Moment from 'react-moment'
 import { AuthContext } from '../../context/AuthContext';
@@ -71,7 +70,6 @@ export const Book = () => {
 
   return (
     <>
-      <Navbar/>
       <h1>Libro</h1>
       <div className="container">
         <div className="row">
