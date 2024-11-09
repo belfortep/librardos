@@ -8,6 +8,7 @@ Preparar config de la Base de Dato:
 Instalar dependencias:
 - Tirar npm install en /api
 - Tirar npm install en /frontend
+- Tirar npm install lucid-react en /frontend para los iconos
 
 Correr programas:
 - Correr npm run dev en /api

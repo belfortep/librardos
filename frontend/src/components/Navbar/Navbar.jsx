@@ -1,12 +1,15 @@
-import { Book, Users, LogOut, BookOpen, Users2 } from 'lucide-react';
+import { Book, Users, LogOut, BookOpen, Users2, Moon, Sun } from 'lucide-react';
 import React, { useContext, useState } from 'react'
 import {Link, useNavigate} from 'react-router-dom'
 import { AuthContext } from '../../context/AuthContext'
+import { ThemeContext } from '../ThemeContext/ThemeContext';
 import "./navbar.css"
 
 export const Navbar = () => {
   const { dispatch, user } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  const { isDarkMode, toggleTheme } = useContext(ThemeContext);
 
   const handleClick = (e) =>{
     e.preventDefault();
@@ -44,6 +47,10 @@ export const Navbar = () => {
         </div>
 
         <div className="navbar-user">
+          <button className="navbar-button theme-toggle" onClick={toggleTheme} aria-label="Cambiar tema">
+            {isDarkMode ? <Sun className="icon" /> : <Moon className="icon" />}
+          </button>
+
           <button className="navbar-button logout-button" onClick={handleClick} aria-label="Cerrar sesión">
             <LogOut className="icon" />
           </button>

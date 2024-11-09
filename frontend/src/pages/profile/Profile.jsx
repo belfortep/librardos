@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 import axios from 'axios';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Navbar } from '../../components/Navbar/Navbar';
 import { Footer } from '../../components/Footer/Footer';
 import Moment from 'react-moment';
 import { AuthContext } from '../../context/AuthContext';
@@ -36,7 +35,6 @@ export const Profile = () => {
 
   return (
     <>
-      <Navbar />
       <div className="container mt-5">
         <h1 className="text-primary">Perfil de Usuario</h1>
         <div className="card">
