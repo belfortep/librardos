@@ -185,8 +185,8 @@ export const Books = () => {
                       format="MM/YYYY"
                       />
                       </li>
-                      <li>
-                      <img src={book.image} alt={book.title} className="book-image" style={{ width: "25%" }} />
+                      <li style={{textAlign:"center"}}>
+                      <img onDoubleClick={() => setWriterToSearch(book.writer)} onClick={() => setGenderToSearch(book.gender)} src={book.image} alt={book.title} className="book-image" style={{ width: "25%", cursor:"pointer" }} />
                       </li>
                     </div>
                     )
