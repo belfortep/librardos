@@ -212,6 +212,28 @@ const accepFriendRequest = async (req, res) => {
     }
 }
 
+
+const blockUser = async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);    // este soy yo
+        if (!user) {
+            return res.status(HttpCodesEnum.NOT_FOUND).json({message: "Usuario no encontrado"})
+        }
+        var { password, ...otherDetails } = user._doc;
+        
+        if (user.blocked_users.includes(req.body.user_id)) {
+            await user.updateOne({$pull: {blocked_users: req.body.user_id}})
+            return res.status(HttpCodesEnum.OK).json({details: { ...otherDetails }, isAdmin: user._doc.isAdmin});
+        }
+        await user.updateOne({$push: {blocked_users: req.body.user_id}})
+        const updatedUser = await User.findById(req.params.id)
+        var { password, ...otherDetails} = updatedUser._doc
+        return res.status(HttpCodesEnum.OK).json({details: { ...otherDetails }, isAdmin: user._doc.isAdmin});
+    } catch (err) {
+        return res.status(HttpCodesEnum.SERVER_INTERNAL_ERROR).json({ message: err.message });
+    }
+}
+
 module.exports = {
     register,
     login,
@@ -227,5 +249,6 @@ module.exports = {
     addFavoriteGenres,
     addFavoriteWriters,
     sendFriendRequest,
-    accepFriendRequest
+    accepFriendRequest,
+    blockUser
 }

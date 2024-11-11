@@ -70,6 +70,10 @@ const UserSchema = new mongoose.Schema({
     privacy_level: {
         type: Number,
         default: 0
+    },
+    blocked_users: {
+        type: Array,
+        default: []
     }
 
 }, {
