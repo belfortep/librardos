@@ -23,6 +23,9 @@ export const User = () => {
         navigate("/profile")
       }
       setUserClicked(res.data);
+      if (res.data?.blocked_users?.includes(user._id) || user?.blocked_users?.includes(res.data._id)) {
+        navigate("/")
+      }
       
     } else {
 

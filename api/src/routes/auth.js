@@ -1,5 +1,5 @@
 const express = require('express');
-const { login, register, getFavorites, getUserById, getToReadBooks, getReadingBooks, getRead, getAllUsers, getUserByName, updateAuthInformation, updateUserInformation, addFavoriteGenres, addFavoriteWriters, sendFriendRequest, accepFriendRequest } = require('../controllers/authController');
+const { login, register, getFavorites, getUserById, getToReadBooks, getReadingBooks, getRead, getAllUsers, getUserByName, updateAuthInformation, updateUserInformation, addFavoriteGenres, addFavoriteWriters, sendFriendRequest, accepFriendRequest, blockUser } = require('../controllers/authController');
 const { verifyUser } = require('../util/verifyToken');
 const router = express();
 
@@ -21,5 +21,6 @@ router.put("/genre/:id", verifyUser, addFavoriteGenres)
 router.put("/writer/:id", verifyUser, addFavoriteWriters)
 router.put("/sendFriend/:id", verifyUser, sendFriendRequest)
 router.put("/acceptFriend/:id", verifyUser, accepFriendRequest)
+router.put("/block/:id", verifyUser, blockUser)
 
 module.exports = router;
