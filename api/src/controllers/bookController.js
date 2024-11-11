@@ -2,6 +2,7 @@ const Book = require('../models/Book');
 const User = require('../models/User');
 
 const { HttpCodesEnum } = require('../enum/httpCodes');
+const Message = require('../models/Message');
 
 const getAllBooks = async (req, res) => {
     try {
@@ -148,8 +149,15 @@ const addCommentToBook = async (req, res) => {
         if (!book) {
             return res.status(HttpCodesEnum.NOT_FOUND).json({message: "Libro no encontrado"})
         }
+
+        const new_message = new Message({
+            username: req.body.username,
+            message: req.body.message,
+            father_id: req.body.father_id
+        })
+        await new_message.save()
         
-        await book.updateOne({$push: {comments: req.body.comment}})
+        await book.updateOne({$push: {comments: new_message._id}})
         return res.status(HttpCodesEnum.OK).json("Comentario añadido")
     } catch (err) {
         return res.status(HttpCodesEnum.SERVER_INTERNAL_ERROR).json({ message: err.message });
