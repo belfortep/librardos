@@ -15,8 +15,11 @@ export const Books = () => {
   const [writerToSearch, setWriterToSearch] = useState(""); // Estado para el término de búsqueda
   const [genderToSearch, setGenderToSearch] = useState(""); // Estado para el término de búsqueda
   const [starsToSearch, setStarsToSearch] = useState(""); // Estado para el término de búsqueda
+  const [favoriteBooks, setFavoriteBooks] = useState([]);
+
   const [books, setBooks] = useState([]);
   const { user } = useContext(AuthContext);
+  const { loading, error, dispatch } = useContext(AuthContext);
 
   const calculateAverageScore = (book) => {
     const scores = book.scores;
@@ -24,19 +27,28 @@ export const Books = () => {
     
     const totalScore = scores.reduce((sum, entry) => sum + entry.score, 0);
     const averageScore = totalScore / scores.length;
-    console.log(averageScore)
   
     return averageScore;
   };
 
   const fetchBooks = async () => {
     const res = await axios.get("/api/book");
+    setFavoriteBooks(user.books)
     setBooks(res.data)
   }
 
   const handleFavorite = async (id) => {
-    // alert("Libro añadido a favoritos");
-    await axios.post(`/api/book/fav/${id}`, { user_id: user._id });
+    let res = await axios.post(`/api/book/fav/${id}`, { user_id: user._id });
+    if (favoriteBooks.includes(id)) {
+      setFavoriteBooks((prevBooks) =>
+        prevBooks.filter((book) => book !== id)
+      );
+    } else {
+      setFavoriteBooks((prevBooks) => [...prevBooks, id]);
+    }
+    
+    console.log(favoriteBooks)
+    dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
   }
 
   useEffect(() => {
@@ -156,7 +168,7 @@ export const Books = () => {
                       className="btn btn-danger button-medicine-delete"
                       onClick={() => handleFavorite(book._id)}
                       >
-                      ❤️
+                      {(favoriteBooks.includes(book._id)) ? "💔" : "❤️"}
                       </button>
                       </div>
                       </li>
