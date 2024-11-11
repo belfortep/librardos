@@ -133,8 +133,8 @@ export const Book = () => {
                 <option value="Por Leer">Por Leer</option>
               </select>
               <BookRating bookId={book._id}/>
-              <a className='nav-link' href={"https://www.amazon.com/s?k=" + book.title} target="_blank">Encuentra este libro en Amazon!</a>
-              <Link className="nav-link" to={'/create/' + book._id}>Crear comunidad</Link>
+              <a style={{marginBottom: 10}} className="btn btn-primary" href={"https://www.amazon.com/s?k=" + book.title} target="_blank">Encuentra este libro en Amazon!</a>
+              <Link style={{marginBottom: 10}} className="btn btn-primary" to={'/create/' + book._id}>Crear comunidad</Link>
               <button
                 className="btn btn-primary"
                 onClick={() => navigator.clipboard.writeText(window.location.href)}
