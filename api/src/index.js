@@ -6,6 +6,7 @@ const { connectDB } = require('./db/db');
 const authRoute = require('./routes/auth');
 const bookRoute = require('./routes/book');
 const communityRoute = require("./routes/community");
+const messageRoute = require("./routes/message")
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 
@@ -34,6 +35,8 @@ app.use("/api/book", bookRoute);
 app.use('/auth/', authRoute);
 
 app.use("/api/community", communityRoute);
+
+app.use("/api/message", messageRoute);
 
 //------------------------------SERVER------------------------------
 

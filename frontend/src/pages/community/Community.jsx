@@ -10,26 +10,23 @@ import moment from 'moment';
 
 export const Community = () => {
   const [community, setCommunity] = useState({});
+  const [messages, setMessages] = useState([]);
+  const [responseMessages, setResponseMessages] = useState([])
   const [members, setMembers] = useState([]);
   const [message, setMessage] = useState("");
   const [isMember, setIsMember] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [replyingTo, setReplyingTo] = useState(undefined)
   const {user} = useContext(AuthContext);
   const params = useParams()
   const navigate = useNavigate();
 
   const [isReversed, setIsReversed] = useState(false);
 
-  // Función para manejar el clic y alternar el orden
   const handleMessagesClick = () => {
     setIsReversed((prev) => !prev);
+    setMessages((prevMessages) => [...prevMessages].reverse());
   };
-
-  // Ordena los mensajes dependiendo del estado isReversed
-  const messages = isReversed
-    ? [...(community?.messages || [])].reverse()
-    : community?.messages || [];
-
 
   const handleChange = (e) => {
     if (e.target.id === "message") {
@@ -38,8 +35,9 @@ export const Community = () => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await axios.post("/api/community/message/" + params.id, {message: message});
+    await axios.post("/api/community/message/" + params.id, {username: user.username, message: message, father_id: replyingTo});
     setMessage("")
+    setReplyingTo(undefined)
     await fetchCommunity()
   };
 
@@ -52,6 +50,13 @@ export const Community = () => {
   const deleteCommunity = async (id) => {
     await axios.delete("/api/community/" + id);
     navigate("/")
+  }
+
+  const handleReplyMessage = async (id) => {
+    setReplyingTo(id)
+    if (id === replyingTo) {
+      setReplyingTo(undefined)
+    }
   }
 
   const fetchCommunity = async () =>{
@@ -72,7 +77,24 @@ export const Community = () => {
           }
           users.push(response.data);
       }
+      const api_messages = []
+      const response_messages = []
+      for (const message_id of res.data.messages) {
+        const response = await axios.get("/api/message/" + message_id)
+        if (response.data.father_id === undefined) {
+          api_messages.push(response.data)
+        } else {
+          response_messages.push(response.data)
+        }
+
+      }
+
       setMembers(users);
+      if (isReversed) {
+        api_messages.reverse()
+      }
+      setMessages(api_messages)
+      setResponseMessages(response_messages)
     } 
 
   };
@@ -118,9 +140,22 @@ export const Community = () => {
             </span>
             <ul className="list-group list-group-flush mb-4">
               {messages?.map((message, index) => (
-                <li key={index} className="list-group-item">
-                  {message}
+                <>
+                <li onClick={() => handleReplyMessage(message._id)}  style={{
+            backgroundColor: replyingTo === message._id ? "#c3c3c3" : "white", // Cambia el color según el estado
+            padding: "10px",
+            marginBottom: "10px",
+            cursor: "pointer",
+          }}  key={index} className="list-group-item">
+                  {message.username}: <span >{message.message}</span> - <Moment style={{color:"gray"}}  date={moment(message.createdAt)} format="DD/MM/YYYY" />
                 </li>
+                {responseMessages.filter((response) => response.father_id === message._id).map((response) => (
+                  <li key={index} className="list-group-item" style={{ marginLeft: "25px" }}>
+                  {response.username}: <span>{response.message}</span> - <Moment style={{color:"gray"}}  date={moment(response.createdAt)} format="DD/MM/YYYY" />
+                </li>
+                ))}
+                </>
+
               ))}
             </ul>
             <h5 className="card-title">Miembros</h5>
