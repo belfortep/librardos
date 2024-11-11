@@ -134,7 +134,7 @@ const addMessageToCommunity = async (req, res) => {
             father_id: req.body.father_id
         })
         await new_message.save()
-        console.log(new_message)
+        
         await community.updateOne({$push: {messages: new_message._id}})
         return res.status(HttpCodesEnum.OK).json("Mensaje añadido")
     } catch (err) {
