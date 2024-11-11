@@ -12,6 +12,7 @@ export const Community = () => {
   const [community, setCommunity] = useState({});
   const [messages, setMessages] = useState([]);
   const [responseMessages, setResponseMessages] = useState([])
+  const { loading, error, dispatch } = useContext(AuthContext);
   const [members, setMembers] = useState([]);
   const [message, setMessage] = useState("");
   const [isMember, setIsMember] = useState(false);
@@ -61,6 +62,16 @@ export const Community = () => {
 
   const fetchCommunity = async () =>{
     let res = await axios.get("/api/community/" + params.id);
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0'); // Los meses empiezan en 0
+    const day = String(today.getDate()).padStart(2, '0'); // Obtener el día
+    const formattedDate = `${year}-${month}-${day}`;  
+    alert(formattedDate)
+    const res_user = await axios.put("/auth/user/" + user._id, {last_time_in_community: formattedDate});
+    dispatch({ type: "LOGIN_SUCCESS", payload: res_user.data.details });
+
+
     if (res.data) {
       setCommunity(res.data);
       const users = [];
@@ -139,13 +150,27 @@ export const Community = () => {
               {isReversed ? "Mensajes en orden de más nuevos" : "Mensajes en orden de más antiguos"}
             </span>
             <ul className="list-group list-group-flush mb-4">
-              {messages?.map((message, index) => (
-                <>
+              {messages?.map((message, index) => {
+                const messageDate = new Date(message.createdAt); // Convierte el string en un objeto Date
+                const lastLoginDate = new Date(user.updatedAt); // Convierte la fecha de inicio de sesión
+                
+                // Sumar 5 minutos (300,000 ms) a la fecha de creación del mensaje
+                const messageDatePlus5Min = new Date(messageDate.getTime() + 5 * 60 * 1000);
+                console.log("MENSAJE" + messageDate)
+                console.log("LAST LOGIN" + lastLoginDate)
+                console.log("CON 5 MINS EXTRA"  + messageDatePlus5Min)
+                
+                // Determina el color según la comparación
+                const textColor = messageDatePlus5Min > lastLoginDate ? 'red' : 'black';
+                return (
+
+                  <>
                 <li onClick={() => handleReplyMessage(message._id)}  style={{
             backgroundColor: replyingTo === message._id ? "#c3c3c3" : "white", // Cambia el color según el estado
             padding: "10px",
             marginBottom: "10px",
             cursor: "pointer",
+            color: textColor
           }}  key={index} className="list-group-item">
                   {message.username}: <span >{message.message}</span> - <Moment style={{color:"gray"}}  date={moment(message.createdAt)} format="DD/MM/YYYY" />
                 </li>
@@ -156,7 +181,14 @@ export const Community = () => {
                 ))}
                 </>
 
-              ))}
+
+                )
+
+
+              }
+                
+
+              )}
             </ul>
             <h5 className="card-title">Miembros</h5>
             <ul className="list-group list-group-flush mb-4">

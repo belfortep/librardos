@@ -74,7 +74,10 @@ const UserSchema = new mongoose.Schema({
     blocked_users: {
         type: Array,
         default: []
-    }
+    },
+    last_time_in_community: {
+        type: Date
+    },
 
 }, {
     timestamps: true
