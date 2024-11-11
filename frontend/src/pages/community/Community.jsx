@@ -122,7 +122,7 @@ export const Community = () => {
                   <input
                     id="message"
                     value={message}
-                    placeholder="Escribe un mensaje"
+                    placeholder={replyingTo ? "Respondiendo..." : "Escribe un mensaje"}
                     type="text"
                     onChange={handleChange}
                     required

@@ -7,11 +7,13 @@ import Moment from 'react-moment'
 import { AuthContext } from '../../context/AuthContext';
 import './book.css';
 import BookRating from '../../components/Stars/Stars';
+import moment from 'moment';
 // import { stat } from 'fs';
 
 export const Book = () => {
   const [book, setBook] = useState({});
   const [comment, setComment] = useState("");
+  const [messages, setMessages] = useState([])
   const {user} = useContext(AuthContext);
   const params = useParams()
 
@@ -19,6 +21,13 @@ export const Book = () => {
     // alert("Libro añadido a favoritos");
     await axios.post(`/api/book/fav/${id}`, { user_id: user._id });
   }
+
+  const [isReversed, setIsReversed] = useState(false);
+
+  const handleMessagesClick = () => {
+    setIsReversed((prev) => !prev);
+    setMessages((prevMessages) => [...prevMessages].reverse());
+  };
 
   const handleStatusChange = async (id, status) => {
     if (status === "Leido") {
@@ -45,14 +54,21 @@ export const Book = () => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await axios.post("/api/book/message/" + params.id, {comment: comment});
+    await axios.post("/api/book/message/" + params.id, {username: user.username, message: comment});
     setComment("")
     await fetchBook()
   };
   const fetchBook = async () =>{
     let res = await axios.get("/api/book/" + params.id);
+    const api_messages = []
     if (res.data !== null) {
+      console.log(res.data)
+      for (const message_id of res.data.comments) {
+        const response = await axios.get("/api/message/" + message_id)
+        api_messages.push(response.data)
+      }
       setBook(res.data);
+      setMessages(api_messages)
     } else {
 
     }
@@ -94,14 +110,15 @@ export const Book = () => {
               <input id="comment" value={comment} placeholder="message" type="text" onChange={handleChange} required className="loginInput" />
               <button className="loginButton" type='submit'>Enviar</button>
             </form>
-            <ul className="list-group list-group-flush">
-              <span>Comentarios:</span>
-              {book?.comments?.map((comment) => (
-                <div key={comment}>
-                  <li className="medicine-name-container">
-                    {comment}
-                  </li>
-                </div>
+            <h5 className="card-title">Comentarios</h5>
+            <span onClick={handleMessagesClick} className="btn btn-link">
+              {isReversed ? "Mensajes en orden de más nuevos" : "Mensajes en orden de más antiguos"}
+            </span>
+            <ul className="list-group list-group-flush mb-4">
+              {messages?.map((message, index) => (
+                <li key={index} className="list-group-item">
+                  {message.username}: <span >{message.message}</span> - <Moment style={{color:"gray"}}  date={moment(message.createdAt)} format="DD/MM/YYYY" />
+                </li>
               ))}
             </ul>
             <div className="d-flex flex-column align-items-start">
