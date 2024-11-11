@@ -10,6 +10,7 @@ import moment from 'moment';
 
 export const Community = () => {
   const [community, setCommunity] = useState({});
+  const [messages, setMessages] = useState([]);
   const [members, setMembers] = useState([]);
   const [message, setMessage] = useState("");
   const [isMember, setIsMember] = useState(false);
@@ -20,16 +21,10 @@ export const Community = () => {
 
   const [isReversed, setIsReversed] = useState(false);
 
-  // Función para manejar el clic y alternar el orden
   const handleMessagesClick = () => {
     setIsReversed((prev) => !prev);
+    setMessages((prevMessages) => [...prevMessages].reverse());
   };
-
-  // Ordena los mensajes dependiendo del estado isReversed
-  const messages = isReversed
-    ? [...(community?.messages || [])].reverse()
-    : community?.messages || [];
-
 
   const handleChange = (e) => {
     if (e.target.id === "message") {
@@ -38,7 +33,7 @@ export const Community = () => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await axios.post("/api/community/message/" + params.id, {message: message});
+    await axios.post("/api/community/message/" + params.id, {username: user.username, message: message});
     setMessage("")
     await fetchCommunity()
   };
@@ -72,7 +67,14 @@ export const Community = () => {
           }
           users.push(response.data);
       }
+      const api_messages = []
+      for (const message_id of res.data.messages) {
+        const response = await axios.get("/api/message/" + message_id)
+        api_messages.push(response.data)
+      }
+
       setMembers(users);
+      setMessages(api_messages)
     } 
 
   };
@@ -119,7 +121,7 @@ export const Community = () => {
             <ul className="list-group list-group-flush mb-4">
               {messages?.map((message, index) => (
                 <li key={index} className="list-group-item">
-                  {message}
+                  {message.username}: {message.message} - <Moment style={{color:"gray"}}  date={moment(message.createdAt)} format="DD/MM/YYYY" />
                 </li>
               ))}
             </ul>

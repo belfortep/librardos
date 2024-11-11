@@ -3,6 +3,7 @@ const Book = require('../models/Book')
 const User = require('../models/User');
 
 const { HttpCodesEnum } = require('../enum/httpCodes');
+const Message = require('../models/Message');
 
 const getAllCommunities = async (req, res) => {
     try {
@@ -127,7 +128,14 @@ const addMessageToCommunity = async (req, res) => {
             return res.status(HttpCodesEnum.NOT_FOUND).json({message: "Comunidad no encontrada"})
         }
         
-        await community.updateOne({$push: {messages: req.body.message}})
+        const new_message = new Message({
+            username: req.body.username,
+            message: req.body.message,
+            father_id: req.body.father_id
+        })
+        await new_message.save()
+        console.log(new_message)
+        await community.updateOne({$push: {messages: new_message._id}})
         return res.status(HttpCodesEnum.OK).json("Mensaje añadido")
     } catch (err) {
         return res.status(HttpCodesEnum.SERVER_INTERNAL_ERROR).json({ message: err.message });
