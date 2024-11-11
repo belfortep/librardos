@@ -29,12 +29,14 @@ const addBookToFavoriteById = async (req, res) => {
             return res.status(HttpCodesEnum.NOT_FOUND).json({message: "Libro no encontrado"})
         }
         const currentUser = await User.findById(req.body.user_id);
+        const { password, ...otherDetails } = currentUser._doc;
+        
         if (currentUser.books.includes(req.params.id)) {
             await currentUser.updateOne({$pull: {books: req.params.id}})
-            return res.status(HttpCodesEnum.OK).json({ message: "Quitado de favoritos" });
+            return res.status(HttpCodesEnum.OK).json({details: { ...otherDetails }, isAdmin: currentUser._doc.isAdmin});
         }
         await currentUser.updateOne({$push: {books: req.params.id}})
-        return res.status(HttpCodesEnum.OK).json("Libro agregado")
+        return res.status(HttpCodesEnum.OK).json({details: { ...otherDetails }, isAdmin: currentUser._doc.isAdmin});
     } catch (err) {
         return res.status(HttpCodesEnum.SERVER_INTERNAL_ERROR).json({ message: err.message });
     }
