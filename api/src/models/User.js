@@ -66,6 +66,10 @@ const UserSchema = new mongoose.Schema({
     pending_friend_request: {
         type: Array,
         default: []
+    },
+    privacy_level: {
+        type: Number,
+        default: 0
     }
 
 }, {

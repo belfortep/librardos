@@ -9,6 +9,8 @@ import './editProfile.css';
 
 export const EditProfile = () => {
   const {user} = useContext(AuthContext);
+  const [securityLevel, setSecurityLevel] = useState(user.privacy_level);
+
   const { loading, error, dispatch } = useContext(AuthContext);
   const navigate = useNavigate()
   const [credentials, setCredentials] = useState({
@@ -21,6 +23,7 @@ export const EditProfile = () => {
     address: user.address,
     birth_date: user.birth_date,
     username: user.username,
+
   })
 
   const [genre, setGenre] = useState("")
@@ -66,6 +69,12 @@ export const EditProfile = () => {
     } catch (err) {
       
     }
+  };
+
+  const handleSecurityChange = async (event) => {
+    setSecurityLevel(Number(event.target.value)); // Convertir a número para usarlo correctamente
+    let res = await axios.put("/auth/user/" + user._id, {privacy_level: event.target.value})
+    dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
   };
 
 
@@ -170,6 +179,16 @@ export const EditProfile = () => {
           Agregar
         </button>
         </form>
+        <label htmlFor="security">Nivel de privacidad: </label>
+    <select
+      id="security"
+      value={securityLevel}
+      onChange={handleSecurityChange}
+    >
+      <option value={0}>Por defecto</option>
+      <option value={1}>Menos visibilidad</option>
+      <option value={2}>Visibilidad mínima</option>
+    </select>
       </div>
     </>
   )
