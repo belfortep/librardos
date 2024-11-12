@@ -78,6 +78,10 @@ const UserSchema = new mongoose.Schema({
     last_time_in_community: {
         type: Date
     },
+    myBookArrays: {
+        type: Array,
+        default: []
+    },
 
 }, {
     timestamps: true

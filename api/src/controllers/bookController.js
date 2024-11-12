@@ -113,10 +113,33 @@ const addBookToReadingList = async (req, res) => {
             await currentUser.updateOne({$pull: {toReadBooks: req.params.id}})
         }
 
-
         await currentUser.updateOne({$push: {readingBooks: req.params.id}})
         console.log(`Book with ID ${req.params.id} added to the reading list of user ${req.body.user_id}`);
         return res.status(HttpCodesEnum.OK).json("Libro agregado a Leyendo")
+    } catch (err) {
+        return res.status(HttpCodesEnum.SERVER_INTERNAL_ERROR).json({ message: err.message });
+    }
+}
+
+const addBookToPersonalList = async (req, res) => {
+    try {
+        const book = await Book.findById(req.params.id);
+        if (!book) {
+            return res.status(HttpCodesEnum.NOT_FOUND).json({message: "Libro no encontrado"})
+        }
+        const currentUser = await User.findById(req.body.user_id);
+        const listIndex = currentUser._doc.myBookArrays.findIndex(list => list[0] === req.body.list_name);
+        if (!currentUser._doc.myBookArrays[listIndex]) {
+            await currentUser.updateOne({$push: {myBookArrays: [req.body.list_name, [req.params.id]]}})
+            console.log(`Book with ID ${req.params.id} added to the reading list ${req.body.list_name} of user ${req.body.user_id}`);
+            return res.status(HttpCodesEnum.OK).json({ message: "Lista personal creada y libro añadido" });
+        }
+        if (currentUser._doc.myBookArrays[listIndex].includes(req.params.id)) {
+            return res.status(HttpCodesEnum.FORBIDDEN).json({ message: "Ya tienes este libro en la lista personal" });
+        }
+        await currentUser.updateOne({$push: {["myBookArrays." + listIndex]: req.params.id}})
+        console.log(`Book with ID ${req.params.id} added to the reading list ${req.body.list_name} of user ${req.body.user_id}`);
+        return res.status(HttpCodesEnum.OK).json({ message: "Libro añadido a la lista personal" });
     } catch (err) {
         return res.status(HttpCodesEnum.SERVER_INTERNAL_ERROR).json({ message: err.message });
     }
@@ -172,5 +195,6 @@ module.exports = {
     addBookToReadingList,
     addBookToToReadList,
     scoreBook,
-    addCommentToBook
+    addCommentToBook,
+    addBookToPersonalList
 }
