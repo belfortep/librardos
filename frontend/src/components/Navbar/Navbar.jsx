@@ -1,4 +1,4 @@
-import { Book, Users, LogOut, BookOpen, Users2, Moon, Sun } from 'lucide-react';
+import { Book, Users, LogOut, BookOpen, Users2, Moon, Sun, PencilLine } from 'lucide-react';
 import React, { useContext, useState } from 'react'
 import {Link, useNavigate} from 'react-router-dom'
 import { AuthContext } from '../../context/AuthContext'
@@ -43,6 +43,11 @@ export const Navbar = () => {
           <a href="/users" className="navbar-button">
             <Users2 className="icon" />
             Usuarios
+          </a>
+
+          <a href="/writers" className="navbar-button">
+            <PencilLine className="icon" />
+            Escritores
           </a>
         </div>
 
