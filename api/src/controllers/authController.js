@@ -168,6 +168,16 @@ const getRead = async (req, res) => {
     }
 }
 
+const getListBooks = async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);
+        console.log(user._doc.myBookArrays);
+        return res.status(HttpCodesEnum.OK).json(user._doc.myBookArrays);
+    } catch (err) {
+        return res.status(HttpCodesEnum.SERVER_INTERNAL_ERROR).json({ message: err.message });
+    }
+}
+
 const getReadingBooks = async (req, res) => {
     try {
         const user = await User.findById(req.params.id);
@@ -250,5 +260,6 @@ module.exports = {
     addFavoriteWriters,
     sendFriendRequest,
     accepFriendRequest,
+    getListBooks,
     blockUser
 }

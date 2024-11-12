@@ -14,6 +14,7 @@ export const Book = () => {
   const [book, setBook] = useState({});
   const [comment, setComment] = useState("");
   const [messages, setMessages] = useState([])
+  const [listName, setListName] = useState("")
   const {user} = useContext(AuthContext);
   const params = useParams()
 
@@ -44,6 +45,14 @@ export const Book = () => {
       console.log("The book will be read.");
     }
     // You can add your logic to handle the status change here
+  };
+
+  const addBookToPersonalList = async (id) => {
+    if (listName.trim() === "") {
+      alert("Por favor, ingrese un nombre para la lista.");
+      return;
+    }
+    await axios.post(`/api/book/myBookLists/${id}`, { user_id: user._id, list_name: listName });
   };
 
 
@@ -140,6 +149,16 @@ export const Book = () => {
                 onClick={() => navigator.clipboard.writeText(window.location.href)}
               >
                 Copiar enlace del libro
+              </button>
+              <input
+                type="text"
+                placeholder="Nombre de la lista"
+                value={listName}
+                onChange={(e) => setListName(e.target.value)}
+                className="form-control mb-2"
+              />
+              <button className="btn btn-success" onClick={() => addBookToPersonalList(book._id)}>
+                Añadir a lista personal
               </button>
             </div>
           </div>

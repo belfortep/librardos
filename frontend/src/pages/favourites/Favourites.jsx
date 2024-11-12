@@ -11,6 +11,7 @@ export const Favourites = () => {
   const [read, setRead] = useState([]);
   const [reading, setReading] = useState([]);
   const [toRead, setToRead] = useState([]);
+  const [list, setList] = useState([])
   const { user } = useContext(AuthContext);
 
   const fetchAllBooks = async () => {
@@ -45,6 +46,20 @@ export const Favourites = () => {
       res_toRead.push(response.data);
     }
     setToRead(res_toRead);
+
+    const list_list = await axios.get('/auth/List/' + user._id);
+    const res_List = [];
+    for (const list of list_list.data) {
+      var res_parcial = []
+      res_parcial.push(list[0])
+      for (let i = 1; i < list.length; i++) {
+        const response = await axios.get(`/api/book/${list[i]}`);
+        res_parcial.push(response.data);
+      }
+      res_List.push(res_parcial);
+    }
+    setList(res_List);
+    console.log(res_List)
   };
 
   useEffect(() => {
@@ -122,6 +137,24 @@ export const Favourites = () => {
               </ul>
             </div>
           </div>
+          {list.map((list, index) => (
+            <div key={index} className="col-md-6 mb-4">
+              <div className="card">
+                <div className="card-header bg-secondary text-white">
+                  {list[0]}
+                </div>
+                <ul className="list-group list-group-flush">
+                  {list.slice(1).map((book, bookIndex) => (
+                    <li key={bookIndex} className="list-group-item">
+                      <Link to={`/${book._id}`} className="text-decoration-none text-dark">
+                        {book.title}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
       <Footer />
