@@ -21,6 +21,7 @@ import { Profile } from './pages/profile/Profile';
 import { EditProfile } from './pages/editProfile/EditProfile';
 import './app.css'
 import './styles.css' // Make sure to import the styles for the Navbar and themes
+import { Writers } from './pages/writers/Writers';
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
             <Route path="/edit" element={<EditProfile/>}/>
             <Route path='/users' element={<Users/>}/>
             <Route path='/user/:id' element={<User/>}/>
+            <Route path='/writers' element={<Writers/>}/>
           </Routes>
         </Layout>
       </BrowserRouter>
