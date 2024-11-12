@@ -149,6 +149,8 @@ export const EditProfile = () => {
           onChange={handleUserChange}
           className="form-control"
         />
+        <div style={{marginBottom: 10, marginTop: 10}}><img style={{width:"12.5%", height:"12.5%"}} src={userInfo.photo_url} alt="Book cover" /></div>
+        
         <button className="btn btn-secondary">
           Confirmar
         </button>

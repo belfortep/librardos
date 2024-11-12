@@ -67,7 +67,6 @@ export const Community = () => {
     const month = String(today.getMonth() + 1).padStart(2, '0'); // Los meses empiezan en 0
     const day = String(today.getDate()).padStart(2, '0'); // Obtener el día
     const formattedDate = `${year}-${month}-${day}`;  
-    alert(formattedDate)
     const res_user = await axios.put("/auth/user/" + user._id, {last_time_in_community: formattedDate});
     dispatch({ type: "LOGIN_SUCCESS", payload: res_user.data.details });
 
