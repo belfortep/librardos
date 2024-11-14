@@ -6,16 +6,32 @@ import { Footer } from "../../components/Footer/Footer";
 import { AuthContext } from "../../context/AuthContext";
 import "./communities.css";
 
-
 export const Communities = () => {
   const [communities, setCommunities] = useState([]);
   const [name, setName] = useState("");
+  const [amountMessages, setAmount] = useState([])
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const fetchCommunities = async () => {
     const res = await axios.get("/api/community");
     setCommunities(res.data)
+    
+    let array = []
+    for (const community of res.data) {
+      let counter = 0
+      for (const message of community.messages) {
+        const msg = await axios.get("/api/message/"+ message)
+        const dateMsg = new Date(msg.data.createdAt)
+        const dateUser = new Date(user.last_time_in_community)
+        if (dateMsg > dateUser) {
+          counter += 1
+        }
+      }
+      array.push([community._id, counter])
+      
+    }
+    setAmount(array)
   }
 
   const handleTitleChange = async (e) => {
@@ -82,7 +98,7 @@ export const Communities = () => {
             <input id="gender" placeholder="gender" type="text" onChange={handleGenderChange} required className="loginInput" />
             <div className="medicine-container">
               <ul className="medicine-sub-container">
-                {communities.map((community) => (
+                {communities.map((community,index) => (
                   <div className="medicine-sub-container-div" key={community._id}>
                     <li className="medicine-name-container">
                     <Link
@@ -90,7 +106,7 @@ export const Communities = () => {
                           to={"/community/" + community._id}
                         >
                           <span className="medicine-name">
-                        {community.name}
+                        {community.name} -  <span style={{color:"blue"}}>{(amountMessages.length > 0) && (amountMessages[index][0] == community._id) && (amountMessages[index][1] > 0) ? amountMessages[index][1] : ""}</span>
                       </span>
                         </Link>
                       <div className="medicine-button-div">
