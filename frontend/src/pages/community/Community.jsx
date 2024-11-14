@@ -63,10 +63,7 @@ export const Community = () => {
   const fetchCommunity = async () =>{
     let res = await axios.get("/api/community/" + params.id);
     const today = new Date();
-    const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, '0'); // Los meses empiezan en 0
-    const day = String(today.getDate()).padStart(2, '0'); // Obtener el día
-    const formattedDate = `${year}-${month}-${day}`;  
+    const formattedDate = today.toISOString();
     const res_user = await axios.put("/auth/user/" + user._id, {last_time_in_community: formattedDate});
     dispatch({ type: "LOGIN_SUCCESS", payload: res_user.data.details });
 
