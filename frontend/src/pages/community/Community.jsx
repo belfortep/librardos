@@ -53,6 +53,14 @@ export const Community = () => {
     navigate("/")
   }
 
+  const modifyCommunityName = async (id) => {
+    const newName = prompt("Ingrese el nuevo nombre de la comunidad:");
+    console.log(newName)
+    if (newName) {
+      await axios.patch("/api/community/" + id, { name: newName });
+    }
+  }
+
   const handleReplyMessage = async (id) => {
     setReplyingTo(id)
     if (id === replyingTo) {
@@ -202,9 +210,14 @@ export const Community = () => {
               </button>
             )}
             {isAdmin && (
-              <button className="btn btn-danger" onClick={() => deleteCommunity(community._id)}>
+              <button className="btn btn-danger me-2" onClick={() => deleteCommunity(community._id)}>
                 Eliminar Comunidad
               </button>
+            )}
+            {isAdmin && (
+              <button className="btn btn-danger me-2" onClick={() => modifyCommunityName(community._id)}>
+              Cambiar nombre
+            </button>
             )}
           </div>
         </div>
