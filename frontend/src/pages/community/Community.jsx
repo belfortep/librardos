@@ -3,6 +3,7 @@ import axios from 'axios'
 import { useState, useEffect } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Footer } from '../../components/Footer/Footer'
+import CommunityNameChange from '../../components/NameChangeWindow/NameChangeWindow';
 import Moment from 'react-moment'
 import { AuthContext } from '../../context/AuthContext';
 import './community.css';
@@ -17,7 +18,9 @@ export const Community = () => {
   const [message, setMessage] = useState("");
   const [isMember, setIsMember] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [replyingTo, setReplyingTo] = useState(undefined)
+  const [replyingTo, setReplyingTo] = useState(undefined);
+  const [showInput, setShowInput] = useState(false);
+  const [newName, setNewName] = useState("");
   const {user} = useContext(AuthContext);
   const params = useParams()
   const navigate = useNavigate();
@@ -51,6 +54,14 @@ export const Community = () => {
   const deleteCommunity = async (id) => {
     await axios.delete("/api/community/" + id);
     navigate("/")
+  }
+
+  const modifyCommunityName = async (id) => {
+    // const newName = prompt("Ingrese el nuevo nombre de la comunidad:");
+    console.log(newName)
+    if (newName) {
+      await axios.patch("/api/community/" + id, { name: newName });
+    }
   }
 
   const handleReplyMessage = async (id) => {
@@ -202,10 +213,44 @@ export const Community = () => {
               </button>
             )}
             {isAdmin && (
-              <button className="btn btn-danger" onClick={() => deleteCommunity(community._id)}>
+              <button className="btn btn-danger me-2" onClick={() => deleteCommunity(community._id)}>
                 Eliminar Comunidad
               </button>
             )}
+            {isAdmin && (
+        <>
+          {!showInput ? (
+            <button
+              className="btn btn-danger me-2"
+              onClick={() => setShowInput(true)}
+            >
+              Cambiar nombre
+            </button>
+          ) : (
+            <div className="d-flex align-items-center">
+              <input
+                type="text"
+                className="form-control me-2"
+                placeholder="Nuevo nombre"
+                value={newName}
+                onChange={(e) => setNewName(e.target.value)}
+              />
+              <button className="btn btn-success me-2" onClick={() => {
+                modifyCommunityName(community._id);
+                setShowInput(false);
+              }}>
+                Guardar
+              </button>
+              <button
+                className="btn btn-secondary"
+                onClick={() => setShowInput(false)}
+              >
+                Cancelar
+              </button>
+            </div>
+          )}
+        </>
+      )}
           </div>
         </div>
       </div>
