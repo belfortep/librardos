@@ -106,99 +106,99 @@ export const Books = () => {
             <div className="sort-container">
               <label htmlFor="sort">Ordenar por:</label>
               <select
-              id="sort"
-              onChange={(e) => {
-                const sortBy = e.target.value;
-                const sortedBooks = [...filteredBooks].sort((a, b) => {
-                if (sortBy === "title") {
-                  return a.title.localeCompare(b.title);
-                } else if (sortBy === "writer") {
-                  return a.writer.localeCompare(b.writer);
-                } else if (sortBy === "gender") {
-                  return a.gender.localeCompare(b.gender);
-                } else if (sortBy === "date") {
-                  return new Date(a.date_edition) - new Date(b.date_edition);
-                } else if (sortBy === "rating") {
-                  return calculateAverageScore(b) - calculateAverageScore(a);
-                } else if (sortBy === "title - desc") {
-                  return b.title.localeCompare(a.title);
-                } else if (sortBy === "writer - desc") {
-                  return b.writer.localeCompare(a.writer);
-                } else if (sortBy === "gender - desc") {
-                  return b.gender.localeCompare(a.gender);
-                } else if (sortBy === "date - desc") {
-                  return new Date(b.date_edition) - new Date(a.date_edition);
-                } else if (sortBy === "rating - desc") {
-                  return calculateAverageScore(a) - calculateAverageScore(b);
-                }
-                return 0;
-                });
-                setBooks(sortedBooks);
-              }}
+                id="sort"
+                onChange={(e) => {
+                  const sortBy = e.target.value;
+                  const sortedBooks = [...filteredBooks].sort((a, b) => {
+                    if (sortBy === "title") {
+                      return a.title.localeCompare(b.title);
+                    } else if (sortBy === "writer") {
+                      return a.writer.localeCompare(b.writer);
+                    } else if (sortBy === "gender") {
+                      return a.gender.localeCompare(b.gender);
+                    } else if (sortBy === "date") {
+                      return new Date(a.date_edition) - new Date(b.date_edition);
+                    } else if (sortBy === "rating") {
+                      return calculateAverageScore(b) - calculateAverageScore(a);
+                    } else if (sortBy === "title - desc") {
+                      return b.title.localeCompare(a.title);
+                    } else if (sortBy === "writer - desc") {
+                      return b.writer.localeCompare(a.writer);
+                    } else if (sortBy === "gender - desc") {
+                      return b.gender.localeCompare(a.gender);
+                    } else if (sortBy === "date - desc") {
+                      return new Date(b.date_edition) - new Date(a.date_edition);
+                    } else if (sortBy === "rating - desc") {
+                      return calculateAverageScore(a) - calculateAverageScore(b);
+                    }
+                    return 0;
+                  });
+                  setBooks(sortedBooks);
+                }}
               >
-              <option value="title">Título</option>
-              <option value="writer">Escritor</option>
-              <option value="gender">Género</option>
-              <option value="date">Fecha de edición</option>
-              <option value="rating">Calificación</option>
-              <option value="title - desc">Título - desc</option>
-              <option value="writer - desc">Escritor - desc</option>
-              <option value="gender - desc">Género - desc</option>
-              <option value="date - desc">Fecha de edición - desc</option>
-              <option value="rating - desc">Calificación - desc</option>
+                <option value="title">Título</option>
+                <option value="writer">Escritor</option>
+                <option value="gender">Género</option>
+                <option value="date">Fecha de edición</option>
+                <option value="rating">Calificación</option>
+                <option value="title - desc">Título - desc</option>
+                <option value="writer - desc">Escritor - desc</option>
+                <option value="gender - desc">Género - desc</option>
+                <option value="date - desc">Fecha de edición - desc</option>
+                <option value="rating - desc">Calificación - desc</option>
               </select>
             </div>
             <div className="medicine-container">
               <ul className="medicine-sub-container">
                 {filteredBooks.map((book) => {
                   const averageRating = calculateAverageScore(book); 
-                    return (
+                  return (
                     <div className="medicine-sub-container-div" key={book._id}>
                       <li className="medicine-name-container">
-                      <Link
-                      className="btn btn-secondary button-medicine-update"
-                      to={"/" + book._id}
-                      >
-                      <span className="medicine-name">
-                      {book.title}
-                      </span>
-                      </Link>
-                      <div className="medicine-button-div">
-                      <button
-                      className="btn btn-danger button-medicine-delete"
-                      onClick={() => handleFavorite(book._id)}
-                      >
-                      {(favoriteBooks.includes(book._id)) ? "💔" : "❤️"}
-                      </button>
-                      </div>
+                        <Link
+                          className="btn btn-secondary button-medicine-update"
+                          to={"/" + book._id}
+                        >
+                          <span className="medicine-name">
+                            {book.title}
+                          </span>
+                        </Link>
+                        <div className="medicine-button-div">
+                          <button
+                            className="btn btn-danger button-medicine-delete"
+                            onClick={() => handleFavorite(book._id)}
+                          >
+                            {(favoriteBooks.includes(book._id)) ? "💔" : "❤️"}
+                          </button>
+                        </div>
                       </li>
                       <li>
-                      <span>
-                      Escritor: {book.writer}
-                      </span>
+                        <span>
+                          Escritor: {book.writer}
+                        </span>
                       </li>
                       <li>
-                      <span>
-                      Genero: {book.gender}
-                      </span>
+                        <span>
+                          Genero: {book.gender}
+                        </span>
                       </li>
                       <li>
-                      <span>
-                      Calificacion: <BookRatingDisplay rating={averageRating}/>
-                      </span>
+                        <span>
+                          Calificacion: <BookRatingDisplay rating={averageRating}/>
+                        </span>
                       </li>
                       <li className="medicine-date-container">
-                      <span className="medicine-date-text">
-                      Fecha de edicion:
-                      </span>
-                      <Moment
-                      className="medicine-date"
-                      date={moment(book.date_edition).add(1, "d")}
-                      format="MM/YYYY"
-                      />
+                        <span className="medicine-date-text">
+                          Fecha de edicion:
+                        </span>
+                        <Moment
+                          className="medicine-date"
+                          date={moment(book.date_edition).add(1, "d")}
+                          format="MM/YYYY"
+                        />
                       </li>
                       <li style={{textAlign:"center"}}>
-                      <img onDoubleClick={() => setWriterToSearch(book.writer)} onClick={() => setGenderToSearch(book.gender)} src={book.image} alt={book.title} className="book-image" style={{ width: "25%", cursor:"pointer" }} />
+                        <img onDoubleClick={() => setWriterToSearch(book.writer)} onClick={() => setGenderToSearch(book.gender)} src={book.image} alt={book.title} className="book-image" style={{ width: "25%", cursor:"pointer" }} />
                       </li>
                     </div>
                     )
