@@ -12,6 +12,7 @@ export const User = () => {
   const {user} = useContext(AuthContext);
   const params = useParams()
   const [userClicked, setUserClicked] = useState({});
+  const [isFriend, setIsFriend] = useState(false);
   const navigate = useNavigate()
 
   const fetchUser = async () =>{
@@ -26,10 +27,17 @@ export const User = () => {
       if (res.data?.blocked_users?.includes(user._id) || user?.blocked_users?.includes(res.data._id)) {
         navigate("/")
       }
-      
+      setIsFriend(res.data?.friends.includes(user.username))
     } else {
 
     }
+  }
+
+  const eliminateFriend = async (user_name) => {
+    console.log(user_name)
+    const res = await axios.delete("/auth/acceptFriend/" + user._id, {data: {friend_name: user_name}})
+    setIsFriend(false);
+    fetchUser();
   }
 
   useEffect(()=>{
@@ -92,11 +100,19 @@ export const User = () => {
               
             </ul>
             <button
-                className="btn btn-primary"
+                className="btn btn-primary me-2"
                 onClick={() => navigator.clipboard.writeText("http://localhost:3000/register")}
               >
                 Invita a tus amigos
             </button>   
+            {isFriend && (
+            <button
+                className="btn btn-danger me-2"
+                onClick={() => eliminateFriend(userClicked.username)}
+              >
+                Eliminar amigo
+            </button>  
+            )}
           </div>
         </div>
       </div>
