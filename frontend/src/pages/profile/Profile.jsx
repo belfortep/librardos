@@ -113,7 +113,13 @@ export const Profile = () => {
           </div>
           <div className="card-footer">
             <Link className="btn btn-secondary" to={'/edit'}>Editar perfil</Link>
-          </div>
+          <button
+                className="btn btn-primary"
+                onClick={() => navigator.clipboard.writeText("http://localhost:3000/register")}
+                >
+                Invita a tus amigos
+            </button>
+            </div>
         </div>
       </div>
       <Footer />

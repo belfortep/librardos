@@ -91,6 +91,12 @@ export const User = () => {
               </li> : ""}
               
             </ul>
+            <button
+                className="btn btn-primary"
+                onClick={() => navigator.clipboard.writeText("http://localhost:3000/register")}
+              >
+                Invita a tus amigos
+            </button>   
           </div>
         </div>
       </div>
