@@ -3,6 +3,7 @@ import axios from 'axios'
 import { useState, useEffect } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Footer } from '../../components/Footer/Footer'
+import CommunityNameChange from '../../components/NameChangeWindow/NameChangeWindow';
 import Moment from 'react-moment'
 import { AuthContext } from '../../context/AuthContext';
 import './community.css';
