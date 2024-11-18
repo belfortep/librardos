@@ -14,6 +14,7 @@ export const Community = () => {
   const [messages, setMessages] = useState([]);
   const [responseMessages, setResponseMessages] = useState([])
   const { loading, error, dispatch } = useContext(AuthContext);
+  const [communities, setCommunities] = useState([])
   const [members, setMembers] = useState([]);
   const [message, setMessage] = useState("");
   const [isMember, setIsMember] = useState(false);
@@ -71,6 +72,16 @@ export const Community = () => {
     }
   }
 
+  const handleJoin = async (id) => {
+    try {
+      await axios.post("/api/community/" + id, { id: user._id });
+      navigate("/community/" + id)
+    } catch (err) {
+      alert("Ya formas parte de esta comunidad")
+    }
+    
+  }
+
   const fetchCommunity = async () =>{
     let res = await axios.get("/api/community/" + params.id);
     const today = new Date();
@@ -107,19 +118,33 @@ export const Community = () => {
 
       }
 
+      const resComm = await axios.get("/api/community");
+
+      const filteredCommunities = resComm.data.filter((searchedCommunity) => {
+        if (searchedCommunity.users.includes(user._id)) {
+          return false;
+        }
+        if (searchedCommunity.name === res.data?.name) {
+          return false;
+        }
+        return searchedCommunity.bookName === res.data?.bookName;
+      });
+
+      setCommunities(filteredCommunities);
+
       setMembers(users);
       if (isReversed) {
         api_messages.reverse()
       }
       setMessages(api_messages)
       setResponseMessages(response_messages)
+
+      
     } 
 
   };
 
   useEffect(()=>{
-    
-    
     if(user){
         fetchCommunity();
     }
@@ -128,10 +153,10 @@ export const Community = () => {
   return (
     <>
         <div className="container mt-5">
-          <h1 className="text-primary">Comunidad sobre {community.bookName}</h1>
+          <h1 className="text-primary"> {community.name} </h1>
           <div className="card">
             <div className="card-header bg-secondary text-white">
-            {community.name}. Creada el: <Moment date={moment(community.createdAt)} format="DD/MM/YYYY" />
+            Comunidad sobre {community.bookName}. Creada el: <Moment date={moment(community.createdAt)} format="DD/MM/YYYY" />
             </div>
             <div className="card-body">
             {isMember && (
@@ -207,6 +232,23 @@ export const Community = () => {
             </ul>
           </div>
           <div className="card-footer">
+              {communities?.map((community) => (
+                  <div className="medicine-sub-container-div" key={community._id}>
+                    <li className="medicine-name-container">
+                    <Link className="btn btn-secondary button-medicine-update" to={"/community/" + community._id}>
+                      <span className="medicine-name"> {community.name}</span>
+                    </Link>
+                      <div className="medicine-button-div">
+                        <button className="btn btn-danger " onClick={() => handleJoin(community._id)}>
+                          Unirse
+                        </button>
+                      </div>
+                    </li>
+                  </div>
+                ))}
+
+          </div>
+          <div className="card-footer">
             {isMember && (
               <button className="btn btn-danger me-2" onClick={() => handleExit(community._id)}>
                 Salir de comunidad
@@ -221,7 +263,7 @@ export const Community = () => {
         <>
           {!showInput ? (
             <button
-              className="btn btn-danger me-2"
+              className="btn btn-warning me-2"
               onClick={() => setShowInput(true)}
             >
               Cambiar nombre
@@ -238,6 +280,7 @@ export const Community = () => {
               <button className="btn btn-success me-2" onClick={() => {
                 modifyCommunityName(community._id);
                 setShowInput(false);
+                navigate(0)
               }}>
                 Guardar
               </button>
