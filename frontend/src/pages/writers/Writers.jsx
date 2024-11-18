@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Footer } from "../../components/Footer/Footer";
 import Moment from "react-moment";
 import moment from "moment";
@@ -14,6 +14,7 @@ export const Writers = () => {
   const [writers, setWriters] = useState([]);
   const [inputValues, setInputValues] = useState({});
   const [successMessage, setSuccessMessage] = useState(null);
+  const navigate = useNavigate();
   const handleInputChange = (id, value) => {
     setInputValues((prevValues) => ({
       ...prevValues,
@@ -49,6 +50,9 @@ export const Writers = () => {
 
   useEffect(() => {
     if (user) {
+      if (!user.isPremium) {
+        navigate("/premium")
+      }
       fetchWriters();
     }
   }, []);

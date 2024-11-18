@@ -10,7 +10,7 @@ export const Navbar = () => {
   const navigate = useNavigate();
 
   const { isDarkMode, toggleTheme } = useContext(ThemeContext);
-
+  console.log(user)
   const handleClick = (e) =>{
     e.preventDefault();
     dispatch({type: 'LOGOUT'});
@@ -45,7 +45,7 @@ export const Navbar = () => {
             Usuarios
           </a>
 
-          <a href="/writers" className="navbar-button">
+          <a href={user.isPremium ? "/writers" : "/premium"} className="navbar-button">
             <PencilLine className="icon" />
             Escritores
           </a>
