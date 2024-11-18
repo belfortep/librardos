@@ -86,6 +86,10 @@ const UserSchema = new mongoose.Schema({
         type: Array,
         default: []
     },
+    communities: {
+        type: Array,
+        default: []
+    }
 
 }, {
     timestamps: true

@@ -75,7 +75,8 @@ export const Communities = () => {
       await axios.post("/api/community/" + id, { id: user._id });
       navigate("/community/" + id)
     } catch (err) {
-      alert("Ya formas parte de esta comunidad")
+      alert(err.response.data.message)
+     
     }
     
   }

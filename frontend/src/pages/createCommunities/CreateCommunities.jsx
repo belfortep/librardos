@@ -23,9 +23,14 @@ export const CreateCommunities = () => {
   };
   const handleCreate = async (e) => {
     e.preventDefault();
-    const result = await axios.post("/api/community", {name: community.name, bookId: params.id});
-    await axios.post("/api/community/" + result.data, {id: user._id})
-    navigate("/");
+    try {
+      const result = await axios.post("/api/community", {name: community.name, bookId: params.id, user_id: user._id});
+      await axios.post("/api/community/" + result.data, {id: user._id})
+      navigate("/");
+    } catch (err) {
+      alert(err.response.data.message)
+    }
+    
   };
 
   return (

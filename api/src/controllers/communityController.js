@@ -17,7 +17,13 @@ const getAllCommunities = async (req, res) => {
 
 const createCommunity = async (req, res) => {
     try {
-        const { name, bookId } = req.body
+        const { name, bookId, user_id } = req.body
+
+        const user = await User.findById(user_id)
+        if (!user.isPremium && user.communities.length >= 3) {
+            return res.status(HttpCodesEnum.FORBBIDEN).json({message : "Solo los premium pueden crear o unirse a mas de 3 comunidades"})
+        }
+
         const community_exists = await Community.findOne({ name: name });
         const bookObj = await Book.findById(bookId)
         if (community_exists) return res.status(HttpCodesEnum.BAD_REQUEST).JSON({ message: "Community already exists"})
@@ -64,6 +70,8 @@ const renameCommunity = async (req, res) => {
 const joinCommunity = async (req, res) => {
     try {
         const community = await Community.findById(req.params.id);
+        const user = await User.findById(req.body.id)
+
         if (!community) {
             return res.status(HttpCodesEnum.NOT_FOUND).json({message: "Comunidad no encontrada"})
         }
@@ -71,7 +79,13 @@ const joinCommunity = async (req, res) => {
         if (community.users.includes(req.body.id)) {
             return res.status(HttpCodesEnum.FORBBIDEN).json({ message: "No podes unirte a una comunidad en la que ya estas" });
         }
+
+        if (!user.isPremium && user.communities.length >= 3) {
+            return res.status(HttpCodesEnum.FORBBIDEN).json({message : "Solo los premium pueden unirse a mas de 3 comunidades"})
+        }
+        
         await community.updateOne({$push: {users: req.body.id}})
+        await user.updateOne({$push: {communities: req.params.id}})
         return res.status(HttpCodesEnum.OK).json("Unido a comunidad")
     } catch (err) {
         return res.status(HttpCodesEnum.SERVER_INTERNAL_ERROR).json({ message: err.message });
