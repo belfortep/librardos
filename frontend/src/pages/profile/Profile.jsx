@@ -19,6 +19,11 @@ export const Profile = () => {
     dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
   };
 
+  const premiumCheckout = async (userId) => {
+    const res = await axios.put("/auth/premium/" + user._id, {userId: user._id});
+    dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
+  };
+
   const handleListOfCommunities = async (friend_name) => {
     const communities = await axios.get("/api/community");  // todas las communities
     const friend = await axios.post("/auth/name", { username: friend_name });
@@ -119,6 +124,14 @@ export const Profile = () => {
                 >
                 Invita a tus amigos
             </button>
+            { !user.isPremium && (
+              <button
+              className="btn btn-warning"
+              onClick={() => premiumCheckout(user._id)}
+              >
+              Conviertete en usuario premium
+          </button>
+            )}
             </div>
         </div>
       </div>
