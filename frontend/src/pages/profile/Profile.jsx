@@ -1,18 +1,20 @@
 import React, { useContext } from 'react';
 import axios from 'axios';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { Footer } from '../../components/Footer/Footer';
 import Moment from 'react-moment';
 import { AuthContext } from '../../context/AuthContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import moment from 'moment';
 import './profile.css';
+import { useNavigate } from 'react-router-dom';
 
 export const Profile = () => {
   const { user } = useContext(AuthContext);
   const { dispatch } = useContext(AuthContext);
   const [friendCommunity, setFriendCommunity] = useState([]);
+  const navigate = useNavigate();
 
   const acceptFriend = async (friend_name) => {
     const res = await axios.put("/auth/acceptFriend/" + user._id, { friend_name: friend_name });
@@ -127,7 +129,7 @@ export const Profile = () => {
             { !user.isPremium && (
               <button
               className="btn btn-warning"
-              onClick={() => premiumCheckout(user._id)}
+              onClick={() => navigate("/premium")}
               >
               Conviertete en usuario premium
           </button>
