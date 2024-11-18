@@ -224,8 +224,6 @@ const accepFriendRequest = async (req, res) => {
 
 const deleteFriend = async (req, res) => {
     try {
-        console.log(req.params)
-        console.log(req.body)
         const user = await User.findById(req.params.id);    // mi propio id
         if (!user) {
             return res.status(HttpCodesEnum.NOT_FOUND).json({message: "Usuario no encontrado"})
@@ -235,6 +233,21 @@ const deleteFriend = async (req, res) => {
         await my_friend.updateOne({$pull: {friends: user._doc.username}})
         await user.updateOne({$pull: {friends: req.body.friend_name}})   // nombre de mi pana
         const new_user = await User.findById(req.params.id);
+        const {password, ...otherDetails} = new_user._doc
+        return res.status(HttpCodesEnum.OK).json({ details: {...otherDetails}})
+    } catch (err) {
+        return res.status(HttpCodesEnum.SERVER_INTERNAL_ERROR).json({ message: err.message });
+    }
+}
+
+const updateUserSubscription = async (req, res) => {
+    try {
+        const user = await User.findById(req.body.userId);    // mi propio id
+        if (!user) {
+            return res.status(HttpCodesEnum.NOT_FOUND).json({message: "Usuario no encontrado"})
+        }
+        await user.updateOne({$set: {isPremium: true}})   // nombre de mi pana
+        const new_user = await User.findById(req.body.userId);
         const {password, ...otherDetails} = new_user._doc
         return res.status(HttpCodesEnum.OK).json({ details: {...otherDetails}})
     } catch (err) {
@@ -282,5 +295,6 @@ module.exports = {
     accepFriendRequest,
     deleteFriend,
     getListBooks,
+    updateUserSubscription,
     blockUser
 }

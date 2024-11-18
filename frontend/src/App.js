@@ -22,6 +22,8 @@ import { EditProfile } from './pages/editProfile/EditProfile';
 import './app.css'
 import './styles.css' // Make sure to import the styles for the Navbar and themes
 import { Writers } from './pages/writers/Writers';
+import PremiumCheckout from './pages/premiumCheckout/PremiumCheckout';
+
 
 function App() {
   return (
@@ -43,6 +45,7 @@ function App() {
             <Route path='/users' element={<Users/>}/>
             <Route path='/user/:id' element={<User/>}/>
             <Route path='/writers' element={<Writers/>}/>
+            <Route path='/premium' element={<PremiumCheckout/>}/>
           </Routes>
         </Layout>
       </BrowserRouter>
