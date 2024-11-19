@@ -24,6 +24,10 @@ const CommunitySchema = new mongoose.Schema({
         type: Array,
         default: []
     },
+    moderators: {
+        type: Array,
+        default: []
+    },
     // TODO, deberiamos crear un modelo "mensaje" y guardar las ids de estos, por ahora solo guardamos texto
     messages: {
         type: Array,

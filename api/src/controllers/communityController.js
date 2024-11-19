@@ -67,6 +67,30 @@ const renameCommunity = async (req, res) => {
     }
 }
 
+const joinCommunityAsMod = async (req, res) => {
+    try {
+        const community = await Community.findById(req.params.id);
+        const user = await User.findById(req.body.id)
+
+        if (!community) {
+            return res.status(HttpCodesEnum.NOT_FOUND).json({message: "Comunidad no encontrada"})
+        }
+
+        if (!community.users.includes(req.body.id)) {
+            return res.status(HttpCodesEnum.FORBBIDEN).json({ message: "No podes moderar a una comunidad en la que no estas" });
+        }
+       
+        if (community.moderators.includes(req.body.id)) {
+            return res.status(HttpCodesEnum.FORBBIDEN).json({ message: "No podes moderar a una comunidad en la que ya sos" });
+        }
+        
+        await community.updateOne({$push: {moderators: req.body.id}})
+        return res.status(HttpCodesEnum.OK).json("Unido a la policia de la comunidad")
+    } catch (err) {
+        return res.status(HttpCodesEnum.SERVER_INTERNAL_ERROR).json({ message: err.message });
+    }
+}
+
 const joinCommunity = async (req, res) => {
     try {
         const community = await Community.findById(req.params.id);
@@ -103,6 +127,11 @@ const exitCommunity = async (req, res) => {
             return res.status(HttpCodesEnum.FORBBIDEN).json({ message: "No podes salir de una comunidad que no pertenecias" });
         }
         await community.updateOne({$pull: {users: req.body.id}})
+        
+        if (community.moderators.includes(req.body.id)) {
+            await community.updateOne({$pull: {moderators: req.body.id}})
+        }
+
         return res.status(HttpCodesEnum.OK).json("Unido a comunidad")
     } catch (err) {
         return res.status(HttpCodesEnum.SERVER_INTERNAL_ERROR).json({ message: err.message });
@@ -120,7 +149,6 @@ const getCommunity = async (req, res) => {
 }
 
 const getCommunityByName = async (req, res) => {
-    console.log(req.body.name)
     try {
         const community = await Community.find({ name: {$regex: req.body.name, $options: "i"}});
         return res.status(HttpCodesEnum.OK).json(community);
@@ -130,7 +158,6 @@ const getCommunityByName = async (req, res) => {
 }
 
 const getCommunityByBook = async (req, res) => {
-    console.log(req.body.bookName)
     try {
         const community = await Community.find({ bookName: {$regex: req.body.bookName, $options: "i"}});
         return res.status(HttpCodesEnum.OK).json(community);
@@ -140,7 +167,6 @@ const getCommunityByBook = async (req, res) => {
 }
 
 const getCommunityByGender = async (req, res) => {
-    console.log(req.body.bookGender)
     try {
         const community = await Community.find({ bookGender: {$regex: req.body.bookGender, $options: "i"}});
         return res.status(HttpCodesEnum.OK).json(community);
@@ -170,6 +196,62 @@ const addMessageToCommunity = async (req, res) => {
     }
 }
 
+// const deleteMessageToCommunity = async(req, res) => {
+//     console.log("Intentando eliminar un mensaje...");
+
+//     try {
+//         const { id } = req.params.id; // ID de la comunidad
+//         const { id_msg } = req.body.id_msg; // ID del mensaje
+
+//         if (!id_msg) {
+//             return res
+//                 .status(HttpCodesEnum.BAD_REQUEST)
+//                 .json({ message: "ID del mensaje no proporcionado" });
+//         }
+
+//         // Buscar la comunidad
+//         const community = await Community.findById(id);
+//         if (!community) {
+//             return res
+//                 .status(HttpCodesEnum.NOT_FOUND)
+//                 .json({ message: "Comunidad no encontrada" });
+//         }
+
+//         console.log(`Eliminando el mensaje con ID: ${id_msg}`);
+
+//         // Verificar si el mensaje está en la comunidad
+//         if (!community.messages.includes(id_msg)) {
+//             return res
+//                 .status(HttpCodesEnum.BAD_REQUEST)
+//                 .json({ message: "El mensaje no pertenece a esta comunidad" });
+//         }
+
+//         // Remover el mensaje del array `messages` en la comunidad
+//         await community.updateOne({ $pull: { messages: id_msg } });
+
+//         // Buscar y eliminar el mensaje
+//         const message = await Message.findById(id_msg);
+//         if (!message) {
+//             return res
+//                 .status(HttpCodesEnum.NOT_FOUND)
+//                 .json({ message: "Mensaje no encontrado" });
+//         }
+
+//         console.log(`Eliminando mensaje: ${message.message}`);
+//         await Message.findByIdAndDelete(id_msg);
+
+//         console.log("Mensaje eliminado exitosamente");
+//         return res
+//             .status(HttpCodesEnum.OK)
+//             .json({ message: "Mensaje eliminado exitosamente" });
+//     } catch (err) {
+//         console.error("Error al eliminar el mensaje:", err.message);
+//         return res
+//             .status(HttpCodesEnum.SERVER_INTERNAL_ERROR)
+//             .json({ message: err.message });
+//     }
+// }
+
 module.exports = {
     getAllCommunities,
     createCommunity,
@@ -181,5 +263,7 @@ module.exports = {
     exitCommunity,
     addMessageToCommunity,
     deleteCommunity,
+    joinCommunityAsMod,
+    // deleteMessageToCommunity,
     renameCommunity
 }
