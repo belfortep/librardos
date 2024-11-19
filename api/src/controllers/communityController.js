@@ -67,6 +67,30 @@ const renameCommunity = async (req, res) => {
     }
 }
 
+const joinCommunityAsMod = async (req, res) => {
+    try {
+        const community = await Community.findById(req.params.id);
+        const user = await User.findById(req.body.id)
+
+        if (!community) {
+            return res.status(HttpCodesEnum.NOT_FOUND).json({message: "Comunidad no encontrada"})
+        }
+
+        if (!community.users.includes(req.body.id)) {
+            return res.status(HttpCodesEnum.FORBBIDEN).json({ message: "No podes moderar a una comunidad en la que no estas" });
+        }
+       
+        if (community.moderators.includes(req.body.id)) {
+            return res.status(HttpCodesEnum.FORBBIDEN).json({ message: "No podes moderar a una comunidad en la que ya sos" });
+        }
+        
+        await community.updateOne({$push: {moderators: req.body.id}})
+        return res.status(HttpCodesEnum.OK).json("Unido a la policia de la comunidad")
+    } catch (err) {
+        return res.status(HttpCodesEnum.SERVER_INTERNAL_ERROR).json({ message: err.message });
+    }
+}
+
 const joinCommunity = async (req, res) => {
     try {
         const community = await Community.findById(req.params.id);
@@ -103,6 +127,11 @@ const exitCommunity = async (req, res) => {
             return res.status(HttpCodesEnum.FORBBIDEN).json({ message: "No podes salir de una comunidad que no pertenecias" });
         }
         await community.updateOne({$pull: {users: req.body.id}})
+        
+        if (community.moderators.includes(req.body.id)) {
+            await community.updateOne({$pull: {moderators: req.body.id}})
+        }
+
         return res.status(HttpCodesEnum.OK).json("Unido a comunidad")
     } catch (err) {
         return res.status(HttpCodesEnum.SERVER_INTERNAL_ERROR).json({ message: err.message });
@@ -120,7 +149,6 @@ const getCommunity = async (req, res) => {
 }
 
 const getCommunityByName = async (req, res) => {
-    console.log(req.body.name)
     try {
         const community = await Community.find({ name: {$regex: req.body.name, $options: "i"}});
         return res.status(HttpCodesEnum.OK).json(community);
@@ -130,7 +158,6 @@ const getCommunityByName = async (req, res) => {
 }
 
 const getCommunityByBook = async (req, res) => {
-    console.log(req.body.bookName)
     try {
         const community = await Community.find({ bookName: {$regex: req.body.bookName, $options: "i"}});
         return res.status(HttpCodesEnum.OK).json(community);
@@ -140,7 +167,6 @@ const getCommunityByBook = async (req, res) => {
 }
 
 const getCommunityByGender = async (req, res) => {
-    console.log(req.body.bookGender)
     try {
         const community = await Community.find({ bookGender: {$regex: req.body.bookGender, $options: "i"}});
         return res.status(HttpCodesEnum.OK).json(community);
@@ -170,6 +196,32 @@ const addMessageToCommunity = async (req, res) => {
     }
 }
 
+const deleteMessageToCommunity = async(req, res) => {
+    console.log("Intentando eliminar un mensaje...");
+    try {
+        const community = await Community.findById(req.params.id);
+        if (!community) {
+            return res.status(HttpCodesEnum.NOT_FOUND).json({message: "Comunidad no encontrada"})
+        }
+        console.log("Comunidad encontrada, voy a buscar mensajito");
+        if (!community.messages.includes(req.body.message_id)) {
+            return res.status(HttpCodesEnum.NOT_FOUND).json({message: "Mensaje no encontrado"})
+        }
+        const msj = await Message.findById(req.body.message_id)
+        console.log(`${msj.message}`)
+        console.log("Mensaje encontrado, voy a eliminarlo");
+        await community.updateOne({$pull: {messages: msj._id}})
+        console.log("Mensaje eliminado correctamente");
+        await community.save()
+        return res.status(HttpCodesEnum.OK).json("Mensaje eliminado")
+
+    } catch (err) {
+        console.error("Error al eliminar el mensaje:", err.message);
+        return res
+            .status(HttpCodesEnum.SERVER_INTERNAL_ERROR).json({ message: err.message });
+    }
+}
+
 module.exports = {
     getAllCommunities,
     createCommunity,
@@ -181,5 +233,7 @@ module.exports = {
     exitCommunity,
     addMessageToCommunity,
     deleteCommunity,
+    joinCommunityAsMod,
+    deleteMessageToCommunity,
     renameCommunity
 }

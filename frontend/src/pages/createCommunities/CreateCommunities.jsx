@@ -26,6 +26,7 @@ export const CreateCommunities = () => {
     try {
       const result = await axios.post("/api/community", {name: community.name, bookId: params.id, user_id: user._id});
       await axios.post("/api/community/" + result.data, {id: user._id})
+      await axios.post("/api/community/mod/" + result.data, {id: user._id})
       navigate("/");
     } catch (err) {
       alert(err.response.data.message)

@@ -13,12 +13,13 @@ export const Community = () => {
   const [community, setCommunity] = useState({});
   const [messages, setMessages] = useState([]);
   const [responseMessages, setResponseMessages] = useState([])
-  const { loading, error, dispatch } = useContext(AuthContext);
+  const {loading, error, dispatch } = useContext(AuthContext);
   const [communities, setCommunities] = useState([])
   const [members, setMembers] = useState([]);
   const [message, setMessage] = useState("");
   const [isMember, setIsMember] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isMod, setIsMod] = useState(false);
   const [replyingTo, setReplyingTo] = useState(undefined);
   const [showInput, setShowInput] = useState(false);
   const [newName, setNewName] = useState("");
@@ -57,9 +58,18 @@ export const Community = () => {
     navigate("/")
   }
 
+  const deleteMessage = async (message) => {
+    console.log("Voy a eliminar algun mensajito juju")
+    const id_msg = message._id;
+    await axios.delete("/api/community/message/" + params.id, {data: {message_id: id_msg}});
+
+    // await axios.delete("/api/community/message/" + params.id, {data: {id_msg: id_msg}});
+    await fetchCommunity()
+  }
+
+
   const modifyCommunityName = async (id) => {
     // const newName = prompt("Ingrese el nuevo nombre de la comunidad:");
-    console.log(newName)
     if (newName) {
       await axios.patch("/api/community/" + id, { name: newName });
     }
@@ -81,6 +91,7 @@ export const Community = () => {
     }
     
   }
+  
 
   const fetchCommunity = async () =>{
     let res = await axios.get("/api/community/" + params.id);
@@ -93,12 +104,14 @@ export const Community = () => {
     if (res.data) {
       setCommunity(res.data);
       const users = [];
-      console.log(res.data.users.length)
       if (res.data.users.length === 0) {
         await deleteCommunity(params.id);
       }
-      const admin_id = res.data.users[0]
+      const admin_id = res.data.users[0] // ? El primero que la creo es el admin (?)
       setIsAdmin(admin_id == user._id)
+      
+      setIsMod(res.data?.moderators.includes(user._id))
+
       for (const user_data of res.data.users) {
           const response = await axios.get("/auth/" + user_data);
           if (user_data === user._id) {
@@ -188,9 +201,6 @@ export const Community = () => {
                 
                 // Sumar 5 minutos (300,000 ms) a la fecha de creación del mensaje
                 const messageDatePlus5Min = new Date(messageDate.getTime() + 5 * 60 * 1000);
-                console.log("MENSAJE" + messageDate)
-                console.log("LAST LOGIN" + lastLoginDate)
-                console.log("CON 5 MINS EXTRA"  + messageDatePlus5Min)
                 
                 // Determina el color según la comparación
                 const textColor = messageDatePlus5Min > lastLoginDate ? 'red' : 'black';
@@ -205,7 +215,13 @@ export const Community = () => {
             color: textColor
           }}  key={index} className="list-group-item">
                   {message.username}: <span >{message.message}</span> - <Moment style={{color:"gray"}}  date={moment(message.createdAt)} format="DD/MM/YYYY" />
+                  {isMod && (
+                    <button className="btn btn-danger tachito" onClick={() => deleteMessage(message) }>
+                      🗑️
+                    </button>
+                  )}
                 </li>
+                
                 {responseMessages.filter((response) => response.father_id === message._id).map((response) => (
                   <li key={index} className="list-group-item" style={{ marginLeft: "25px" }}>
                   {response.username}: <span>{response.message}</span> - <Moment style={{color:"gray"}}  date={moment(response.createdAt)} format="DD/MM/YYYY" />

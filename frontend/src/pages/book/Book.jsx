@@ -34,15 +34,12 @@ export const Book = () => {
     if (status === "Leido") {
       // Logic for when the status is "Leido"
       await axios.post(`/api/book/readBooks/${id}`, { user_id: user._id});
-      console.log("The book has been read.");
     } else if (status === "Leyendo") {
       await axios.post(`/api/book/readingBooks/${id}`, { user_id: user._id});
       // Logic for when the status is "Leyendo"
-      console.log("The book is being read.");
     } else if (status === "Por Leer") {
       await axios.post(`/api/book/toReadBooks/${id}`, { user_id: user._id});
       // Logic for when the status is "Por Leer"
-      console.log("The book will be read.");
     }
     // You can add your logic to handle the status change here
   };
