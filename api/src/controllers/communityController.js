@@ -196,61 +196,31 @@ const addMessageToCommunity = async (req, res) => {
     }
 }
 
-// const deleteMessageToCommunity = async(req, res) => {
-//     console.log("Intentando eliminar un mensaje...");
+const deleteMessageToCommunity = async(req, res) => {
+    console.log("Intentando eliminar un mensaje...");
+    try {
+        const community = await Community.findById(req.params.id);
+        if (!community) {
+            return res.status(HttpCodesEnum.NOT_FOUND).json({message: "Comunidad no encontrada"})
+        }
+        console.log("Comunidad encontrada, voy a buscar mensajito");
+        if (!community.messages.includes(req.body.message_id)) {
+            return res.status(HttpCodesEnum.NOT_FOUND).json({message: "Mensaje no encontrado"})
+        }
+        const msj = await Message.findById(req.body.message_id)
+        console.log(`${msj.message}`)
+        console.log("Mensaje encontrado, voy a eliminarlo");
+        await community.updateOne({$pull: {messages: msj._id}})
+        console.log("Mensaje eliminado correctamente");
+        await community.save()
+        return res.status(HttpCodesEnum.OK).json("Mensaje eliminado")
 
-//     try {
-//         const { id } = req.params.id; // ID de la comunidad
-//         const { id_msg } = req.body.id_msg; // ID del mensaje
-
-//         if (!id_msg) {
-//             return res
-//                 .status(HttpCodesEnum.BAD_REQUEST)
-//                 .json({ message: "ID del mensaje no proporcionado" });
-//         }
-
-//         // Buscar la comunidad
-//         const community = await Community.findById(id);
-//         if (!community) {
-//             return res
-//                 .status(HttpCodesEnum.NOT_FOUND)
-//                 .json({ message: "Comunidad no encontrada" });
-//         }
-
-//         console.log(`Eliminando el mensaje con ID: ${id_msg}`);
-
-//         // Verificar si el mensaje está en la comunidad
-//         if (!community.messages.includes(id_msg)) {
-//             return res
-//                 .status(HttpCodesEnum.BAD_REQUEST)
-//                 .json({ message: "El mensaje no pertenece a esta comunidad" });
-//         }
-
-//         // Remover el mensaje del array `messages` en la comunidad
-//         await community.updateOne({ $pull: { messages: id_msg } });
-
-//         // Buscar y eliminar el mensaje
-//         const message = await Message.findById(id_msg);
-//         if (!message) {
-//             return res
-//                 .status(HttpCodesEnum.NOT_FOUND)
-//                 .json({ message: "Mensaje no encontrado" });
-//         }
-
-//         console.log(`Eliminando mensaje: ${message.message}`);
-//         await Message.findByIdAndDelete(id_msg);
-
-//         console.log("Mensaje eliminado exitosamente");
-//         return res
-//             .status(HttpCodesEnum.OK)
-//             .json({ message: "Mensaje eliminado exitosamente" });
-//     } catch (err) {
-//         console.error("Error al eliminar el mensaje:", err.message);
-//         return res
-//             .status(HttpCodesEnum.SERVER_INTERNAL_ERROR)
-//             .json({ message: err.message });
-//     }
-// }
+    } catch (err) {
+        console.error("Error al eliminar el mensaje:", err.message);
+        return res
+            .status(HttpCodesEnum.SERVER_INTERNAL_ERROR).json({ message: err.message });
+    }
+}
 
 module.exports = {
     getAllCommunities,
@@ -264,6 +234,6 @@ module.exports = {
     addMessageToCommunity,
     deleteCommunity,
     joinCommunityAsMod,
-    // deleteMessageToCommunity,
+    deleteMessageToCommunity,
     renameCommunity
 }

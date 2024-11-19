@@ -58,11 +58,14 @@ export const Community = () => {
     navigate("/")
   }
 
-  // const deleteMessage = async (id_msg) => {
-  //   console.log("Voy a eliminar algun mensajito juju")
-  //   await axios.delete("/api/community/message/" + params.id, {data: {id_msg: id_msg}});
-  //   await fetchCommunity()
-  // }
+  const deleteMessage = async (message) => {
+    console.log("Voy a eliminar algun mensajito juju")
+    const id_msg = message._id;
+    await axios.delete("/api/community/message/" + params.id, {data: {message_id: id_msg}});
+
+    // await axios.delete("/api/community/message/" + params.id, {data: {id_msg: id_msg}});
+    await fetchCommunity()
+  }
 
 
   const modifyCommunityName = async (id) => {
@@ -213,7 +216,7 @@ export const Community = () => {
           }}  key={index} className="list-group-item">
                   {message.username}: <span >{message.message}</span> - <Moment style={{color:"gray"}}  date={moment(message.createdAt)} format="DD/MM/YYYY" />
                   {isMod && (
-                    <button className="btn btn-danger tachito" onClick={() => setShowInput(showInput) }>
+                    <button className="btn btn-danger tachito" onClick={() => deleteMessage(message) }>
                       🗑️
                     </button>
                   )}

@@ -1,7 +1,7 @@
 const Router = require('express')
 const router = Router();
 const { verifyUser } = require('../util/verifyToken');
-const { getAllCommunities, joinCommunity, createCommunity, joinCommunityAsMod, renameCommunity, getCommunity, getCommunityByName, getCommunityByBook, exitCommunity, addMessageToCommunity, getCommunityByGender, deleteCommunity } = require('../controllers/communityController');
+const { getAllCommunities, joinCommunity, createCommunity, joinCommunityAsMod, renameCommunity, getCommunity, getCommunityByName, getCommunityByBook, exitCommunity, addMessageToCommunity, getCommunityByGender, deleteCommunity, deleteMessageToCommunity } = require('../controllers/communityController');
 
 router.get('/', verifyUser, getAllCommunities);
 router.post("/name", verifyUser, getCommunityByName)
@@ -10,7 +10,7 @@ router.post("/gender", verifyUser, getCommunityByGender)
 router.get('/:id', verifyUser, getCommunity);
 router.post("/", verifyUser, createCommunity);
 router.post("/message/:id", verifyUser, addMessageToCommunity)
-// router.delete("/message/:id", verifyUser, deleteMessageToCommunity)
+router.delete("/message/:id", verifyUser, deleteMessageToCommunity)
 router.post("/exit/:id", verifyUser, exitCommunity)
 router.post("/mod/:id", verifyUser, joinCommunityAsMod);
 router.post('/:id', verifyUser, joinCommunity);
