@@ -88,3 +88,9 @@ li{
   font-size: 12px;
   float: right;
 }
+
+.btn.btn-primary.chico{
+  margin-left: 6px;
+  font-size: 12px;
+  float: right;
+}

@@ -39,6 +39,7 @@ export const Community = () => {
       setMessage(e.target.value)
     }
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     await axios.post("/api/community/message/" + params.id, {username: user.username, message: message, father_id: replyingTo});
@@ -47,6 +48,9 @@ export const Community = () => {
     await fetchCommunity()
   };
 
+  const inviteMod = async (invitedId) => {
+    await axios.post("/api/community/sendModeratorRequest/" + params.id, {userId: invitedId});
+  }
 
   const handleExit = async (id) => {
     await axios.post("/api/community/exit/" + id, { id: user._id });
@@ -59,7 +63,6 @@ export const Community = () => {
   }
 
   const deleteMessage = async (message) => {
-    console.log("Voy a eliminar algun mensajito juju")
     const id_msg = message._id;
     await axios.delete("/api/community/message/" + params.id, {data: {message_id: id_msg}});
 
@@ -242,7 +245,12 @@ export const Community = () => {
             <ul className="list-group list-group-flush mb-4">
               {members?.map((member, index) => (
                 <li key={index} className="list-group-item">
-                  {member.username}
+                  {member.username} 
+                  {isMod && (
+                  <button className="btn btn-primary chico" onClick={() => inviteMod(member._id)}>
+                    Hacer Moderador
+                  </button>
+                  )}
                 </li>
               ))}
             </ul>

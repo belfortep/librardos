@@ -71,6 +71,10 @@ const UserSchema = new mongoose.Schema({
         type: Array,
         default: []
     },
+    pending_moderator_request: {
+        type: Array,
+        default: []
+    },
     privacy_level: {
         type: Number,
         default: 0

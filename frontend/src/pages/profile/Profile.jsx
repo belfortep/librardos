@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import axios from 'axios';
 import { useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router-dom';
 export const Profile = () => {
   const { user } = useContext(AuthContext);
   const { dispatch } = useContext(AuthContext);
+  const [comms, setComms] = useState([]);
   const [friendCommunity, setFriendCommunity] = useState([]);
   const navigate = useNavigate();
 
@@ -20,6 +21,22 @@ export const Profile = () => {
     const res = await axios.put("/auth/acceptFriend/" + user._id, { friend_name: friend_name });
     dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
   };
+
+  const acceptModeration = async (mod_request) => {
+    const res = await axios.put("/auth/acceptModeratorRequest/" + user._id, { mod_request: mod_request });
+    dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
+  };
+
+  const getCommunities = async () => {
+    const communities = await axios.get("/api/community");  // todas las communities
+    const myCommunities = [];
+    for (const community of communities.data) {
+      if (community.users.includes(user._id)) {
+          myCommunities.push(community);
+      }
+    }
+    setComms(myCommunities)
+  }
 
   const premiumCheckout = async (userId) => {
     const res = await axios.put("/auth/premium/" + user._id, {userId: user._id});
@@ -39,6 +56,12 @@ export const Profile = () => {
     }
     setFriendCommunity(communities_of_my_friend);
   };
+
+  useEffect(() => {
+    if(user){
+      getCommunities();
+    }
+  }, []);
 
   return (
     <>
@@ -83,6 +106,14 @@ export const Profile = () => {
                 </ul>
               </li>
               <li className="list-group-item">
+                <strong>Comunidades:</strong>
+                <ul>
+                  {comms.map((community, index) => (
+                    <li key={index} onClick={() => navigate("/community/"+community._id) }>{community.name}</li>
+                  ))}
+                </ul>
+              </li>
+              <li className="list-group-item">
                 <strong>Amigos:</strong>
                 <ul>
                   {user?.friends?.map((friend, index) => (
@@ -105,12 +136,24 @@ export const Profile = () => {
                 </li>
               )}
               <li className="list-group-item">
-                <strong>Solicitudes:</strong>
+                <strong>Solicitudes de amistad:</strong>
                 <ul>
                   {user?.pending_friend_request?.map((friend_request, index) => (
                     <li key={index}>
                       <button className="btn btn-primary" onClick={() => acceptFriend(friend_request)}>
                         {friend_request}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </li>
+              <li className="list-group-item">
+                <strong>Solicitudes de moderacion:</strong>
+                <ul>
+                  {user?.pending_moderator_request?.map((mod_request, index) => (
+                    <li key={index}>
+                      <button className="btn btn-primary" onClick={() => acceptModeration(mod_request)}>
+                        {mod_request}
                       </button>
                     </li>
                   ))}
