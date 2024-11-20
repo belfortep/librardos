@@ -11,6 +11,7 @@ import moment from 'moment';
 export const User = () => {
   const {user} = useContext(AuthContext);
   const params = useParams()
+  const { loading, error, dispatch } = useContext(AuthContext);
   const [userClicked, setUserClicked] = useState({});
   const [isFriend, setIsFriend] = useState(false);
   const navigate = useNavigate()
@@ -36,7 +37,8 @@ export const User = () => {
 
   const eliminateFriend = async (user_name) => {
     console.log(user_name)
-    const res = await axios.delete("/auth/acceptFriend/" + user._id, {data: {friend_name: user_name}})
+    const res = await axios.delete("/auth/deleteFriend/" + user._id, {data: {friend_name: user_name}})
+    dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
     setIsFriend(false);
     fetchUser();
   }

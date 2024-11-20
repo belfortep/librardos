@@ -25,7 +25,7 @@ router.put("/acceptFriend/:id", verifyUser, accepFriendRequest)
 router.put("/block/:id", verifyUser, blockUser)
 router.put("/premium/:id", verifyUser, updateUserSubscription)
 
-router.delete("/acceptFriend/:id", verifyUser, deleteFriend)
+router.delete("/deleteFriend/:id", verifyUser, deleteFriend)
 
 router.put("/acceptModeratorRequest/:id", verifyUser, accepModeratorRequest)
 
