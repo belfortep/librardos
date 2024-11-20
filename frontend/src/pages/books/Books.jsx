@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Footer } from "../../components/Footer/Footer";
 import Moment from "react-moment";
 import moment from "moment";
 import { AuthContext } from "../../context/AuthContext";
@@ -16,6 +15,9 @@ export const Books = () => {
   const [genderToSearch, setGenderToSearch] = useState(""); // Estado para el término de búsqueda
   const [starsToSearch, setStarsToSearch] = useState(""); // Estado para el término de búsqueda
   const [favoriteBooks, setFavoriteBooks] = useState([]);
+
+  const [writerCheckbox, setWriterCheckbox] = useState(false);
+  const [genderCheckbox, setGenderCheckbox] = useState(false);
 
   const [books, setBooks] = useState([]);
   const { user } = useContext(AuthContext);
@@ -65,6 +67,16 @@ export const Books = () => {
     (starsToSearch === "" ? true : calculateAverageScore(book) === Number(starsToSearch))
   );
 
+  
+  const handleImgOnClick = (book) => {
+    if (writerCheckbox) {
+      setWriterToSearch(book.writer);
+    } 
+
+    if (genderCheckbox) {
+      setGenderToSearch(book.gender);
+    } 
+  };
 
   return (
     <>
@@ -103,6 +115,24 @@ export const Books = () => {
               onChange={(e) => setStarsToSearch(e.target.value)}
               className="search-input"
             />
+
+            <label>
+              <input
+                type="checkbox"
+                checked={writerCheckbox}
+                onChange={(e) => setWriterCheckbox(e.target.checked)}
+              />
+              Filtrar por autor
+            </label>         
+            <label>
+              <input
+                type="checkbox"
+                checked={genderCheckbox}
+                onChange={(e) => setGenderCheckbox(e.target.checked)}
+              />
+              Filtrar por genero
+            </label>
+
             <div className="sort-container">
               <label htmlFor="sort">Ordenar por:</label>
               <select
@@ -198,7 +228,7 @@ export const Books = () => {
                         />
                       </li>
                       <li style={{textAlign:"center"}}>
-                        <img onDoubleClick={() => setWriterToSearch(book.writer)} onClick={() => setGenderToSearch(book.gender)} src={book.image} alt={book.title} className="book-image" style={{ width: "25%", cursor:"pointer" }} />
+                        <img onClick={() => handleImgOnClick(book)} src={book.image} alt={book.title} className="book-image" style={{ width: "25%", cursor:"pointer" }} />
                       </li>
                     </div>
                     )
