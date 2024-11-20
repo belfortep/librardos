@@ -26,7 +26,8 @@ export const User = () => {
       setUserClicked(res.data);
       if (res.data?.blocked_users?.includes(user._id) || user?.blocked_users?.includes(res.data._id)) {
         navigate("/")
-      }
+      } 
+      
       setIsFriend(res.data?.friends.includes(user.username))
     } else {
 
@@ -60,9 +61,9 @@ export const User = () => {
             <div className="row mb-4">
   <div className="col-md-8">
     <ul className="list-group list-group-flush">
-      {userClicked.privacy_level < 2 ? <li className="list-group-item">Email: {userClicked.email}</li> : ""}
-      {userClicked.privacy_level < 1 ? <li className="list-group-item">Dirección: {userClicked.address}</li> : ""}
-      {userClicked.privacy_level < 1 ? <li className="list-group-item">
+      {userClicked.privacy_level < 2 || isFriend ? <li className="list-group-item">Email: {userClicked.email}</li> : ""}
+      {userClicked.privacy_level < 1 || isFriend ? <li className="list-group-item">Dirección: {userClicked.address}</li> : ""}
+      {userClicked.privacy_level < 1 || isFriend ? <li className="list-group-item">
         Fecha de nacimiento: <Moment date={moment(userClicked.birth_date)} format="DD/MM/YYYY" />
       </li> : ""}
     </ul>
@@ -89,7 +90,7 @@ export const User = () => {
                   ))}
                 </ul>
               </li>
-              {userClicked.privacy_level < 2 ? <li className="list-group-item">
+              {userClicked.privacy_level < 2 || isFriend ? <li className="list-group-item">
                 <strong>Amigos:</strong>
                 <ul>
                   {userClicked?.friends?.map((friend, index) => (
