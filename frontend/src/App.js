@@ -23,6 +23,7 @@ import './app.css'
 import './styles.css' // Make sure to import the styles for the Navbar and themes
 import { Writers } from './pages/writers/Writers';
 import PremiumCheckout from './pages/premiumCheckout/PremiumCheckout';
+import { RegisterModerator } from './pages/registerModerator/RegisterModerator';
 
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
             <Route path='/community/:id' element={<Community />} />
             <Route path="/create/:id" element={<CreateCommunities/>} />
             <Route path='/register' element={<Register />} />
+            <Route path='/registerModerator/:id' element={<RegisterModerator />} />
             <Route path='/login' element={<Login />} />
             <Route path='/:id' element={<Book />} />
             <Route path='/myBooks' element={<Favourites/>}/>

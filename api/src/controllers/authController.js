@@ -10,10 +10,15 @@ const register = async (req, res) => {
         if (user_exists) return res.status(HttpCodesEnum.BAD_REQUEST).JSON({ message: "User already exists"})
         const salt = bcrypt.genSaltSync(10);
         const hash = bcrypt.hashSync(password, salt);
+        let isAdmin = false
+        if (req.body.isAdmin) {
+            isAdmin = true
+        }
         const user = new User({
             username,
             email,
-            password: hash
+            password: hash,
+            isAdmin
         })
         await user.save();
         return res.status(HttpCodesEnum.CREATED).send('User created');
