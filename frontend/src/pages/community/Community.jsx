@@ -175,7 +175,7 @@ export const Community = () => {
             Comunidad sobre {community.bookName}. Creada el: <Moment date={moment(community.createdAt)} format="DD/MM/YYYY" />
             </div>
             <div className="card-body">
-            {isMember && (
+            {isMember || user.isAdmin ? (
               <form onSubmit={handleSubmit} className="mb-4">
                 <div className="input-group">
                   <input
@@ -192,13 +192,13 @@ export const Community = () => {
                   </button>
                 </div>
               </form>
-            )}
+            ) : ""}
             <h5 className="card-title">Mensajes</h5>
             <span onClick={handleMessagesClick} className="btn btn-link">
               {isReversed ? "Mensajes en orden de más nuevos" : "Mensajes en orden de más antiguos"}
             </span>
             <ul className="list-group list-group-flush mb-4">
-              {messages?.map((message, index) => {
+              {isMember || user.isAdmin ? messages?.map((message, index) => {
                 const messageDate = new Date(message.createdAt); // Convierte el string en un objeto Date
                 const lastLoginDate = new Date(user.updatedAt); // Convierte la fecha de inicio de sesión
                 
@@ -239,7 +239,7 @@ export const Community = () => {
               }
                 
 
-              )}
+              ) : ""}
             </ul>
             <h5 className="card-title">Miembros</h5>
             <ul className="list-group list-group-flush mb-4">
@@ -273,17 +273,17 @@ export const Community = () => {
 
           </div>
           <div className="card-footer">
-            {isMember && (
+            {isMember ? (
               <button className="btn btn-danger me-2" onClick={() => handleExit(community._id)}>
                 Salir de comunidad
               </button>
-            )}
-            {isAdmin && (
+            ) : ""}
+            {isAdmin || user.isAdmin ? (
               <button className="btn btn-danger me-2" onClick={() => deleteCommunity(community._id)}>
                 Eliminar Comunidad
               </button>
-            )}
-            {isAdmin && (
+            ) : ""}
+            {isAdmin || user.isAdmin ? (
         <>
           {!showInput ? (
             <button
@@ -317,7 +317,7 @@ export const Community = () => {
             </div>
           )}
         </>
-      )}
+      ) : ""}
           </div>
         </div>
       </div>
