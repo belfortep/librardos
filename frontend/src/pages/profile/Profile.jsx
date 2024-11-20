@@ -171,14 +171,14 @@ export const Profile = () => {
                 >
                 Invita a tus amigos
             </button>
-            { !user.isPremium && (
+            { !user.isPremium ? (
               <button
               className="btn btn-warning"
               onClick={() => navigate("/premium")}
               >
               Conviertete en usuario premium
           </button>
-            )}
+            ) : ""}
             </div>
         </div>
       </div>

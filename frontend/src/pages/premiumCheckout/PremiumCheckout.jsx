@@ -49,9 +49,9 @@ export const PremiumCheckout = () => {
                             <li className="list-group-item">
                                 <strong>Planes:</strong>
                             </li>
-                            <li className="list-group-item">Plan 1</li>
-                            <li className="list-group-item">Plan 2</li>
-                            <li className="list-group-item">Plan 3</li>
+                            <li className="list-group-item">Plan 1 - 10$</li>
+                            <li className="list-group-item">Plan 2 - 20$</li>
+                            <li className="list-group-item">Plan 3 - 25$</li>
                         </ul>
                     </div>
                     <div className="card-footer">
