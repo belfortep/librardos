@@ -218,11 +218,11 @@ export const Community = () => {
             color: textColor
           }}  key={index} className="list-group-item">
                   {message.username}: <span >{message.message}</span> - <Moment style={{color:"gray"}}  date={moment(message.createdAt)} format="DD/MM/YYYY" />
-                  {isMod && (
+                  {isMod || user.isAdmin ? (
                     <button className="btn btn-danger tachito" onClick={() => deleteMessage(message) }>
                       🗑️
                     </button>
-                  )}
+                  ) : ""}
                 </li>
                 
                 {responseMessages.filter((response) => response.father_id === message._id).map((response) => (
@@ -246,11 +246,11 @@ export const Community = () => {
               {members?.map((member, index) => (
                 <li key={index} className="list-group-item">
                   {member.username} 
-                  {isMod && (
+                  {(!isMod && user.username !== member.username) || (isAdmin && user.username !== member.username) ? (
                   <button className="btn btn-primary chico" onClick={() => inviteMod(member._id)}>
                     Hacer Moderador
                   </button>
-                  )}
+                  ) : ""}
                 </li>
               ))}
             </ul>
