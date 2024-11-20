@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const Community = require('../models/Community');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { HttpCodesEnum } = require('../enum/httpCodes');
@@ -227,6 +228,30 @@ const accepFriendRequest = async (req, res) => {
     }
 }
 
+const accepModeratorRequest = async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);    // mi propio id
+        if (!user) {
+            return res.status(HttpCodesEnum.NOT_FOUND).json({message: "Usuario no encontrado"})
+        }
+        const community_name = req.body.community_name;
+        const community = await Community.findOne({ name: community_name });
+        // const res = await axios.put("/addModerator/" + community._id, { user_id: user._id });
+
+        await community.updateOne({$push: {moderators: req.params.id}})
+
+        await user.updateOne({$pull: {pending_moderator_request: community_name}})
+
+        const new_user = await User.findById(req.params.id);
+        const {password, ...otherDetails} = new_user._doc
+
+        return res.status(HttpCodesEnum.OK).json({ details: {...otherDetails}})
+    } catch (err) {
+        return res.status(HttpCodesEnum.SERVER_INTERNAL_ERROR).json({ message: err.message });
+    }
+}
+
+
 const deleteFriend = async (req, res) => {
     try {
         const user = await User.findById(req.params.id);    // mi propio id
@@ -301,5 +326,6 @@ module.exports = {
     deleteFriend,
     getListBooks,
     updateUserSubscription,
-    blockUser
+    blockUser,
+    accepModeratorRequest
 }

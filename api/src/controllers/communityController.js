@@ -222,6 +222,48 @@ const deleteMessageToCommunity = async(req, res) => {
     }
 }
 
+const sendModeratorRequest = async (req, res) => { //En req.body va el id del usuario al que le quiero mandar la solicitud
+    try {
+        const community = await Community.findById(req.params.id);
+        if (!community) {
+            return res.status(HttpCodesEnum.NOT_FOUND).json({message: "Comunidad no encontrada"})
+        }
+        if (!community.users.includes(req.body.user_id)) {
+            return res.status(HttpCodesEnum.FORBBIDEN).json({ message: "No podes enviar solicitud de ser moderador a un usuario que no esta en la comunidad" });
+        }
+        const user_to_send_request = await User.findById(req.body.user_id);        
+        await user_to_send_request.updateOne({$push: {pending_moderator_request: community.name}})   // mi propio nombre
+
+        return res.status(HttpCodesEnum.OK).json({ message: "Solicitud enviada"})
+    } catch (err) {
+        return res.status(HttpCodesEnum.SERVER_INTERNAL_ERROR).json({ message: err.message });
+    }
+}
+
+// const addModerator = async (req, res) => {
+//     try {
+//         const community = await Community.findById(req.params.id);
+//         if (!community) {
+//             return res.status(HttpCodesEnum.NOT_FOUND).json({message: "Comunidad no encontrada"})
+//         }
+//         if (!community.users.includes(req.body.user_id)) {
+//             return res.status(HttpCodesEnum.FORBBIDEN).json({ message: "Usuario no esta en comunidad" });
+//         }
+
+//         const user = User.findById(req.body.user_id)
+//         if (!user) {
+//             return res.status(HttpCodesEnum.NOT_FOUND).json({message: "Usuario no encontrado"})
+//         }
+
+//         await community.updateOne({$pull: {moderators: req.body.user_id}})
+
+//         return res.status(HttpCodesEnum.OK).json({ details: {...otherDetails}})
+//     } catch (err) {
+//         return res.status(HttpCodesEnum.SERVER_INTERNAL_ERROR).json({ message: err.message });
+//     }
+// }
+
+
 module.exports = {
     getAllCommunities,
     createCommunity,
@@ -235,5 +277,7 @@ module.exports = {
     deleteCommunity,
     joinCommunityAsMod,
     deleteMessageToCommunity,
-    renameCommunity
+    renameCommunity,
+    sendModeratorRequest,
+    // addModerator
 }
