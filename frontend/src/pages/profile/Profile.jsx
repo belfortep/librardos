@@ -22,9 +22,11 @@ export const Profile = () => {
     dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
   };
 
-  const acceptModeration = async (mod_request) => {
-    const res = await axios.put("/auth/acceptModeratorRequest/" + user._id, { mod_request: mod_request });
+  const acceptModeration = async (community_name) => {
+    console.log("VOy a haceptar solicitud de moderacion")
+    const res = await axios.put("/auth/acceptModeratorRequest/" + user._id, { community_name: community_name });
     dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
+    console.log(res.data)
   };
 
   const getCommunities = async () => {
@@ -150,10 +152,10 @@ export const Profile = () => {
               <li className="list-group-item">
                 <strong>Solicitudes de moderacion:</strong>
                 <ul>
-                  {user?.pending_moderator_request?.map((mod_request, index) => (
+                  {user?.pending_moderator_request?.map((community_name, index) => (
                     <li key={index}>
-                      <button className="btn btn-primary" onClick={() => acceptModeration(mod_request)}>
-                        {mod_request}
+                      <button className="btn btn-primary" onClick={() => acceptModeration(community_name)}>
+                        {community_name}
                       </button>
                     </li>
                   ))}

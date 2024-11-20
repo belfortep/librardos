@@ -49,7 +49,7 @@ export const Community = () => {
   };
 
   const inviteMod = async (invitedId) => {
-    await axios.post("/api/community/sendModeratorRequest/" + params.id, {userId: invitedId});
+    await axios.put("/api/community/sendModeratorRequest/" + params.id, {user_id: invitedId});
   }
 
   const handleExit = async (id) => {

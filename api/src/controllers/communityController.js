@@ -240,28 +240,28 @@ const sendModeratorRequest = async (req, res) => { //En req.body va el id del us
     }
 }
 
-const addModerator = async (req, res) => {
-    try {
-        const community = await Community.findById(req.params.id);
-        if (!community) {
-            return res.status(HttpCodesEnum.NOT_FOUND).json({message: "Comunidad no encontrada"})
-        }
-        if (!community.users.includes(req.body.user_id)) {
-            return res.status(HttpCodesEnum.FORBBIDEN).json({ message: "Usuario no esta en comunidad" });
-        }
+// const addModerator = async (req, res) => {
+//     try {
+//         const community = await Community.findById(req.params.id);
+//         if (!community) {
+//             return res.status(HttpCodesEnum.NOT_FOUND).json({message: "Comunidad no encontrada"})
+//         }
+//         if (!community.users.includes(req.body.user_id)) {
+//             return res.status(HttpCodesEnum.FORBBIDEN).json({ message: "Usuario no esta en comunidad" });
+//         }
 
-        const user = User.findById(req.body.user_id)
-        if (!user) {
-            return res.status(HttpCodesEnum.NOT_FOUND).json({message: "Usuario no encontrado"})
-        }
+//         const user = User.findById(req.body.user_id)
+//         if (!user) {
+//             return res.status(HttpCodesEnum.NOT_FOUND).json({message: "Usuario no encontrado"})
+//         }
 
-        await community.updateOne({$pull: {moderators: req.body.user_id}})
+//         await community.updateOne({$pull: {moderators: req.body.user_id}})
 
-        return res.status(HttpCodesEnum.OK).json({ details: {...otherDetails}})
-    } catch (err) {
-        return res.status(HttpCodesEnum.SERVER_INTERNAL_ERROR).json({ message: err.message });
-    }
-}
+//         return res.status(HttpCodesEnum.OK).json({ details: {...otherDetails}})
+//     } catch (err) {
+//         return res.status(HttpCodesEnum.SERVER_INTERNAL_ERROR).json({ message: err.message });
+//     }
+// }
 
 
 module.exports = {
@@ -279,5 +279,5 @@ module.exports = {
     deleteMessageToCommunity,
     renameCommunity,
     sendModeratorRequest,
-    addModerator
+    // addModerator
 }

@@ -236,7 +236,14 @@ const accepModeratorRequest = async (req, res) => {
         }
         const community_name = req.body.community_name;
         const community = await Community.findOne({ name: community_name });
-        const res = await axios.put("/addModerator/" + community._id, { user_id: user._id });
+        // const res = await axios.put("/addModerator/" + community._id, { user_id: user._id });
+
+        await community.updateOne({$push: {moderators: req.params.id}})
+
+        await user.updateOne({$pull: {pending_moderator_request: community_name}})
+
+        const new_user = await User.findById(req.params.id);
+        const {password, ...otherDetails} = new_user._doc
 
         return res.status(HttpCodesEnum.OK).json({ details: {...otherDetails}})
     } catch (err) {
