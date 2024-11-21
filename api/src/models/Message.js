@@ -10,6 +10,10 @@ const MessageSchema = new mongoose.Schema({
     father_id: {
         type: String,
         default: undefined
+    },
+    spam: {
+        type: Boolean,
+        default: false
     }
 }, {
     timestamps: true

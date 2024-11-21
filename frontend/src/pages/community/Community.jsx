@@ -70,6 +70,16 @@ export const Community = () => {
     await fetchCommunity()
   }
 
+  const setSpam = async (message) => {
+    const id_msg = message._id;
+    const spam = !message.spam
+    await axios.put("/api/message/" + id_msg, {spam: spam});
+
+    await fetchCommunity()
+  }
+
+  
+
 
   const modifyCommunityName = async (id) => {
     // const newName = prompt("Ingrese el nuevo nombre de la comunidad:");
@@ -179,6 +189,14 @@ export const Community = () => {
   }
 }
 
+const getMessageColor = (message) => {
+  if (message.spam) {
+    return "red"
+  } else {
+    return "black"
+  }
+}
+
   useEffect(()=>{
     if(user){
         fetchCommunity();
@@ -236,10 +254,15 @@ export const Community = () => {
             cursor: "pointer",
             color: textColor
           }}  key={index} className="list-group-item">
-                 <span style={{color: getColor(message.username) }}>{message.username}</span>: <span >{message.message}</span> - <Moment style={{color:"gray"}}  date={moment(message.createdAt)} format="DD/MM/YYYY" />
+                 <span style={{color: getColor(message.username) }}>{message.username}</span>: <span style={{color: getMessageColor(message)}} >{message.message}</span> - <Moment style={{color:"gray"}}  date={moment(message.createdAt)} format="DD/MM/YYYY" />
                   {isMod || user.isAdmin ? (
                     <button className="btn btn-danger tachito" onClick={() => deleteMessage(message) }>
                       🗑️
+                    </button>
+                  ) : ""}
+                  {isMod || user.isAdmin ? (
+                    <button className="btn btn-danger tachito" onClick={() => setSpam(message) }>
+                      👻
                     </button>
                   ) : ""}
                 </li>
