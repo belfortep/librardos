@@ -40,8 +40,8 @@ export const Profile = () => {
     setComms(myCommunities)
   }
 
-  const premiumCheckout = async (userId) => {
-    const res = await axios.put("/auth/premium/" + user._id, {userId: user._id});
+  const premiumUnsuscribe = async () => {
+    const res = await axios.delete("/auth/premium/" + user._id, {data:{userId: user._id}});
     dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
   };
 
@@ -179,6 +179,14 @@ export const Profile = () => {
               Conviertete en usuario premium
           </button>
             ) : ""}
+            { user.isPremium && (
+              <button
+              className="btn btn-warning"
+              onClick={() => premiumUnsuscribe()}
+              >
+              Cancela tu subscripcion
+          </button>
+            )}
             </div>
         </div>
       </div>

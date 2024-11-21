@@ -285,6 +285,21 @@ const updateUserSubscription = async (req, res) => {
     }
 }
 
+const removeUserSubscription = async (req, res) => {
+    try {
+        const user = await User.findById(req.body.userId);    // mi propio id
+        if (!user) {
+            return res.status(HttpCodesEnum.NOT_FOUND).json({message: "Usuario no encontrado"})
+        }
+        await user.updateOne({$set: {isPremium: false}})   // nombre de mi pana
+        const new_user = await User.findById(req.body.userId);
+        const {password, ...otherDetails} = new_user._doc
+        return res.status(HttpCodesEnum.OK).json({ details: {...otherDetails}})
+    } catch (err) {
+        return res.status(HttpCodesEnum.SERVER_INTERNAL_ERROR).json({ message: err.message });
+    }
+}
+
 
 const blockUser = async (req, res) => {
     try {
@@ -327,5 +342,6 @@ module.exports = {
     getListBooks,
     updateUserSubscription,
     blockUser,
-    accepModeratorRequest
+    accepModeratorRequest,
+    removeUserSubscription
 }

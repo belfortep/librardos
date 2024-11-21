@@ -44,15 +44,15 @@ export const PremiumCheckout = () => {
                                 </ul>
                             </div>
                         </div>
-                        <h5 className="card-title">Información Adicional</h5>
+                        {/* <h5 className="card-title">Información Adicional</h5>
                         <ul className="list-group list-group-flush">
                             <li className="list-group-item">
                                 <strong>Planes:</strong>
                             </li>
-                            <li className="list-group-item">Plan 1 - 10$</li>
-                            <li className="list-group-item">Plan 2 - 20$</li>
-                            <li className="list-group-item">Plan 3 - 25$</li>
-                        </ul>
+                            <li className="list-group-item">Plan 1 - 10 U$D premium por 3 meses</li>
+                            <li className="list-group-item">Plan 2 - 15 U$D premium por 6 meses</li>
+                            <li className="list-group-item">Plan 3 - 25 U$D premium por 12 meses</li>
+                        </ul> */}
                     </div>
                     <div className="card-footer">
                         <button className="btn btn-warning" onClick={() => setShowForm(!showForm)}>
@@ -63,6 +63,18 @@ export const PremiumCheckout = () => {
                         <>
                             <div className="card-footer">
                                 <form>
+                                    <div className="mb-3">
+                                        <label htmlFor="plan" className="form-label">Selecciona un Plan</label>
+                                        <select 
+                                            className="form-select" 
+                                            id="plan" 
+                                            onChange={(e) => setShowForm(showForm)}
+                                        >
+                                            <option value="10">Plan 1 - 10 U$D premium por 3 meses</option>
+                                            <option value="15">Plan 2 - 15 U$D premium por 6 meses</option>
+                                            <option value="25">Plan 3 - 25 U$D premium por 12 meses</option>
+                                        </select>
+                                    </div>
                                     <div className="mb-3">
                                         <label htmlFor="cardNumber" className="form-label">Número de Tarjeta</label>
                                         <input 
