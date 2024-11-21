@@ -160,6 +160,25 @@ export const Community = () => {
 
   };
 
+  const getColor = (username) => {
+    const usuario = members.find((u) => u.username === username);
+    console.log(usuario)
+  if (!usuario) {
+    return "Usuario no encontrado";
+  }
+
+  switch (usuario.level) {
+    case 0:
+      return "black";
+    case 1:
+      return "green";
+    case 2:
+      return "red";
+    default:
+      return "black";
+  }
+}
+
   useEffect(()=>{
     if(user){
         fetchCommunity();
@@ -217,7 +236,7 @@ export const Community = () => {
             cursor: "pointer",
             color: textColor
           }}  key={index} className="list-group-item">
-                  {message.username}: <span >{message.message}</span> - <Moment style={{color:"gray"}}  date={moment(message.createdAt)} format="DD/MM/YYYY" />
+                 <span style={{color: getColor(message.username) }}>{message.username}</span>: <span >{message.message}</span> - <Moment style={{color:"gray"}}  date={moment(message.createdAt)} format="DD/MM/YYYY" />
                   {isMod || user.isAdmin ? (
                     <button className="btn btn-danger tachito" onClick={() => deleteMessage(message) }>
                       🗑️
@@ -227,7 +246,7 @@ export const Community = () => {
                 
                 {responseMessages.filter((response) => response.father_id === message._id).map((response) => (
                   <li key={index} className="list-group-item" style={{ marginLeft: "25px" }}>
-                  {response.username}: <span>{response.message}</span> - <Moment style={{color:"gray"}}  date={moment(response.createdAt)} format="DD/MM/YYYY" />
+                   <span style={{color: getColor(response.username) }}>{response.username}</span>: <span>{response.message}</span> - <Moment style={{color:"gray"}}  date={moment(response.createdAt)} format="DD/MM/YYYY" />
                 </li>
                 ))}
                 </>
@@ -245,7 +264,7 @@ export const Community = () => {
             <ul className="list-group list-group-flush mb-4">
               {members?.map((member, index) => (
                 <li key={index} className="list-group-item">
-                  {member.username} 
+                  <span style={{color: getColor(member.username) }}>{member.username}</span>
                   {(!isMod && user.username !== member.username) || (isAdmin && user.username !== member.username) ? (
                   <button className="btn btn-primary chico" onClick={() => inviteMod(member._id)}>
                     Hacer Moderador

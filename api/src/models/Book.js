@@ -41,7 +41,7 @@ const BookSchema = new mongoose.Schema({
         type: String,
         required: false,
     },
-    // TODO, deberiamos crear un modelo "mensaje" y guardar las ids de estos, por ahora solo guardamos texto
+
     comments: {
         type: Array,
         default: []

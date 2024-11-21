@@ -11,6 +11,7 @@ import moment from 'moment';
 export const User = () => {
   const {user} = useContext(AuthContext);
   const params = useParams()
+  const [level, setLevel] = useState(user.level);
   const { loading, error, dispatch } = useContext(AuthContext);
   const [userClicked, setUserClicked] = useState({});
   const [isFriend, setIsFriend] = useState(false);
@@ -42,6 +43,12 @@ export const User = () => {
     setIsFriend(false);
     fetchUser();
   }
+
+  const handleSecurityChange = async (event) => {
+    setLevel(Number(event.target.value)); // Convertir a número para usarlo correctamente
+    await axios.put("/auth/user/" + params.id, {level: event.target.value})
+    
+  };
 
   useEffect(()=>{
     if(user){
@@ -115,6 +122,17 @@ export const User = () => {
               >
                 Eliminar amigo
             </button>  
+            )}
+            {user.isAdmin && (
+            <select
+            id="security"
+            value={level}
+            onChange={handleSecurityChange}
+          >
+            <option value={0}>Comportamiento normal</option>
+            <option value={1}>Buen comportamiento</option>
+            <option value={2}>Mal comportamiento</option>
+          </select>
             )}
           </div>
         </div>

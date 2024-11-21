@@ -1,6 +1,6 @@
 const Router = require('express')
 const router = Router();
-const { getAllBooks, getBookById, addBookToFavoriteById, addBookToReadList, addBookToToReadList, addBookToReadingList, scoreBook, addCommentToBook, addBookToPersonalList } = require('../controllers/bookController');
+const { getAllBooks, getBookById, addBookToFavoriteById, addBookToReadList, addBookToToReadList, addBookToReadingList, scoreBook, addCommentToBook, addBookToPersonalList, deleteCommentFromBook } = require('../controllers/bookController');
 const { verifyUser } = require('../util/verifyToken');
 
 
@@ -14,6 +14,7 @@ router.post('/myBookLists/:id', verifyUser, addBookToPersonalList);
 router.post("/message/:id", verifyUser, addCommentToBook);
 router.post("/scoreBooks/:id", verifyUser, scoreBook);
 
+router.put("/message/:id", verifyUser, deleteCommentFromBook)
 router.get('/:id', verifyUser, getBookById);
 
 module.exports = router

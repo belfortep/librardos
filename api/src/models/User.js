@@ -93,6 +93,10 @@ const UserSchema = new mongoose.Schema({
     communities: {
         type: Array,
         default: []
+    },
+    level: {
+        type: Number,
+        default: 0
     }
 
 }, {

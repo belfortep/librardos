@@ -187,6 +187,30 @@ const addCommentToBook = async (req, res) => {
     }
 }
 
+const deleteCommentFromBook = async (req, res) => {
+    console.log("Intentando eliminar un mensaje...");
+    try {
+        const book = await Book.findById(req.params.id);
+        if (!book) {
+            return res.status(HttpCodesEnum.NOT_FOUND).json({message: "Libro no encontrado"})
+        }
+        console.log("Book encontrado, voy a buscar mensajito");
+        console.log(book.comments)
+        
+        if (!book.comments.includes(req.body.message_id)) {
+            return res.status(HttpCodesEnum.NOT_FOUND).json({message: "Mensaje no encontrado"})
+        }
+        const msj = await Message.findById(req.body.message_id)
+        await book.updateOne({$pull: {comments: msj._id}})
+        return res.status(HttpCodesEnum.OK).json("Mensaje eliminado")
+    } catch (err) {
+        console.error("Error al eliminar el mensaje:", err.message);
+        return res
+            .status(HttpCodesEnum.SERVER_INTERNAL_ERROR).json({ message: err.message });
+    }
+}
+
+
 module.exports = {
     getBookById,
     getAllBooks,
@@ -196,5 +220,6 @@ module.exports = {
     addBookToToReadList,
     scoreBook,
     addCommentToBook,
-    addBookToPersonalList
+    addBookToPersonalList,
+    deleteCommentFromBook
 }

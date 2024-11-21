@@ -68,7 +68,7 @@ export const Book = () => {
     let res = await axios.get("/api/book/" + params.id);
     const api_messages = []
     if (res.data !== null) {
-      console.log(res.data)
+  
       for (const message_id of res.data.comments) {
         const response = await axios.get("/api/message/" + message_id)
         api_messages.push(response.data)
@@ -80,6 +80,12 @@ export const Book = () => {
     }
 
   };
+
+  const deleteMessage = async (message) => {
+    const id_msg = message._id;
+    await axios.put("/api/book/message/" + params.id, {message_id: id_msg});
+    await fetchBook()
+  }
 
   useEffect(()=>{
     
@@ -124,6 +130,12 @@ export const Book = () => {
               {messages?.map((message, index) => (
                 <li key={index} className="list-group-item">
                   {message.username}: <span >{message.message}</span> - <Moment style={{color:"gray"}}  date={moment(message.createdAt)} format="DD/MM/YYYY" />
+                  {user.isAdmin ? (
+                    <button className="btn btn-danger tachito" onClick={() => deleteMessage(message) }>
+                      🗑️
+                    </button>
+                  ) : ""}
+                
                 </li>
               ))}
             </ul>
