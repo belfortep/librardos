@@ -84,7 +84,7 @@ li{
 .btn.btn-danger.tachito{
   margin-left: 6px;
   background-color: white;
-  color: white;
+  color: red;
   font-size: 12px;
   float: right;
 }

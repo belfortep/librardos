@@ -27,7 +27,7 @@ export const Community = () => {
   const params = useParams()
   const navigate = useNavigate();
 
-  const [isReversed, setIsReversed] = useState(false);
+  const [isReversed, setIsReversed] = useState(true);
 
   const handleMessagesClick = () => {
     setIsReversed((prev) => !prev);
@@ -179,13 +179,13 @@ export const Community = () => {
 
   switch (usuario.level) {
     case 0:
-      return "black";
+      return "black"; // Usuario estandar
     case 1:
-      return "green";
+      return "green"; // Moderador
     case 2:
-      return "red";
+      return "red"; // Admin
     default:
-      return "black";
+      return "black"; // Usuario estandar
   }
 }
 
@@ -232,7 +232,7 @@ const getMessageColor = (message) => {
             ) : ""}
             <h5 className="card-title">Mensajes</h5>
             <span onClick={handleMessagesClick} className="btn btn-link">
-              {isReversed ? "Mensajes en orden de más nuevos" : "Mensajes en orden de más antiguos"}
+              {isReversed ? "Mensajes en orden de más antiguos" : "Mensajes en orden de más nuevos"}
             </span>
             <ul className="list-group list-group-flush mb-4">
               {isMember || user.isAdmin ? messages?.map((message, index) => {
@@ -243,7 +243,7 @@ const getMessageColor = (message) => {
                 const messageDatePlus5Min = new Date(messageDate.getTime() + 5 * 60 * 1000);
                 
                 // Determina el color según la comparación
-                const textColor = messageDatePlus5Min > lastLoginDate ? 'red' : 'black';
+                const textColor = messageDatePlus5Min > lastLoginDate ? 'blue' : 'black';
                 return (
 
                   <>
@@ -262,7 +262,7 @@ const getMessageColor = (message) => {
                   ) : ""}
                   {isMod || user.isAdmin ? (
                     <button className="btn btn-danger tachito" onClick={() => setSpam(message) }>
-                      👻
+                      Spam
                     </button>
                   ) : ""}
                 </li>
