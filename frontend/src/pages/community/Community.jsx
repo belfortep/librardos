@@ -173,19 +173,38 @@ export const Community = () => {
   const getColor = (username) => {
     const usuario = members.find((u) => u.username === username);
     console.log(usuario)
+    if (!usuario) {
+      return "Usuario no encontrado";
+    }
+
+    switch (usuario.level) {
+      case 0:
+        return "black"; // Usuario estandar
+      case 1:
+        return "black"; // Moderador
+      case 2:
+        return "black"; // Admin
+      default:
+        return "black"; // Usuario estandar
+    }
+}
+
+const getEmoji = (username) => {
+  const usuario = members.find((u) => u.username === username);
+  console.log(usuario)
   if (!usuario) {
-    return "Usuario no encontrado";
+    return "";
   }
 
   switch (usuario.level) {
     case 0:
-      return "black"; // Usuario estandar
+      return ""; // Usuario estandar
     case 1:
-      return "green"; // Moderador
+      return " ⚙️"; // Moderador
     case 2:
-      return "red"; // Admin
+      return " 👑"; // Admin
     default:
-      return "black"; // Usuario estandar
+      return ""; // Usuario estandar
   }
 }
 
@@ -254,7 +273,7 @@ const getMessageColor = (message) => {
             cursor: "pointer",
             color: textColor
           }}  key={index} className="list-group-item">
-                 <span style={{color: getColor(message.username) }}>{message.username}</span>: <span style={{color: getMessageColor(message)}} >{message.message}</span> - <Moment style={{color:"gray"}}  date={moment(message.createdAt)} format="DD/MM/YYYY" />
+                 <span style={{color: getColor(message.username) }}>{message.username + getEmoji(message.username)}</span>: <span style={{color: getMessageColor(message)}} >{message.message}</span> - <Moment style={{color:"gray"}}  date={moment(message.createdAt)} format="DD/MM/YYYY" />
                   {isMod || user.isAdmin ? (
                     <button className="btn btn-danger tachito" onClick={() => deleteMessage(message) }>
                       🗑️
@@ -269,7 +288,7 @@ const getMessageColor = (message) => {
                 
                 {responseMessages.filter((response) => response.father_id === message._id).map((response) => (
                   <li key={index} className="list-group-item" style={{ marginLeft: "25px" }}>
-                   <span style={{color: getColor(response.username) }}>{response.username}</span>: <span>{response.message}</span> - <Moment style={{color:"gray"}}  date={moment(response.createdAt)} format="DD/MM/YYYY" />
+                   <span style={{color: getColor(response.username) }}>{response.username + getEmoji(response.username)}</span>: <span>{response.message}</span> - <Moment style={{color:"gray"}}  date={moment(response.createdAt)} format="DD/MM/YYYY" />
                 </li>
                 ))}
                 </>
@@ -287,7 +306,7 @@ const getMessageColor = (message) => {
             <ul className="list-group list-group-flush mb-4">
               {members?.map((member, index) => (
                 <li key={index} className="list-group-item">
-                  <span style={{color: getColor(member.username) }}>{member.username}</span>
+                  <span style={{color: getColor(member.username) }}>{member.username + getEmoji(member.username)}</span>
                   {(!isMod && user.username !== member.username) || (isAdmin && user.username !== member.username) ? (
                   <button className="btn btn-primary chico" onClick={() => inviteMod(member._id)}>
                     Hacer Moderador
