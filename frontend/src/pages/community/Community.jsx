@@ -208,11 +208,11 @@ const getEmoji = (username) => {
   }
 }
 
-const getMessageColor = (message) => {
+const getMessageColor = (message, color) => {
   if (message.spam) {
     return "red"
   } else {
-    return "black"
+    return color
   }
 }
 
@@ -273,7 +273,7 @@ const getMessageColor = (message) => {
             cursor: "pointer",
             color: textColor
           }}  key={index} className="list-group-item">
-                 <span style={{color: getColor(message.username) }}>{message.username + getEmoji(message.username)}</span>: <span style={{color: getMessageColor(message)}} >{message.message}</span> - <Moment style={{color:"gray"}}  date={moment(message.createdAt)} format="DD/MM/YYYY" />
+                 <span style={{color: getColor(message.username) }}>{message.username + getEmoji(message.username)}</span>: <span style={{color: getMessageColor(message, textColor)}} >{message.message}</span> - <Moment style={{color:"gray"}}  date={moment(message.createdAt)} format="DD/MM/YYYY" />
                   {isMod || user.isAdmin ? (
                     <button className="btn btn-danger tachito" onClick={() => deleteMessage(message) }>
                       🗑️
