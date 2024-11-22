@@ -16,6 +16,18 @@ export const Navbar = () => {
     dispatch({type: 'LOGOUT'});
     navigate('/login');
   }
+
+  const getEmoji = (level) => {
+    switch (level) {
+      case 0:
+        return ""; // Usuario estandar
+      case 2:
+        return " 👑"; // Admin
+      default:
+        return ""; // Usuario estandar
+    }
+  }
+
   return (
     <>
     {user ? <nav className="navbar">
@@ -61,10 +73,14 @@ export const Navbar = () => {
           </button>
 
           <div className="user-profile">
+            {/* if (user.isPremium) {
+              <span className="premium-badge">
+                  <Link to={'/profile'}>{user.username + getEmoji(user.level)} </Link>
+              </span>
+            } */}
             <span className="username">
-              <Link to={'/profile'}>{user.username} </Link>
+              <Link to={'/profile'} style={{ color: user.isPremium ? "gold" : "blue" }}>{user.username + getEmoji(user.level)}</Link>
             </span>
-
             <div className="avatar">
               <img src={user.photo_url ? user.photo_url : "https://i.pinimg.com/736x/c0/27/be/c027bec07c2dc08b9df60921dfd539bd.jpg"} alt="Profile picture"/>
             </div>
