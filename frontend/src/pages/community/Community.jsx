@@ -51,8 +51,8 @@ export const Community = () => {
   const inviteMod = async (invitedId) => {
     await axios.put("/api/community/sendModeratorRequest/" + params.id, {user_id: invitedId});
   }
-  const deleteFromCommunity = async (id) => {
-    // await axios.post("/api/community/delete/" + params.id, { id: id });
+  const deleteFromCommunity = async (userId) => {
+    await axios.post("/api/community/exit/" + params.id, { id: userId });
     await fetchCommunity()
   }
 

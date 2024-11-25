@@ -132,7 +132,7 @@ const exitCommunity = async (req, res) => {
             await community.updateOne({$pull: {moderators: req.body.id}})
         }
 
-        return res.status(HttpCodesEnum.OK).json("Unido a comunidad")
+        return res.status(HttpCodesEnum.OK).json("Eliminado de comunidad")
     } catch (err) {
         return res.status(HttpCodesEnum.SERVER_INTERNAL_ERROR).json({ message: err.message });
     }
