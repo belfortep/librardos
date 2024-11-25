@@ -78,7 +78,14 @@ export const Community = () => {
     await fetchCommunity()
   }
 
-  
+  const setPingMsg = async (message) => {
+    const id_msg = message._id;
+    const spam = !message.spam
+    await axios.put("/api/message/" + id_msg, {spam: spam});
+
+    await fetchCommunity()
+  }
+
 
 
   const modifyCommunityName = async (id) => {
@@ -282,6 +289,11 @@ const getMessageColor = (message, color) => {
                   {isMod || user.isAdmin ? (
                     <button className="btn btn-danger tachito" onClick={() => setSpam(message) }>
                       Spam
+                    </button>
+                  ) : ""}
+                  {isMod || user.isAdmin ? (
+                    <button className="btn btn-msg fijar" onClick={() => setPingMsg(message) }>
+                      Fijar msj 📌
                     </button>
                   ) : ""}
                 </li>
