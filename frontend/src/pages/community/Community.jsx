@@ -264,6 +264,25 @@ const getMessageColor = (message, color) => {
                 </div>
               </form>
             ) : ""}
+            <h5 className="card-title">Mensajes Destacados</h5>
+            <ul className="list-group list-group-flush mb-4">
+              {messages?.filter((message) => message.ping).map((message, index) => {
+                const messageDate = new Date(message.createdAt); // Convierte el string en un objeto Date
+                const lastLoginDate = new Date(user.updatedAt); // Convierte la fecha de inicio de sesión
+
+                // Sumar 5 minutos (300,000 ms) a la fecha de creación del mensaje
+                const messageDatePlus5Min = new Date(messageDate.getTime() + 5 * 60 * 1000);
+
+                // Determina el color según la comparación
+                const textColor = messageDatePlus5Min > lastLoginDate ? 'blue' : 'black';
+                return (
+                  <li key={index} className="list-group-item" style={{ padding: "10px", marginBottom: "10px", cursor: "pointer", color: textColor }}>
+                    <span style={{color: getColor(message.username) }}>{isPinged(message) + message.username + getEmoji(message.username)}</span>: <span style={{color: getMessageColor(message, textColor)}} >{message.message}</span> - <Moment style={{color:"gray"}}  date={moment(message.createdAt)} format="DD/MM/YYYY" />
+                  </li>
+                )
+              })}
+            </ul>
+
             <h5 className="card-title">Mensajes</h5>
             <span onClick={handleMessagesClick} className="btn btn-link">
               {isReversed ? "Mensajes en orden de más antiguos" : "Mensajes en orden de más nuevos"}
