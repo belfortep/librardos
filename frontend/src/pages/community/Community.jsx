@@ -80,8 +80,8 @@ export const Community = () => {
 
   const setPingMsg = async (message) => {
     const id_msg = message._id;
-    const spam = !message.spam
-    await axios.put("/api/message/" + id_msg, {spam: spam});
+    const ping = !message.ping
+    await axios.put("/api/message/" + id_msg, {ping: ping});
 
     await fetchCommunity()
   }
@@ -215,6 +215,14 @@ const getEmoji = (username) => {
   }
 }
 
+const isPinged = (message) => {
+  if (message.ping) {
+    return "📌 ";
+  } else {
+    return "";
+  }
+}
+
 const getMessageColor = (message, color) => {
   if (message.spam) {
     return "red"
@@ -280,7 +288,7 @@ const getMessageColor = (message, color) => {
             cursor: "pointer",
             color: textColor
           }}  key={index} className="list-group-item">
-                 <span style={{color: getColor(message.username) }}>{message.username + getEmoji(message.username)}</span>: <span style={{color: getMessageColor(message, textColor)}} >{message.message}</span> - <Moment style={{color:"gray"}}  date={moment(message.createdAt)} format="DD/MM/YYYY" />
+                 <span style={{color: getColor(message.username) }}>{isPinged(message) + message.username + getEmoji(message.username)}</span>: <span style={{color: getMessageColor(message, textColor)}} >{message.message}</span> - <Moment style={{color:"gray"}}  date={moment(message.createdAt)} format="DD/MM/YYYY" />
                   {isMod || user.isAdmin ? (
                     <button className="btn btn-danger tachito" onClick={() => deleteMessage(message) }>
                       🗑️
