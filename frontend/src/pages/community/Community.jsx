@@ -51,6 +51,10 @@ export const Community = () => {
   const inviteMod = async (invitedId) => {
     await axios.put("/api/community/sendModeratorRequest/" + params.id, {user_id: invitedId});
   }
+  const deleteFromCommunity = async (userId) => {
+    await axios.post("/api/community/exit/" + params.id, { id: userId });
+    await fetchCommunity()
+  }
 
   const handleExit = async (id) => {
     await axios.post("/api/community/exit/" + id, { id: user._id });
@@ -349,6 +353,11 @@ const getMessageColor = (message, color) => {
                   {(!isMod && user.username !== member.username) || (isAdmin && user.username !== member.username) ? (
                   <button className="btn btn-primary chico" onClick={() => inviteMod(member._id)}>
                     Hacer Moderador
+                  </button>
+                  ) : ""}
+                  {(!isMod && user.username !== member.username) || (isAdmin && user.username !== member.username) ? (
+                  <button className="btn btn-danger chico" onClick={() => deleteFromCommunity(member._id)}>
+                    Eliminar de comunidad
                   </button>
                   ) : ""}
                 </li>

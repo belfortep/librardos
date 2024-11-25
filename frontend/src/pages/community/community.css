@@ -103,3 +103,11 @@ li{
   font-size: 12px;
   float: right;
 }
+
+.btn.btn-danger.chico{
+  margin-left: 6px;
+  font-size: 12px;
+  float: right;
+  background-color: red;
+  color:white
+}
