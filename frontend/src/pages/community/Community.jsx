@@ -243,7 +243,7 @@ const getMessageColor = (message, color) => {
           <h1 className="text-primary"> {community.name} </h1>
           <div className="card">
             <div className="card-header bg-secondary text-white">
-            Comunidad sobre {community.bookName}. Creada el: <Moment date={moment(community.createdAt)} format="DD/MM/YYYY" />
+            Comunidad sobre {community.bookName}. Creada el: <Moment date={moment(community.createdAt)} format="DD/MM/YYYY HH:mm" />
             </div>
             <div className="card-body">
             {isMember || user.isAdmin ? (
@@ -277,7 +277,7 @@ const getMessageColor = (message, color) => {
                 const textColor = messageDatePlus5Min > lastLoginDate ? 'blue' : 'black';
                 return (
                   <li key={index} className="list-group-item" style={{ padding: "10px", marginBottom: "10px", cursor: "pointer", color: textColor }}>
-                    <span style={{color: getColor(message.username) }}>{isPinged(message) + message.username + getEmoji(message.username)}</span>: <span style={{color: getMessageColor(message, textColor)}} >{message.message}</span> - <Moment style={{color:"gray"}}  date={moment(message.createdAt)} format="DD/MM/YYYY" />
+                    <span style={{color: getColor(message.username) }}>{isPinged(message) + message.username + getEmoji(message.username)}</span>: <span style={{color: getMessageColor(message, textColor)}} >{message.message}</span> - <Moment style={{color:"gray"}}  date={moment(message.createdAt)} format="DD/MM/YYYY HH:mm" />
                   </li>
                 )
               })}
@@ -307,7 +307,7 @@ const getMessageColor = (message, color) => {
             cursor: "pointer",
             color: textColor
           }}  key={index} className="list-group-item">
-                 <span style={{color: getColor(message.username) }}>{isPinged(message) + message.username + getEmoji(message.username)}</span>: <span style={{color: getMessageColor(message, textColor)}} >{message.message}</span> - <Moment style={{color:"gray"}}  date={moment(message.createdAt)} format="DD/MM/YYYY" />
+                 <span style={{color: getColor(message.username) }}>{isPinged(message) + message.username + getEmoji(message.username)}</span>: <span style={{color: getMessageColor(message, textColor)}} >{message.message}</span> - <Moment style={{color:"gray"}}  date={moment(message.createdAt)} format="DD/MM/YYYY HH:mm" />
                   {isMod || user.isAdmin ? (
                     <button className="btn btn-danger tachito" onClick={() => deleteMessage(message) }>
                       🗑️
@@ -327,7 +327,7 @@ const getMessageColor = (message, color) => {
                 
                 {responseMessages.filter((response) => response.father_id === message._id).map((response) => (
                   <li key={index} className="list-group-item" style={{ marginLeft: "25px" }}>
-                   <span style={{color: getColor(response.username) }}>{response.username + getEmoji(response.username)}</span>: <span>{response.message}</span> - <Moment style={{color:"gray"}}  date={moment(response.createdAt)} format="DD/MM/YYYY" />
+                   <span style={{color: getColor(response.username) }}>{response.username + getEmoji(response.username)}</span>: <span>{response.message}</span> - <Moment style={{color:"gray"}}  date={moment(response.createdAt)} format="DD/MM/YYYY HH:mm" />
                 </li>
                 ))}
                 </>
