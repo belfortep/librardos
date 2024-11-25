@@ -9,6 +9,8 @@ Instalar dependencias:
 - Tirar npm install en /api
 - Tirar npm install en /frontend
 - Tirar npm install lucid-react en /frontend para los iconos
+- Tirar npm install @react-oauth/google
+
 
 Correr programas:
 - Correr npm run dev en /api
