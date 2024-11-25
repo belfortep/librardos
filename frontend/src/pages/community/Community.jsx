@@ -78,7 +78,14 @@ export const Community = () => {
     await fetchCommunity()
   }
 
-  
+  const setPingMsg = async (message) => {
+    const id_msg = message._id;
+    const ping = !message.ping
+    await axios.put("/api/message/" + id_msg, {ping: ping});
+
+    await fetchCommunity()
+  }
+
 
 
   const modifyCommunityName = async (id) => {
@@ -208,6 +215,14 @@ const getEmoji = (username) => {
   }
 }
 
+const isPinged = (message) => {
+  if (message.ping) {
+    return "📌 ";
+  } else {
+    return "";
+  }
+}
+
 const getMessageColor = (message, color) => {
   if (message.spam) {
     return "red"
@@ -249,6 +264,25 @@ const getMessageColor = (message, color) => {
                 </div>
               </form>
             ) : ""}
+            <h5 className="card-title">Mensajes Destacados</h5>
+            <ul className="list-group list-group-flush mb-4">
+              {messages?.filter((message) => message.ping).map((message, index) => {
+                const messageDate = new Date(message.createdAt); // Convierte el string en un objeto Date
+                const lastLoginDate = new Date(user.updatedAt); // Convierte la fecha de inicio de sesión
+
+                // Sumar 5 minutos (300,000 ms) a la fecha de creación del mensaje
+                const messageDatePlus5Min = new Date(messageDate.getTime() + 5 * 60 * 1000);
+
+                // Determina el color según la comparación
+                const textColor = messageDatePlus5Min > lastLoginDate ? 'blue' : 'black';
+                return (
+                  <li key={index} className="list-group-item" style={{ padding: "10px", marginBottom: "10px", cursor: "pointer", color: textColor }}>
+                    <span style={{color: getColor(message.username) }}>{isPinged(message) + message.username + getEmoji(message.username)}</span>: <span style={{color: getMessageColor(message, textColor)}} >{message.message}</span> - <Moment style={{color:"gray"}}  date={moment(message.createdAt)} format="DD/MM/YYYY" />
+                  </li>
+                )
+              })}
+            </ul>
+
             <h5 className="card-title">Mensajes</h5>
             <span onClick={handleMessagesClick} className="btn btn-link">
               {isReversed ? "Mensajes en orden de más antiguos" : "Mensajes en orden de más nuevos"}
@@ -273,7 +307,7 @@ const getMessageColor = (message, color) => {
             cursor: "pointer",
             color: textColor
           }}  key={index} className="list-group-item">
-                 <span style={{color: getColor(message.username) }}>{message.username + getEmoji(message.username)}</span>: <span style={{color: getMessageColor(message, textColor)}} >{message.message}</span> - <Moment style={{color:"gray"}}  date={moment(message.createdAt)} format="DD/MM/YYYY" />
+                 <span style={{color: getColor(message.username) }}>{isPinged(message) + message.username + getEmoji(message.username)}</span>: <span style={{color: getMessageColor(message, textColor)}} >{message.message}</span> - <Moment style={{color:"gray"}}  date={moment(message.createdAt)} format="DD/MM/YYYY" />
                   {isMod || user.isAdmin ? (
                     <button className="btn btn-danger tachito" onClick={() => deleteMessage(message) }>
                       🗑️
@@ -282,6 +316,11 @@ const getMessageColor = (message, color) => {
                   {isMod || user.isAdmin ? (
                     <button className="btn btn-danger tachito" onClick={() => setSpam(message) }>
                       Spam
+                    </button>
+                  ) : ""}
+                  {isMod || user.isAdmin ? (
+                    <button className="btn btn-msg fijar" onClick={() => setPingMsg(message) }>
+                      Fijar msj 📌
                     </button>
                   ) : ""}
                 </li>

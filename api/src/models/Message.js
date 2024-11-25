@@ -14,6 +14,10 @@ const MessageSchema = new mongoose.Schema({
     spam: {
         type: Boolean,
         default: false
+    },
+    ping: {
+        type: Boolean,
+        default: false
     }
 }, {
     timestamps: true
