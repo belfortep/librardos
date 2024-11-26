@@ -4,7 +4,8 @@ import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
-
+import { GoogleLogin } from '@react-oauth/google';
+import { jwtDecode } from "jwt-decode"
 
 export const Register = () => {
   const navigate = useNavigate();
@@ -48,6 +49,15 @@ export const Register = () => {
     navigate("/login");
   };
 
+  const register = async (details) => {
+    setUser((prev) => ({username: details.name, email: details.emai, password: details.email, passwordAgain: details.email }));
+    // const userData = { username: details.name, email: details.email, password: details.email};
+    const {passwordAgain, ...userData} = user;
+    console.log(userData)
+    await axios.post("/auth/register", userData);
+    navigate("/login");
+  }
+
   return (
     <>
       <div className="login">
@@ -67,6 +77,19 @@ export const Register = () => {
               <button className="loginButton" type='submit'>Registrar</button>
               <span className="loginForgot"></span>
               <Link to={'/login/'} className="loginRegisterButton">Tienes una cuenta?</Link>
+              <div className='Login' style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '12px' }}>
+              <GoogleLogin
+                className="sign"
+                onSuccess={credentialResponse => {
+                    const details= jwtDecode(credentialResponse.credential);
+                    console.log(credentialResponse);
+                    register(details)
+                  }}
+                onError={() => {
+                    console.log('Login Failed');
+                }}
+               />
+               </div>
             </form>
           </div>
         </div>
