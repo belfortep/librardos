@@ -13,10 +13,6 @@ export const Login = () => {
     username: undefined,
     password: undefined,
   });
-  const [gCredentials, setGCredentials] = useState({
-    username: String,
-    password: String,
-  });
 
   const { loading, error, dispatch } = useContext(AuthContext);
 
@@ -29,7 +25,6 @@ export const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     dispatch({ type: "LOGIN_START" });
-    console.log(credentials)
     try {
       const res = await axios.post("/auth/login", credentials);
       dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
@@ -39,16 +34,15 @@ export const Login = () => {
     }
   };
 
-  const login = async (name, password) => {
-    setGCredentials((prev) => ({ username: name , password: password }));
-    console.log(gCredentials)
+  const login = async (credentials) => {
+    console.log(credentials)
     try {
-        const res = await axios.post("/auth/login", gCredentials);
-        dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
-        navigate('/')
-      } catch (err) {
-        dispatch({ type: "LOGIN_FAILURE", payload: err.response.data });
-      }
+      const res = await axios.post("/auth/login", credentials);
+      dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
+      navigate('/')
+    } catch (err) {
+      dispatch({ type: "LOGIN_FAILURE", payload: err.response.data });
+    }
 }
 
   return (
@@ -92,9 +86,9 @@ export const Login = () => {
             <GoogleLogin
                 className="sign"
                 onSuccess={credentialResponse => {
-                    const details= jwtDecode(credentialResponse.credential);
-                    console.log(details.name)
-                    login(details.name, details.email )
+                  const details = jwtDecode(credentialResponse.credential);
+                  const credentials = { username: details.name, password: details.email };
+                  login(credentials); // Llama a login inmediatamente
                   }}
                 onError={() => {
                     console.log('Login Failed');

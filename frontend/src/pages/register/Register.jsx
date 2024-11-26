@@ -49,12 +49,9 @@ export const Register = () => {
     navigate("/login");
   };
 
-  const register = async (details) => {
-    setUser((prev) => ({username: details.name, email: details.emai, password: details.email, passwordAgain: details.email }));
-    // const userData = { username: details.name, email: details.email, password: details.email};
-    const {passwordAgain, ...userData} = user;
-    console.log(userData)
-    await axios.post("/auth/register", userData);
+  const register = async (data) => {
+    console.log(data)
+    await axios.post("/auth/register", data);
     navigate("/login");
   }
 
@@ -82,8 +79,9 @@ export const Register = () => {
                 className="sign"
                 onSuccess={credentialResponse => {
                     const details= jwtDecode(credentialResponse.credential);
-                    console.log(credentialResponse);
-                    register(details)
+                    const data = {username: details.name, email: details.email, password: details.email }
+                    console.log(data)
+                    register(data)
                   }}
                 onError={() => {
                     console.log('Login Failed');
