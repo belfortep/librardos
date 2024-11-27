@@ -50,6 +50,16 @@ export const User = () => {
     
   };
 
+  const deleteUser = async () => {
+    await axios.delete("/auth/delete/" + userClicked._id)
+    navigate("/")
+  }
+
+  const suspendAccount = async () => {  
+    await axios.put("/auth/user/" + userClicked._id, {is_banned: true});
+    navigate("/") 
+  }
+
   useEffect(()=>{
     if(user){
       fetchUser();
@@ -123,7 +133,7 @@ export const User = () => {
                 Eliminar amigo
             </button>  
             )}
-            {user.isAdmin && (
+            {user.isAdmin ? (
             <select
             id="security"
             value={level}
@@ -133,7 +143,27 @@ export const User = () => {
             <option value={1}>Buen comportamiento</option>
             <option value={2}>Mal comportamiento</option>
           </select>
-            )}
+            ): ""}
+            {user.isAdmin ? (
+
+<select
+id="security"
+onChange={() => suspendAccount(userClicked)}
+className="btn btn-danger me-2">
+<option >Suspender una hora</option>
+<option >Suspender seis horas</option>
+<option>Suspender un día</option>
+<option >Suspender una semana</option>
+</select>
+            ): ""}
+            {user.isAdmin ? (
+            <button
+                className="btn btn-danger me-2"
+                onClick={() => deleteUser(userClicked)}
+              >
+                Eliminar usuario
+            </button>  
+            ) : ""}
           </div>
         </div>
       </div>

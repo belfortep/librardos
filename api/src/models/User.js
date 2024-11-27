@@ -97,6 +97,10 @@ const UserSchema = new mongoose.Schema({
     level: {
         type: Number,
         default: 0
+    },
+    is_banned: {
+        type: Boolean,
+        default: false
     }
 
 }, {

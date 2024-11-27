@@ -322,6 +322,19 @@ const blockUser = async (req, res) => {
     }
 }
 
+const deleteUser = async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);
+        if (!user) {
+            return res.status(HttpCodesEnum.NOT_FOUND).json({message: "Usuario no encontrado"})
+        }
+        await user.deleteOne(); // deleteOne() es un método de mongoose
+        return res.status(HttpCodesEnum.OK).json("Usuario eliminado")
+    } catch (err) {
+        return res.status(HttpCodesEnum.SERVER_INTERNAL_ERROR).json({ message: err.message });
+    }
+}
+
 module.exports = {
     register,
     login,
@@ -343,5 +356,6 @@ module.exports = {
     updateUserSubscription,
     blockUser,
     accepModeratorRequest,
-    removeUserSubscription
+    removeUserSubscription,
+    deleteUser
 }

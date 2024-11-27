@@ -24,6 +24,11 @@ export const Login = () => {
     dispatch({ type: "LOGIN_START" });
     try {
       const res = await axios.post("/auth/login", credentials);
+      if (res.data.details.is_banned) {
+        alert("Tu cuenta esta suspendida por tu mal comportamiento")
+        dispatch({type:"LOGIN_FAILURE", payload: "mal comportamiento"})
+        return
+      }
       dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
       navigate('/')
     } catch (err) {
