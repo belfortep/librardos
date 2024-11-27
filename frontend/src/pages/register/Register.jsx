@@ -75,18 +75,7 @@ export const Register = () => {
               <span className="loginForgot"></span>
               <Link to={'/login/'} className="loginRegisterButton">Tienes una cuenta?</Link>
               <div className='Login' style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '12px' }}>
-              <GoogleLogin
-                className="sign"
-                onSuccess={credentialResponse => {
-                    const details= jwtDecode(credentialResponse.credential);
-                    const data = {username: details.name, email: details.email, password: details.email }
-                    console.log(data)
-                    register(data)
-                  }}
-                onError={() => {
-                    console.log('Login Failed');
-                }}
-               />
+              
                </div>
             </form>
           </div>
