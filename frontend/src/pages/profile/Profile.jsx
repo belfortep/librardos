@@ -23,10 +23,16 @@ export const Profile = () => {
   };
 
   const acceptModeration = async (community_name) => {
-    console.log("VOy a haceptar solicitud de moderacion")
-    const res = await axios.put("/auth/acceptModeratorRequest/" + user._id, { community_name: community_name });
-    dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
-    console.log(res.data)
+    // eslint-disable-next-line no-restricted-globals
+    const userResponse = confirm("Quieres ser administrador de esta comunidad?");
+
+    if (userResponse) {
+      const res = await axios.put("/auth/acceptModeratorRequest/" + user._id, { community_name: community_name });
+      dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
+    } else {
+      const res = await axios.put("/auth/refuseModReq/" + user._id, { community_name: community_name });
+      dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
+    }
   };
 
   const getCommunities = async () => {

@@ -251,6 +251,25 @@ const accepModeratorRequest = async (req, res) => {
     }
 }
 
+const refuseModRequest = async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);    // mi propio id
+        if (!user) {
+            return res.status(HttpCodesEnum.NOT_FOUND).json({message: "Usuario no encontrado"})
+        }
+
+        const community_name = req.body.community_name;
+        await user.updateOne({$pull: {pending_moderator_request: community_name}})
+
+        const new_user = await User.findById(req.params.id);
+        const {password, ...otherDetails} = new_user._doc
+
+        return res.status(HttpCodesEnum.OK).json({ details: {...otherDetails}})
+    } catch (err) {
+        return res.status(HttpCodesEnum.SERVER_INTERNAL_ERROR).json({ message: err.message });
+    }
+}
+
 
 const deleteFriend = async (req, res) => {
     try {
@@ -357,5 +376,6 @@ module.exports = {
     blockUser,
     accepModeratorRequest,
     removeUserSubscription,
-    deleteUser
+    deleteUser,
+    refuseModRequest
 }
