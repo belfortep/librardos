@@ -4,7 +4,8 @@ import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
-
+import { GoogleLogin } from '@react-oauth/google';
+import { jwtDecode } from "jwt-decode"
 
 export const Register = () => {
   const navigate = useNavigate();
@@ -48,6 +49,12 @@ export const Register = () => {
     navigate("/login");
   };
 
+  const register = async (data) => {
+    console.log(data)
+    await axios.post("/auth/register", data);
+    navigate("/login");
+  }
+
   return (
     <>
       <div className="login">
@@ -67,6 +74,9 @@ export const Register = () => {
               <button className="loginButton" type='submit'>Registrar</button>
               <span className="loginForgot"></span>
               <Link to={'/login/'} className="loginRegisterButton">Tienes una cuenta?</Link>
+              <div className='Login' style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '12px' }}>
+              
+               </div>
             </form>
           </div>
         </div>
