@@ -60,6 +60,11 @@ export const User = () => {
     navigate("/") 
   }
 
+  const notSuspendAccount = async () => {  
+    await axios.put("/auth/user/" + userClicked._id, {is_banned: false});
+    navigate("/") 
+  }
+
   useEffect(()=>{
     if(user){
       fetchUser();
@@ -144,18 +149,27 @@ export const User = () => {
             <option value={2}>Mal comportamiento</option>
           </select>
             ): ""}
-            {user.isAdmin ? (
+            {(user.isAdmin && !userClicked.is_banned) ? (
 
-<select
-id="security"
-onChange={() => suspendAccount(userClicked)}
-className="btn btn-danger me-2">
-<option >Suspender una hora</option>
-<option >Suspender seis horas</option>
-<option>Suspender un día</option>
-<option >Suspender una semana</option>
-</select>
+                <select
+                id="security"
+                onChange={() => suspendAccount(userClicked)}
+                className="btn btn-danger me-2">
+                <option >Suspender una hora</option>
+                <option >Suspender seis horas</option>
+                <option>Suspender un día</option>
+                <option >Suspender una semana</option>
+                </select>
             ): ""}
+            {(user.isAdmin && userClicked.is_banned) ? (
+
+                <button
+                className="btn btn-secondary me-2"
+                onClick={() => notSuspendAccount(userClicked)}
+                >
+                Quitar suspension
+                </button>  
+                ): ""}
             {user.isAdmin ? (
             <button
                 className="btn btn-danger me-2"
