@@ -4,6 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import "./login.css";
 import welcomeImage from '../../images/welcomeimage.jpeg';
+import { GoogleLogin } from '@react-oauth/google';
+import { jwtDecode } from "jwt-decode"
+
 
 export const Login = () => {
   const [credentials, setCredentials] = useState({
@@ -36,6 +39,24 @@ export const Login = () => {
     }
   };
 
+  const login = async (credentials) => {
+    console.log("NASHE")
+    console.log(credentials)
+    try {
+      await axios.post("/auth/register", {password: credentials.password, username: credentials.username, email: credentials.password});
+
+    } catch (err) {
+      console.log("no pasa nada, todo tranquilo")
+    }
+    console.log("sigo")
+    try {
+      const res = await axios.post("/auth/login", credentials);
+      dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
+      navigate('/')
+    } catch (err) {
+      dispatch({ type: "LOGIN_FAILURE", payload: err.response.data });
+    }
+}
 
   return (
     <>
@@ -66,7 +87,7 @@ export const Login = () => {
                 id="password"
                 onChange={handleChange}
                 className="form-control"
-              />
+                />
                 <div className="checkbox mb-3">
                 <label>
                   <input type="checkbox" value="remember-me" /> Remember me
@@ -74,6 +95,19 @@ export const Login = () => {
               </div>
               <button disabled={loading} className="btn btn-lg btn-primary btn-block"> Login </button>
             {error && <span>{error.message}</span>}
+            <div className='Login' style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '12px' }}>
+            <GoogleLogin
+                className="sign"
+                onSuccess={credentialResponse => {
+                  const details = jwtDecode(credentialResponse.credential);
+                  const credentials = { username: details.name, password: details.email };
+                  login(credentials); // Llama a login inmediatamente
+                  }}
+                onError={() => {
+                    console.log('Login Failed');
+                }}
+            />
+          </div>
             </form>
           </div>
         </div>

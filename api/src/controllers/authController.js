@@ -8,7 +8,7 @@ const register = async (req, res) => {
     try {
         const { username, email, password } = req.body
         const user_exists = await User.findOne({ username: req.body.username });
-        if (user_exists) return res.status(HttpCodesEnum.BAD_REQUEST).JSON({ message: "User already exists"})
+        if (user_exists) return res.status(HttpCodesEnum.BAD_REQUEST).json({ message: "User already exists"})
         const salt = bcrypt.genSaltSync(10);
         const hash = bcrypt.hashSync(password, salt);
         let isAdmin = false
