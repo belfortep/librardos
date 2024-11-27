@@ -43,7 +43,7 @@ export const Login = () => {
     console.log("NASHE")
     console.log(credentials)
     try {
-      const data = {username: credentials.username, email: credentials.email, password: credentials.email }
+      const data = {username: credentials.username, email: credentials.password, password: credentials.password }
       console.log(data)
       await axios.post("/auth/register", data);
 
