@@ -7,6 +7,7 @@ import Moment from 'react-moment'
 import { AuthContext } from '../../context/AuthContext';
 import './user.css';
 import moment from 'moment';
+import emailjs from '@emailjs/browser'
 
 export const User = () => {
   const {user} = useContext(AuthContext);
@@ -47,7 +48,23 @@ export const User = () => {
   const handleSecurityChange = async (event) => {
     setLevel(Number(event.target.value)); // Convertir a número para usarlo correctamente
     await axios.put("/auth/user/" + params.id, {level: event.target.value})
-    
+    let stat;
+    switch (event.target.value) {
+      case '0':
+        stat = 'Comportamiento normal'
+        break;
+      case '1':
+        stat = 'Comportamiento bueno'
+        break;
+      case '2':
+        stat = 'Comportamiento malo'
+        break;
+      default:
+        console.log('Nivel desconocido');
+    }
+    emailjs.send(process.env.REACT_APP_SERVICE_ID, process.env.REACT_APP_TEMPLATE_ID, { email_to: userClicked.email, to_name: userClicked.username, status: stat }, {
+      publicKey: process.env.REACT_APP_PUBLIC_KEY,
+    })
   };
 
   const deleteUser = async () => {
@@ -57,11 +74,19 @@ export const User = () => {
 
   const suspendAccount = async () => {  
     await axios.put("/auth/user/" + userClicked._id, {is_banned: true});
+    const stat = 'banned'
+    emailjs.send(process.env.REACT_APP_SERVICE_ID, process.env.REACT_APP_TEMPLATE_ID, { email_to: userClicked.email, to_name: userClicked.username, status: stat }, {
+      publicKey: process.env.REACT_APP_PUBLIC_KEY,
+    })
     navigate("/") 
   }
 
   const notSuspendAccount = async () => {  
     await axios.put("/auth/user/" + userClicked._id, {is_banned: false});
+    const stat = 'unbanned'
+    emailjs.send(process.env.REACT_APP_SERVICE_ID, process.env.REACT_APP_TEMPLATE_ID, { email_to: userClicked.email, to_name: userClicked.username, status: stat }, {
+      publicKey: process.env.REACT_APP_PUBLIC_KEY,
+    })
     navigate("/") 
   }
 
@@ -137,7 +162,7 @@ export const User = () => {
               >
                 Eliminar amigo
             </button>  
-            )}
+            )} 
             {user.isAdmin ? (
             <select
             id="security"
