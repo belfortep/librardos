@@ -43,7 +43,9 @@ export const Login = () => {
     console.log("NASHE")
     console.log(credentials)
     try {
-      await axios.post("/auth/register", {password: credentials.password, username: credentials.username, email: credentials.password});
+      const data = {username: credentials.username, email: credentials.email, password: credentials.email }
+      console.log(data)
+      await axios.post("/auth/register", data);
 
     } catch (err) {
       console.log("no pasa nada, todo tranquilo")
