@@ -35,7 +35,15 @@ export const Login = () => {
   };
 
   const login = async (credentials) => {
+    console.log("NASHE")
     console.log(credentials)
+    try {
+      await axios.post("/auth/register", {password: credentials.password, username: credentials.username, email: credentials.password});
+
+    } catch (err) {
+      console.log("no pasa nada, todo tranquilo")
+    }
+    console.log("sigo")
     try {
       const res = await axios.post("/auth/login", credentials);
       dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
