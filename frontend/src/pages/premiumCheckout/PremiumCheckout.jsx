@@ -10,9 +10,18 @@ export const PremiumCheckout = () => {
     const navigate = useNavigate();
 
     const premiumCheckout = async (userId) => {
-        const res = await axios.put(`/auth/premium/${user._id}`, { userId: user._id });
-        dispatch({ type: 'LOGIN_SUCCESS', payload: res.data.details });
-        navigate("/profile");
+        // eslint-disable-next-line no-restricted-globals
+        const userResponse = confirm("Estas apunto de convertirte en premium! Procede?");
+        if (userResponse) {
+            const res = await axios.put(`/auth/premium/${user._id}`, { userId: user._id });
+            dispatch({ type: 'LOGIN_SUCCESS', payload: res.data.details });
+            navigate("/profile");
+        } else {
+            setCardNumber("")
+            setCardName("")
+            setExpiryDate("")
+            setCvv("")
+        }
     };
 
     const [showForm, setShowForm] = useState(false);

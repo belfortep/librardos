@@ -47,8 +47,14 @@ export const Profile = () => {
   }
 
   const premiumUnsuscribe = async () => {
-    const res = await axios.delete("/auth/premium/" + user._id, {data:{userId: user._id}});
-    dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
+    // eslint-disable-next-line no-restricted-globals
+    const userResponse = confirm("Espera! Ya no quieres formar parte de la red premium de librardos?");
+    if (userResponse) {
+      const res = await axios.delete("/auth/premium/" + user._id, {data:{userId: user._id}});
+      dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
+    } else {
+    }
+    
   };
 
   const handleListOfCommunities = async (friend_name) => {
