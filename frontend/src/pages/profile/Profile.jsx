@@ -14,6 +14,7 @@ export const Profile = () => {
   const { dispatch } = useContext(AuthContext);
   const [comms, setComms] = useState([]);
   const [friendCommunity, setFriendCommunity] = useState([]);
+  const [friendName, setFriendName] = useState("");
   const navigate = useNavigate();
 
   const acceptFriend = async (friend_name) => {
@@ -67,6 +68,7 @@ export const Profile = () => {
         }
       }
     }
+    setFriendName(friend_name)
     setFriendCommunity(communities_of_my_friend);
   };
 
@@ -136,7 +138,7 @@ export const Profile = () => {
               </li>
               {friendCommunity.length > 0 && (
                 <li className="list-group-item">
-                  <strong>Comunidades de mi amigo:</strong>
+                  <strong>Comunidades de mi amigo {friendName}:</strong>
                   <ul>
                     {friendCommunity.map((community, index) => (
                       <li key={index}>

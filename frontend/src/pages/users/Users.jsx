@@ -93,13 +93,14 @@ export const Users = () => {
         </Link>
         {user.username !== other_user.username ? (
           <>
-            <button
+            { !user.friends.includes(other_user.username) && ( <button
               className="btn btn-secondary"
               onClick={() => handleFriend(other_user._id)}
               style={{marginLeft:"5px"}}
             >
-              Amistad
+              Enviar solicitud de amistad
             </button>
+            )}
             <button
             style={{marginLeft:"5px"}}
               className="btn btn-danger"
