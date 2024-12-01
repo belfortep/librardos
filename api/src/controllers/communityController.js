@@ -17,7 +17,7 @@ const getAllCommunities = async (req, res) => {
 
 const createCommunity = async (req, res) => {
     try {
-        const { name, bookId, user_id } = req.body
+        const { name, bookId, user_id, type } = req.body
 
         const user = await User.findById(user_id)
         if (!user.isPremium && user.communities.length >= 3) {
@@ -31,7 +31,9 @@ const createCommunity = async (req, res) => {
             name: name,
             bookId: bookId,
             bookName: bookObj._doc.title,
-            bookGender: bookObj._doc.gender
+            bookGender: bookObj._doc.gender,
+            bookAuthor: bookObj._doc.writer,
+            type: type
         })
         await community.save();
         return res.status(HttpCodesEnum.CREATED).send(community._id);

@@ -15,15 +15,14 @@ export const Communities = () => {
   const BOOKS = 1;
   const WRITERS = 2;
   const THEMES = 3;
-  const [coms, setComs] = useState("Todas")
+  const [coms, setComs] = useState(0)
 
-  const fetchCommunities = async (type) => {
+  const fetchCommunities = async () => {
     const res = await axios.get("/api/community");
     let array = []
     console.log(res.data)
+
     
-    if (type === ALL){
-      setComs("Todas")
       for (const community of res.data) {
         let counter = 0
         for (const message of community.messages) {
@@ -36,52 +35,7 @@ export const Communities = () => {
         }
         array.push([community._id, counter])
       }
-    }
-    if (type === WRITERS){
-      setComs("Autores")
-      for (const community of res.data) {
-        let counter = 0
-        for (const message of community.messages) {
-          const msg = await axios.get("/api/message/"+ message)
-          const dateMsg = new Date(msg.data.createdAt)
-          const dateUser = new Date(user.last_time_in_community)
-          if (dateMsg > dateUser) {
-            counter += 1
-          }
-        }
-        array.push([community._id, counter])
-      }
-    }
-    if (type === BOOKS){
-      setComs("Libros")
-      for (const community of res.data) {
-        let counter = 0
-        for (const message of community.messages) {
-          const msg = await axios.get("/api/message/"+ message)
-          const dateMsg = new Date(msg.data.createdAt)
-          const dateUser = new Date(user.last_time_in_community)
-          if (dateMsg > dateUser) {
-            counter += 1
-          }
-        }
-        array.push([community._id, counter])
-      }
-    }
-    if (type === THEMES){
-      setComs("Temas")
-      for (const community of res.data) {
-        let counter = 0
-        for (const message of community.messages) {
-          const msg = await axios.get("/api/message/"+ message)
-          const dateMsg = new Date(msg.data.createdAt)
-          const dateUser = new Date(user.last_time_in_community)
-          if (dateMsg > dateUser) {
-            counter += 1
-          }
-        }
-        array.push([community._id, counter])
-      }
-    }
+    
     setCommunities(res.data)
     setAmount(array)
   }
@@ -140,7 +94,7 @@ export const Communities = () => {
 
   useEffect(() => {
     if (user) {
-      fetchCommunities(0);
+      fetchCommunities();
     }
   }, []);
 
@@ -155,15 +109,40 @@ export const Communities = () => {
             <input id="book" placeholder="book" type="text" onChange={handleBookChange} required className="loginInput" />
             <input id="gender" placeholder="gender" type="text" onChange={handleGenderChange} required className="loginInput" />
             <div className="community-filters">
-              <button onClick={() => fetchCommunities(ALL)}>Todas</button>
-              <button onClick={() => fetchCommunities(BOOKS)}>Libros</button>
-              <button onClick={() => fetchCommunities(WRITERS)}>Autores</button>
-              <button onClick={() => fetchCommunities(THEMES)}>Temas</button>
+              <button onClick={() => setComs(ALL)}>Todas</button>
+              <button onClick={() => setComs(BOOKS)}>Libros</button>
+              <button onClick={() => setComs(WRITERS)}>Autores</button>
+              <button onClick={() => setComs(THEMES)}>Géneros</button>
             </div>    
-            <h3> {coms} </h3>
+            <h3> {coms === ALL ? "Todas" : coms === BOOKS ? "Libros" : coms === WRITERS ? "Autores" : "Géneros"} </h3>
             <div className="mislibrardos-container">
               <ul className="mislibrardos-sub-container">
-                {communities.map((community,index) => (
+
+                {coms === ALL ? communities.map((community,index) => (
+                  <div className="mislibrardos-sub-container-div" key={community._id}>
+                    <li className="mislibrardos-name-container">
+                    <Link
+                          className="btn btn-secondary button-mislibrardos-update"
+                          to={"/community/" + community._id}
+                        >
+                          <span className="mislibrardos-name">
+                        {community.name} -  <span style={{color:"blue"}}>{(amountMessages.length > 0) && (amountMessages[index][0] == community._id) && (amountMessages[index][1] > 0) ? amountMessages[index][1] : ""}</span>
+                      </span>
+                        </Link>
+                      <div className="mislibrardos-button-div">
+                      { !isMember(community, user._id) ? (
+                          <button
+                          className="btn btn-danger "
+                          onClick={() => handleJoin(community._id)}
+                        >
+                          Unirse
+                        </button>
+                        ): ( <div> </div> )
+                      }  
+                      </div>
+                    </li>
+                  </div>
+                )) : communities.filter((community) => community.type === coms).map((community,index) => (
                   <div className="mislibrardos-sub-container-div" key={community._id}>
                     <li className="mislibrardos-name-container">
                     <Link

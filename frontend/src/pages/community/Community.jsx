@@ -249,7 +249,11 @@ const getMessageColor = (message, color) => {
           <h1 className="text-primary"> {community.name} </h1>
           <div className="card">
             <div className="card-header bg-secondary text-white">
-            Comunidad sobre {community.bookName}. Creada el: <Moment date={moment(community.createdAt)} format="DD/MM/YYYY HH:mm" />
+            Comunidad sobre {community.type === 1
+    ? community.bookName
+    : community.type === 3
+    ? community.bookGender
+    : community.bookAuthor}. Creada el: <Moment date={moment(community.createdAt)} format="DD/MM/YYYY HH:mm" />
             </div>
             <div className="card-body">
             {isMember || user.isAdmin ? (
