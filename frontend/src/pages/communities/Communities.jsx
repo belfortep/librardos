@@ -19,8 +19,8 @@ export const Communities = () => {
 
   const fetchCommunities = async (type) => {
     const res = await axios.get("/api/community");
-    setCommunities(res.data)
     let array = []
+    console.log(res.data)
     
     if (type === ALL){
       setComs("Todas")
@@ -82,7 +82,13 @@ export const Communities = () => {
         array.push([community._id, counter])
       }
     }
+    setCommunities(res.data)
     setAmount(array)
+  }
+
+  const isMember = (community, userId) => {
+    const array = community.users    
+    return array.includes(userId)
   }
 
   const handleTitleChange = async (e) => {
@@ -169,12 +175,15 @@ export const Communities = () => {
                       </span>
                         </Link>
                       <div className="mislibrardos-button-div">
-                        <button
+                      { !isMember(community, user._id) ? (
+                          <button
                           className="btn btn-danger "
                           onClick={() => handleJoin(community._id)}
                         >
                           Unirse
                         </button>
+                        ): ( <div> </div> )
+                      }  
                       </div>
                     </li>
                   </div>

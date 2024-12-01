@@ -53,11 +53,13 @@ export const Community = () => {
   }
   const deleteFromCommunity = async (userId) => {
     await axios.post("/api/community/exit/" + params.id, { id: userId });
+    user.communities = user.communities.filter(communityId => communityId !== params.id);
     await fetchCommunity()
   }
 
   const handleExit = async (id) => {
     await axios.post("/api/community/exit/" + id, { id: user._id });
+    user.communities = user.communities.filter(communityId => communityId !== id);
     navigate("/")
   }
 
