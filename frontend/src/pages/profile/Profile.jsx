@@ -2,7 +2,6 @@ import React, { useContext, useEffect } from 'react';
 import axios from 'axios';
 import { useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
-import { Footer } from '../../components/Footer/Footer';
 import Moment from 'react-moment';
 import { AuthContext } from '../../context/AuthContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -202,7 +201,7 @@ export const Profile = () => {
             </div>
         </div>
       </div>
-      <Footer />
+
     </>
   );
 };

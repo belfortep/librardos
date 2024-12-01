@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Footer } from "../../components/Footer/Footer";
 import { AuthContext } from "../../context/AuthContext";
 import "./communities.css";
 
@@ -144,7 +143,7 @@ export const Communities = () => {
       {user ? (
         <>
           <div className="mislibrardos-main-div">
-            <h1 className="mislibrardos-title">Librardos</h1>
+          <h1 style={{marginTop:"15px", fontSize:"48px"}} className="mislibrardos-title">Librardos</h1>
             <h2 className="mislibrardos-sub-title">Lista de comunidades</h2>
             <input id="name" placeholder="name" type="text" onChange={handleTitleChange} required className="loginInput" />
             <input id="book" placeholder="book" type="text" onChange={handleBookChange} required className="loginInput" />

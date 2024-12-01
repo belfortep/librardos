@@ -2,7 +2,6 @@ import React, { useContext } from 'react'
 import axios from 'axios'
 import { useState, useEffect } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { Footer } from '../../components/Footer/Footer'
 import Moment from 'react-moment'
 import { AuthContext } from '../../context/AuthContext';
 import './book.css';
@@ -98,8 +97,8 @@ export const Book = () => {
 
   return (
     <>
-      <h1>Libro</h1>
-      <div className="container">
+  
+      <div style={{marginTop:"30px"}} className="container">
         <div className="row">
           <div className="col-md-6">
             <div className="card mislibrardos-wrapper">
@@ -107,23 +106,24 @@ export const Book = () => {
                 {book.title}
               </div>
               <ul className="list-group list-group-flush">
-                <li className="list-group-item">Descripcion: {book.description}</li>
-                <li className="list-group-item">Editorial: {book.editorial}</li>
-                <li className="list-group-item">Genero: {book.gender}</li>
-                <li className="list-group-item">Escritor: {book.writer}</li>
-                <li className="list-group-item">Paginas: {book.num_pages}</li>
-                <li className="list-group-item">Fecha edicion: <Moment format='MM/YYYY'>{book.date_edition}</Moment></li>
-                <li className="list-group-item"><img src={book.image} alt="Book cover" /></li>
+                <li className="list-group-item">{book.description}</li>
+                <li className="list-group-item">Editorial - {book.editorial}</li>
+                <li className="list-group-item">Género - {book.gender}</li>
+                <li className="list-group-item">Escritor - {book.writer}</li>
+                <li className="list-group-item">Páginas - {book.num_pages}</li>
+                <li className="list-group-item">Fecha edición - <Moment format='MM/YYYY'>{book.date_edition}</Moment></li>
+                <li style={{marginTop:"10px" ,textAlign:"center"}} className="list-group-item"><img src={book.image} alt="Book cover" /></li>
               </ul>
             </div>
           </div>
           <div className="col-md-6">
-            <form onSubmit={handleSubmit} className="loginBox">
-              <input id="comment" value={comment} placeholder="message" type="text" onChange={handleChange} required className="loginInput" />
+            <form  onSubmit={handleSubmit} className="loginBoxSmall">
+              <input id="comment" value={comment} placeholder="comentario" type="text" onChange={handleChange} required className="loginInput" />
               <button className="loginButton" type='submit'>Enviar</button>
             </form>
+            <hr></hr>
             <h5 className="card-title">Comentarios</h5>
-            <span onClick={handleMessagesClick} className="btn btn-link">
+            <span style={{textDecoration:"none"}} onClick={handleMessagesClick} className="btn btn-link">
               {isReversed ? "Mensajes en orden de más nuevos" : "Mensajes en orden de más antiguos"}
             </span>
             <ul className="list-group list-group-flush mb-4">
@@ -139,6 +139,7 @@ export const Book = () => {
                 </li>
               ))}
             </ul>
+            <hr></hr>
             <div className="d-flex flex-column align-items-start">
               <button className='btn btn-danger mb-2' onClick={()=>handleFavorite(book._id)}>❤️</button>
               <select
@@ -165,7 +166,9 @@ export const Book = () => {
                 value={listName}
                 onChange={(e) => setListName(e.target.value)}
                 className="form-control mb-2"
+                style={{marginTop:"10px", marginBottom:"5px"}}
               />
+              
               <button className="btn btn-success" onClick={() => addBookToPersonalList(book._id)}>
                 Añadir a lista personal
               </button>
@@ -173,7 +176,7 @@ export const Book = () => {
           </div>
         </div>
       </div>
-      <Footer/>
+      
     </>
   )
 }

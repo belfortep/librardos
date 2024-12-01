@@ -2,7 +2,6 @@ import React, { useContext } from 'react'
 import axios from 'axios'
 import { useState, useEffect } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { Footer } from '../../components/Footer/Footer'
 import Moment from 'react-moment'
 import { AuthContext } from '../../context/AuthContext';
 import './user.css';
@@ -206,7 +205,7 @@ export const User = () => {
           </div>
         </div>
       </div>
-      <Footer />
+
     </>
   );
 }
