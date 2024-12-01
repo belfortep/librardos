@@ -115,12 +115,12 @@ export const Books = () => {
               onChange={(e) => setStarsToSearch(e.target.value)}
               className="search-input"
             />
-
             <label>
               <input
                 type="checkbox"
                 checked={writerCheckbox}
                 onChange={(e) => setWriterCheckbox(e.target.checked)}
+                style={{marginLeft:"5px"}}
               />
               Filtrar por autor
             </label>         
@@ -129,11 +129,12 @@ export const Books = () => {
                 type="checkbox"
                 checked={genderCheckbox}
                 onChange={(e) => setGenderCheckbox(e.target.checked)}
+                style={{marginLeft: "5px"}}
               />
               Filtrar por genero
             </label>
 
-            <div className="sort-container">
+            <div style={{marginLeft: "10px"}} className="sort-container">
               <label htmlFor="sort">Ordenar por:</label>
               <select
                 id="sort"
