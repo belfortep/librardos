@@ -83,8 +83,8 @@ export const Books = () => {
       {user ? (
         <>
           <div className="mislibrardos-main-div">
-            <h1 className="mislibrardos-title">Librardos</h1>
-            <h2 className="mislibrardos-sub-title">Lista de libros</h2>
+            <h1 style={{marginTop:"15px", fontSize:"48px"}} className="mislibrardos-title">Librardos</h1>
+            <h2 style={{marginBottom:"15px"}} className="mislibrardos-sub-title">Catálogo</h2>
             
             {/* Input de búsqueda */}
             <input
@@ -134,9 +134,10 @@ export const Books = () => {
               Filtrar por genero
             </label>
 
-            <div style={{marginLeft: "10px"}} className="sort-container">
-              <label htmlFor="sort">Ordenar por:</label>
+            <div style={{marginLeft: "10px", marginTop:"5px", marginBottom:"5px"}} className="sort-container">
+              <label style={{marginRight:"5px"}} htmlFor="sort">Ordenar por:</label>
               <select
+
                 id="sort"
                 onChange={(e) => {
                   const sortBy = e.target.value;
