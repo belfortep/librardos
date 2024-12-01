@@ -49,6 +49,13 @@ export const Profile = () => {
     // eslint-disable-next-line no-restricted-globals
     const userResponse = confirm("Espera! Ya no quieres formar parte de la red premium de librardos?");
     if (userResponse) {
+      const arrayFiltered = user.communities.filter((_, index) => index > 2)
+      console.log("filtrado")
+      console.log(arrayFiltered)
+      arrayFiltered.map(async (com) => await axios.post("/api/community/exit/" + com, { id: user._id }))
+      
+      
+      
       const res = await axios.delete("/auth/premium/" + user._id, {data:{userId: user._id}});
       dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
     } else {
