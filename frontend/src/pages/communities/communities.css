@@ -19,10 +19,8 @@ h3 {
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 1rem;
     display: grid;
-    
-    
-    
 }
+
 .mislibrardos-sub-container-div{
     border: 2px #333 solid;
     background-color: #eee;
@@ -32,13 +30,11 @@ h3 {
 
 li{
     list-style: none;
-    
 }
 
 .mislibrardos-container {
     color: black;
     font-size: 18px;
-    
 }
 
 .mislibrardos-button-div {
@@ -84,7 +80,16 @@ li{
     font-size: larger;
 }
 
-.community-filters:hover {
-    background-color: #f0f0f0;
+.community-filters button {
+    background-color: #ddd;
+    border: 1px solid #ccc;
+    padding: 8px 16px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.community-filters button:active {
+    background-color: white; /* Color de fondo cuando está activo */
+    color: red; /* Texto en blanco para contraste */
+    border-color: black; /* Cambia el borde si es necesario */
 }
