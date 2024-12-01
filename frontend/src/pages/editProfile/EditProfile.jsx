@@ -93,7 +93,7 @@ export const EditProfile = () => {
   return (
     <>
       <h1>Usuario</h1>
-      <div className="card medicine-wrapper">
+      <div className="card mislibrardos-wrapper">
       <form  className="form-control" onSubmit={handleSubmit}>
         
         <input

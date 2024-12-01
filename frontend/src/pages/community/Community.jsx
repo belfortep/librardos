@@ -366,12 +366,12 @@ const getMessageColor = (message, color) => {
           </div>
           <div className="card-footer">
               {communities?.map((community) => (
-                  <div className="medicine-sub-container-div" key={community._id}>
-                    <li className="medicine-name-container">
-                    <Link className="btn btn-secondary button-medicine-update" to={"/community/" + community._id}>
-                      <span className="medicine-name"> {community.name}</span>
+                  <div className="mislibrardos-sub-container-div" key={community._id}>
+                    <li className="mislibrardos-name-container">
+                    <Link className="btn btn-secondary button-mislibrardos-update" to={"/community/" + community._id}>
+                      <span className="mislibrardos-name"> {community.name}</span>
                     </Link>
-                      <div className="medicine-button-div">
+                      <div className="mislibrardos-button-div">
                         <button className="btn btn-danger " onClick={() => handleJoin(community._id)}>
                           Unirse
                         </button>

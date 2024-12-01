@@ -82,9 +82,9 @@ export const Books = () => {
     <>
       {user ? (
         <>
-          <div className="medicine-main-div">
-            <h1 className="medicine-title">Librardos</h1>
-            <h2 className="medicine-sub-title">Lista de libros</h2>
+          <div className="mislibrardos-main-div">
+            <h1 className="mislibrardos-title">Librardos</h1>
+            <h2 className="mislibrardos-sub-title">Lista de libros</h2>
             
             {/* Input de búsqueda */}
             <input
@@ -178,24 +178,24 @@ export const Books = () => {
                 <option value="rating - desc">Calificación - desc</option>
               </select>
             </div>
-            <div className="medicine-container">
-              <ul className="medicine-sub-container">
+            <div className="mislibrardos-container">
+              <ul className="mislibrardos-sub-container">
                 {filteredBooks.map((book) => {
                   const averageRating = calculateAverageScore(book); 
                   return (
-                    <div className="medicine-sub-container-div" key={book._id}>
-                      <li className="medicine-name-container">
+                    <div className="mislibrardos-sub-container-div" key={book._id}>
+                      <li className="mislibrardos-name-container">
                         <Link
-                          className="btn btn-secondary button-medicine-update"
+                          className="btn btn-secondary button-mislibrardos-update"
                           to={"/" + book._id}
                         >
-                          <span className="medicine-name">
+                          <span className="mislibrardos-name">
                             {book.title}
                           </span>
                         </Link>
-                        <div className="medicine-button-div">
+                        <div className="mislibrardos-button-div">
                           <button
-                            className="btn btn-danger button-medicine-delete"
+                            className="btn btn-danger button-mislibrardos-delete"
                             onClick={() => handleFavorite(book._id)}
                           >
                             {(favoriteBooks.includes(book._id)) ? "💔" : "❤️"}
@@ -217,12 +217,12 @@ export const Books = () => {
                           Calificacion: <BookRatingDisplay rating={averageRating}/>
                         </span>
                       </li>
-                      <li className="medicine-date-container">
-                        <span className="medicine-date-text">
+                      <li className="mislibrardos-date-container">
+                        <span className="mislibrardos-date-text">
                           Fecha de edicion:
                         </span>
                         <Moment
-                          className="medicine-date"
+                          className="mislibrardos-date"
                           date={moment(book.date_edition).add(1, "d")}
                           format="MM/YYYY"
                         />

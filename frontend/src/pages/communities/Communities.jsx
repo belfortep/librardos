@@ -91,26 +91,26 @@ export const Communities = () => {
     <>
       {user ? (
         <>
-          <div className="medicine-main-div">
-            <h1 className="medicine-title">Librardos</h1>
-            <h2 className="medicine-sub-title">Lista de comunidades</h2>
+          <div className="mislibrardos-main-div">
+            <h1 className="mislibrardos-title">Librardos</h1>
+            <h2 className="mislibrardos-sub-title">Lista de comunidades</h2>
             <input id="name" placeholder="name" type="text" onChange={handleTitleChange} required className="loginInput" />
             <input id="book" placeholder="book" type="text" onChange={handleBookChange} required className="loginInput" />
             <input id="gender" placeholder="gender" type="text" onChange={handleGenderChange} required className="loginInput" />
-            <div className="medicine-container">
-              <ul className="medicine-sub-container">
+            <div className="mislibrardos-container">
+              <ul className="mislibrardos-sub-container">
                 {communities.map((community,index) => (
-                  <div className="medicine-sub-container-div" key={community._id}>
-                    <li className="medicine-name-container">
+                  <div className="mislibrardos-sub-container-div" key={community._id}>
+                    <li className="mislibrardos-name-container">
                     <Link
-                          className="btn btn-secondary button-medicine-update"
+                          className="btn btn-secondary button-mislibrardos-update"
                           to={"/community/" + community._id}
                         >
-                          <span className="medicine-name">
+                          <span className="mislibrardos-name">
                         {community.name} -  <span style={{color:"blue"}}>{(amountMessages.length > 0) && (amountMessages[index][0] == community._id) && (amountMessages[index][1] > 0) ? amountMessages[index][1] : ""}</span>
                       </span>
                         </Link>
-                      <div className="medicine-button-div">
+                      <div className="mislibrardos-button-div">
                         <button
                           className="btn btn-danger "
                           onClick={() => handleJoin(community._id)}

@@ -61,17 +61,17 @@ export const Writers = () => {
     <>
       {user ? (
         <>
-          <div className="medicine-main-div">
-            <h1 className="medicine-title">Librardos</h1>
-            <h2 className="medicine-sub-title">Lista de libros</h2>
+          <div className="mislibrardos-main-div">
+            <h1 className="mislibrardos-title">Librardos</h1>
+            <h2 className="mislibrardos-sub-title">Lista de libros</h2>
             
            
-            <div className="medicine-container">
-              <ul className="medicine-sub-container">
+            <div className="mislibrardos-container">
+              <ul className="mislibrardos-sub-container">
               {writers.map((writer) => (
-        <div className="medicine-sub-container-div" key={writer.id}>
-          <li className="medicine-name-container">
-            <span className="medicine-name">{writer.name}</span>
+        <div className="mislibrardos-sub-container-div" key={writer.id}>
+          <li className="mislibrardos-name-container">
+            <span className="mislibrardos-name">{writer.name}</span>
           </li>
           <li style={{ textAlign: "center" }}>
             <img

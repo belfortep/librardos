@@ -102,7 +102,7 @@ export const Book = () => {
       <div className="container">
         <div className="row">
           <div className="col-md-6">
-            <div className="card medicine-wrapper">
+            <div className="card mislibrardos-wrapper">
               <div className="card-header">
                 {book.title}
               </div>

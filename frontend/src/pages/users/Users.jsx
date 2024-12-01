@@ -74,22 +74,22 @@ export const Users = () => {
     <>
       {user ? (
         <>
-          <div className="medicine-main-div">
-            <h1 className="medicine-title">Librardos</h1>
-            <h2 className="medicine-sub-title">Lista de usuarios</h2>
+          <div className="mislibrardos-main-div">
+            <h1 className="mislibrardos-title">Librardos</h1>
+            <h2 className="mislibrardos-sub-title">Lista de usuarios</h2>
             <input id="name" placeholder="name" type="text" onChange={handleChange} required className="loginInput" />
-            <div className="medicine-container">
-              <ul className="medicine-sub-container">
+            <div className="mislibrardos-container">
+              <ul className="mislibrardos-sub-container">
               {users
   .filter((other_user) => !blockedUsers.includes(other_user._id))
   .map((other_user) => (
-    <div className="medicine-sub-container-div" key={other_user._id}>
-      <li className="medicine-name-container">
+    <div className="mislibrardos-sub-container-div" key={other_user._id}>
+      <li className="mislibrardos-name-container">
         <Link
-          className="btn btn-secondary button-medicine-update"
+          className="btn btn-secondary button-mislibrardos-update"
           to={"/user/" + other_user._id}
         >
-          <span className="medicine-name">{other_user.username}</span>
+          <span className="mislibrardos-name">{other_user.username}</span>
         </Link>
         {user.username !== other_user.username ? (
           <>
