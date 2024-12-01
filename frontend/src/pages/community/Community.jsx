@@ -430,7 +430,7 @@ const getMessageColor = (message, color) => {
           </div>
         </div>
       </div>
-      <Footer />
+
     </>
 
   )

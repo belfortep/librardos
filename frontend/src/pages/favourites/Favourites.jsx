@@ -1,7 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { Footer } from "../../components/Footer/Footer";
 import { AuthContext } from "../../context/AuthContext";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./favourites.css";
@@ -157,7 +156,7 @@ export const Favourites = () => {
           ))}
         </div>
       </div>
-      <Footer />
+
     </>
   );
 };

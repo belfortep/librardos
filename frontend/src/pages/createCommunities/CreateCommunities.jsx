@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { Footer } from "../../components/Footer/Footer";
 import Moment from "react-moment";
 import moment from "moment";
 import { AuthContext } from "../../context/AuthContext";

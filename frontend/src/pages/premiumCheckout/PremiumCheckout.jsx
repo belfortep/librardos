@@ -1,7 +1,6 @@
 import React, { useContext, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { Footer } from '../../components/Footer/Footer';
 import { AuthContext } from '../../context/AuthContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -145,7 +144,7 @@ export const PremiumCheckout = () => {
                     )}
                 </div>
             </div>
-            <Footer />
+
         </>
     );
 };
