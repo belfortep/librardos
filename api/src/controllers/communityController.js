@@ -118,7 +118,9 @@ const joinCommunity = async (req, res) => {
 
 const exitCommunity = async (req, res) => {
     try {
+        console.log("ME VOY DE COMUNIDAD")
         const community = await Community.findById(req.params.id);
+        const user = await User.findById(req.body.id)
         if (!community) {
             return res.status(HttpCodesEnum.NOT_FOUND).json({message: "Comunidad no encontrada"})
         }
@@ -127,10 +129,13 @@ const exitCommunity = async (req, res) => {
             return res.status(HttpCodesEnum.FORBBIDEN).json({ message: "No podes salir de una comunidad que no pertenecias" });
         }
         await community.updateOne({$pull: {users: req.body.id}})
+        await user.updateOne({$pull: {communities: req.params.id}})
         
         if (community.moderators.includes(req.body.id)) {
+            
             await community.updateOne({$pull: {moderators: req.body.id}})
         }
+        
 
         return res.status(HttpCodesEnum.OK).json("Eliminado de comunidad")
     } catch (err) {

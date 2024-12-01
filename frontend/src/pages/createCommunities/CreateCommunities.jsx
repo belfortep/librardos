@@ -10,6 +10,7 @@ import "./createCommunities.css";
 
 export const CreateCommunities = () => {
   const [community, setCommunity] = useState([]);
+  const [book, setBook] = useState({});
   const { user } = useContext(AuthContext);
   const params = useParams();
   const navigate = useNavigate();
@@ -33,11 +34,27 @@ export const CreateCommunities = () => {
     
   };
 
+  const fetchBook = async () =>{
+    let res = await axios.get("/api/book/" + params.id);
+    if (res.data !== null) {
+      setBook(res.data);
+    } else {
+
+    }
+
+  };
+
+  useEffect(() => {
+    if (user) {
+      fetchBook();
+    }
+  }, []);
+
   return (
     <>
-      <h1>CREAR COMUNIDAD</h1>
-      <form onSubmit={handleCreate} className="loginBox">
-              <input id="name" placeholder="Name" type="text" onChange={handleChange} required className="loginInput" />
+      <h1 style={{marginTop:"20px"}}>Crear Comunidad</h1>
+      <form onSubmit={handleCreate} className="loginBoxSmall">
+              <input id="name" placeholder="Nombre" type="text" onChange={handleChange} required className="loginInput" />
               <button className="loginButton" type='submit'>Crear</button>
         </form>
     
