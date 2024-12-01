@@ -111,10 +111,12 @@ export const Login = () => {
                 }}
             />
 
-            <LoginForm/>
 
           </div>
             </form>
+            <LoginForm/>
+            <br></br>
+            <br></br>
           </div>
         </div>
       </div>

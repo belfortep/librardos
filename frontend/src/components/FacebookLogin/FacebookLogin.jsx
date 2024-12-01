@@ -1,5 +1,6 @@
 import React from 'react';
 import FacebookLogin from 'react-facebook-login';
+import btnFacebook from './fblogin.css' 
 
 const LoginForm = (props) => {
   const handleFacebookCallback = (response) => {
@@ -12,11 +13,15 @@ const LoginForm = (props) => {
 
   return (
     <FacebookLogin 
-      buttonStyle={{padding:"6px"}}  
-      appId="1240499260516780"  // we need to get this from facebook developer console by setting the app.
+      buttonStyle={{padding: "3px", height: "auto", width: "auto", minHeight: "0", minWidth: "0"}}  
+      appId="1240499260516780"  
       autoLoad={false}  
       fields="name,email,picture"  
-      callback={handleFacebookCallback}/>
+      cssClass="btnFacebook"
+      callback={handleFacebookCallback}
+      icon= "fa-facebook"
+      textButton = "&nbsp;&nbsp;Sign In with Facebook"                                                                
+      />
   );
 };
 
