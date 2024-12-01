@@ -68,12 +68,12 @@ export const Register = () => {
           <div className="loginRight">
             <form onSubmit={handleSubmit} className="loginBox">
               <input id="email" placeholder="Email" type="email" onChange={handleChange} required className="loginInput" />
-              <input id="username" placeholder="Username" type="text" onChange={handleChange} required className="loginInput" />
-              <input id="password" placeholder="Password" type="password" onChange={handleChange} minLength="6" required className="loginInput" />
-              <input id="passwordAgain" placeholder="Confirm password" onChange={handleChange} type="password" minLength="6" required className="loginInput" />
+              <input id="username" placeholder="Usuario" type="text" onChange={handleChange} required className="loginInput" />
+              <input id="password" placeholder="Contraseña" type="password" onChange={handleChange} minLength="6" required className="loginInput" />
+              <input id="passwordAgain" placeholder="Confirmar contraseña" onChange={handleChange} type="password" minLength="6" required className="loginInput" />
               <button className="loginButton" type='submit'>Registrar</button>
-              <span className="loginForgot"></span>
-              <Link to={'/login/'} className="loginRegisterButton">Tienes una cuenta?</Link>
+              <button className="loginRegisterButton" type='submit'><Link to={'/login/'} style={{color:"white", textDecoration:"none"}} >Tienes una cuenta?</Link></button>
+              
               <div className='Login' style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '12px' }}>
               
                </div>
