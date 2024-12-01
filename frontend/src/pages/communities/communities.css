@@ -7,6 +7,12 @@
     margin-left: 10px;
 }
 
+h3 {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 10px 0;
+    text-align: center;
+}
 
 
 .mislibrardos-sub-container {
@@ -63,4 +69,22 @@ li{
 .mislibrardos-expired-text{
     color:red;
     font-weight: 600;
+}
+
+.loginInput {
+    padding: 10px;
+    margin-left: 10px;
+}
+
+.community-filters {
+    padding: 10px;
+    margin-left: 10px;
+    display: flex;
+    gap: 10px;
+    font-size: larger;
+}
+
+.community-filters:hover {
+    background-color: #f0f0f0;
+    cursor: pointer;
 }

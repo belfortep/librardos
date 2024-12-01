@@ -12,24 +12,76 @@ export const Communities = () => {
   const [amountMessages, setAmount] = useState([])
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
+  const ALL = 0;
+  const BOOKS = 1;
+  const WRITERS = 2;
+  const THEMES = 3;
+  const [coms, setComs] = useState("Todas")
 
-  const fetchCommunities = async () => {
+  const fetchCommunities = async (type) => {
     const res = await axios.get("/api/community");
     setCommunities(res.data)
-    
     let array = []
-    for (const community of res.data) {
-      let counter = 0
-      for (const message of community.messages) {
-        const msg = await axios.get("/api/message/"+ message)
-        const dateMsg = new Date(msg.data.createdAt)
-        const dateUser = new Date(user.last_time_in_community)
-        if (dateMsg > dateUser) {
-          counter += 1
+    
+    if (type === ALL){
+      setComs("Todas")
+      for (const community of res.data) {
+        let counter = 0
+        for (const message of community.messages) {
+          const msg = await axios.get("/api/message/"+ message)
+          const dateMsg = new Date(msg.data.createdAt)
+          const dateUser = new Date(user.last_time_in_community)
+          if (dateMsg > dateUser) {
+            counter += 1
+          }
         }
+        array.push([community._id, counter])
       }
-      array.push([community._id, counter])
-      
+    }
+    if (type === WRITERS){
+      setComs("Autores")
+      for (const community of res.data) {
+        let counter = 0
+        for (const message of community.messages) {
+          const msg = await axios.get("/api/message/"+ message)
+          const dateMsg = new Date(msg.data.createdAt)
+          const dateUser = new Date(user.last_time_in_community)
+          if (dateMsg > dateUser) {
+            counter += 1
+          }
+        }
+        array.push([community._id, counter])
+      }
+    }
+    if (type === BOOKS){
+      setComs("Libros")
+      for (const community of res.data) {
+        let counter = 0
+        for (const message of community.messages) {
+          const msg = await axios.get("/api/message/"+ message)
+          const dateMsg = new Date(msg.data.createdAt)
+          const dateUser = new Date(user.last_time_in_community)
+          if (dateMsg > dateUser) {
+            counter += 1
+          }
+        }
+        array.push([community._id, counter])
+      }
+    }
+    if (type === THEMES){
+      setComs("Temas")
+      for (const community of res.data) {
+        let counter = 0
+        for (const message of community.messages) {
+          const msg = await axios.get("/api/message/"+ message)
+          const dateMsg = new Date(msg.data.createdAt)
+          const dateUser = new Date(user.last_time_in_community)
+          if (dateMsg > dateUser) {
+            counter += 1
+          }
+        }
+        array.push([community._id, counter])
+      }
     }
     setAmount(array)
   }
@@ -83,7 +135,7 @@ export const Communities = () => {
 
   useEffect(() => {
     if (user) {
-      fetchCommunities();
+      fetchCommunities(0);
     }
   }, []);
 
@@ -97,6 +149,13 @@ export const Communities = () => {
             <input id="name" placeholder="name" type="text" onChange={handleTitleChange} required className="loginInput" />
             <input id="book" placeholder="book" type="text" onChange={handleBookChange} required className="loginInput" />
             <input id="gender" placeholder="gender" type="text" onChange={handleGenderChange} required className="loginInput" />
+            <div className="community-filters">
+              <button onClick={() => fetchCommunities(ALL)}>Todas</button>
+              <button onClick={() => fetchCommunities(BOOKS)}>Libros</button>
+              <button onClick={() => fetchCommunities(WRITERS)}>Autores</button>
+              <button onClick={() => fetchCommunities(THEMES)}>Temas</button>
+            </div>    
+            <h3> {coms} </h3>
             <div className="mislibrardos-container">
               <ul className="mislibrardos-sub-container">
                 {communities.map((community,index) => (
