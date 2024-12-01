@@ -6,7 +6,7 @@ import "./login.css";
 import welcomeImage from '../../images/welcomeimage.jpeg';
 import { GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from "jwt-decode"
-
+import LoginForm from "../../components/FacebookLogin/FacebookLogin";
 
 export const Login = () => {
   const [credentials, setCredentials] = useState({
@@ -98,6 +98,7 @@ export const Login = () => {
               <button disabled={loading} className="btn btn-lg btn-primary btn-block"> Login </button>
             {error && <span>{error.message}</span>}
             <div className='Login' style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '12px' }}>
+
             <GoogleLogin
                 className="sign"
                 onSuccess={credentialResponse => {
@@ -109,8 +110,13 @@ export const Login = () => {
                     console.log('Login Failed');
                 }}
             />
+
+
           </div>
             </form>
+            <LoginForm/>
+            <br></br>
+            <br></br>
           </div>
         </div>
       </div>
