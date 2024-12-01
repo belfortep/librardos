@@ -74,7 +74,7 @@ export const Users = () => {
       {user ? (
         <>
           <div className="mislibrardos-main-div">
-            <h1 className="mislibrardos-title">Librardos</h1>
+          <h1 style={{marginTop:"15px", fontSize:"48px"}} className="mislibrardos-title">Librardos</h1>
             <h2 className="mislibrardos-sub-title">Lista de usuarios</h2>
             <input id="name" placeholder="name" type="text" onChange={handleChange} required className="loginInput" />
             <div className="mislibrardos-container">
@@ -89,16 +89,19 @@ export const Users = () => {
           to={"/user/" + other_user._id}
         >
           <span className="mislibrardos-name">{other_user.username}</span>
+          <img className="avatar" src={other_user.photo_url ? other_user.photo_url : "https://i.pinimg.com/736x/c0/27/be/c027bec07c2dc08b9df60921dfd539bd.jpg"} alt="Profile picture"/>
         </Link>
         {user.username !== other_user.username ? (
           <>
             <button
               className="btn btn-secondary"
               onClick={() => handleFriend(other_user._id)}
+              style={{marginLeft:"5px"}}
             >
               Amistad
             </button>
             <button
+            style={{marginLeft:"5px"}}
               className="btn btn-danger"
               onClick={() => handleBlock(other_user._id)}
             >
