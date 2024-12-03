@@ -48,5 +48,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://cors-anywhere.herokuapp.com/https://librardos-server.vercel.app"
+  "proxy": "https://librardos-server.vercel.app"
 }
