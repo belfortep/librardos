@@ -10,7 +10,7 @@ const BookRating = ({ bookId }) => {
   const handleRatingChange = async (newRating) => {
     setRating(newRating);
     try {
-      await axios.post(`/api/book/scoreBooks/${bookId}`, { score: newRating, user_id: user._id });
+      await api.post(`/api/book/scoreBooks/${bookId}`, { score: newRating, user_id: user._id });
       console.log("ACTUALIZAMOS")
     } catch (error) {
       console.error("Error updating rating", error);

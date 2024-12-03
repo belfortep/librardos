@@ -29,7 +29,7 @@ export default function CommunityNameChange({ communityId, currentName, onNameCh
       setIsLoading(true);
       setError('');
       try {
-        await axios.patch(`/api/community/${communityId}`, { name: newName });
+        await api.patch(`/api/community/${communityId}`, { name: newName });
         onNameChange(newName);
         handleClose();
       } catch (error) {
