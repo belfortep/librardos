@@ -17,14 +17,14 @@ export const Navbar = () => {
     navigate('/login');
   }
 
-  const getEmoji = (level) => {
-    switch (level) {
-      case 0:
-        return ""; // Usuario estandar
-      case 2:
+  const getEmoji = (isAdmin) => {
+    switch (isAdmin) {
+      case true:
         return " 👑"; // Admin
+      case false:
+        return ""; // Admin
       default:
-        return ""; // Usuario estandar
+        return;
     }
   }
 
@@ -79,7 +79,7 @@ export const Navbar = () => {
               </span>
             } */}
             <span className="username">
-              <Link to={'/profile'} style={{ color: user.isPremium ? "gold" : "blue" }}>{user.username + getEmoji(user.level)}</Link>
+              <Link to={'/profile'} style={{ color: user.isPremium ? "gold" : "blue" }}>{user.username + getEmoji(user.isAdmin)}</Link>
             </span>
             <div className="avatar">
               <img src={user.photo_url ? user.photo_url : "https://i.pinimg.com/736x/c0/27/be/c027bec07c2dc08b9df60921dfd539bd.jpg"} alt="Profile picture"/>

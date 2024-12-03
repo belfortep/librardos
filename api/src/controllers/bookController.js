@@ -6,7 +6,7 @@ const Message = require('../models/Message');
 
 const getAllBooks = async (req, res) => {
     try {
-        const books = await Book.find().limit(1000);
+        const books = await Book.find().limit(100);
 
         return res.status(HttpCodesEnum.OK).json(books);
     } catch (err) {
