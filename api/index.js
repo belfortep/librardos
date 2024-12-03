@@ -2,11 +2,11 @@
 const express = require('express');
 const dotenv = require('dotenv')
 const app = express();
-const { connectDB } = require('./db/db');
-const authRoute = require('./routes/auth');
-const bookRoute = require('./routes/book');
-const communityRoute = require("./routes/community");
-const messageRoute = require("./routes/message")
+const { connectDB } = require("./src/db/db.js");
+const authRoute = require('./src/routes/auth.js');
+const bookRoute = require('./src/routes/book.js');
+const communityRoute = require("./src/routes/community.js");
+const messageRoute = require("./src/routes/message.js")
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 
