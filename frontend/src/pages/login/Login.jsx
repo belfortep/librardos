@@ -25,8 +25,12 @@ export const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     dispatch({ type: "LOGIN_START" });
+    console.log("ENVIO SUBMIT")
     try {
+    
       const res = await api.post("/auth/login", credentials);
+      console.log("ESTO ES RES")
+      console.log(res)
       if (res.data.details.is_banned) {
         alert("Tu cuenta esta suspendida por tu mal comportamiento")
         dispatch({type:"LOGIN_FAILURE", payload: "mal comportamiento"})
