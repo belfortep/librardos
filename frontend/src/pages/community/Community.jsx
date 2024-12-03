@@ -356,12 +356,12 @@ const getMessageColor = (message, color) => {
               {members?.map((member, index) => (
                 <li key={index} className="list-group-item">
                   <span style={{color: getColor(member.username) }}>{member.username + getEmoji(member.username)}</span>
-                  {(!isMod && user.username !== member.username) || (isAdmin && user.username !== member.username) ? (
+                  {(isMod && user.username !== member.username) || (isAdmin && user.username !== member.username) ? (
                   <button className="btn btn-primary chico" onClick={() => inviteMod(member._id)}>
                     Hacer Moderador
                   </button>
                   ) : ""}
-                  {(!isMod && user.username !== member.username) || (isAdmin && user.username !== member.username) ? (
+                  {(isMod && user.username !== member.username) || (isAdmin && user.username !== member.username) ? (
                   <button className="btn btn-danger chico" onClick={() => deleteFromCommunity(member._id)}>
                     Eliminar de comunidad
                   </button>
