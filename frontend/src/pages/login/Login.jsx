@@ -114,7 +114,7 @@ export const Login = () => {
 
           </div>
             </form>
-            <LoginForm/>
+            {/* <LoginForm/> */}
             <br></br>
             <br></br>
           </div>
@@ -127,35 +127,3 @@ export const Login = () => {
 };
 
 
-
-{/* <div className="center-screen container">
-     <div className="row">
-      <div className="col s5">
-        <div className="card">
-          <div className="card-content">
-
-        <form  className="form-control" onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="username"
-          id="username"
-          onChange={handleChange}
-          className="form-control"
-        />
-        <input
-          type="password"
-          placeholder="password"
-          id="password"
-          onChange={handleChange}
-          className="form-control"
-        />
-        <button disabled={loading} className="btn btn-lg btn-primary btn-block">
-          Login
-        </button>
-        {error && <span>{error.message}</span>}
-        </form>
-        </div>
-        </div>
-        </div>
-        </div>
-    </div> */}
