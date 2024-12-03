@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import api from "../../mi_api";;
+import api from "../../mi_api";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import 'bootstrap/dist/css/bootstrap.min.css';

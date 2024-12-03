@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import api from "../../mi_api";;
+import api from "../../mi_api";
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import 'bootstrap/dist/css/bootstrap.min.css';

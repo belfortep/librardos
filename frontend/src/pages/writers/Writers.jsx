@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import api from "../../mi_api";;
+import api from "../../mi_api";
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Moment from "react-moment";

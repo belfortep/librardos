@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import './register.css'
-import api from "../../mi_api";;
+import api from "../../mi_api";
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
