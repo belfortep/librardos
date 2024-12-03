@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import './register.css'
-import axios from "axios";
+import api from "../../mi_api";;
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
@@ -45,13 +45,13 @@ export const Register = () => {
       return alert("Las contraseñas no coinciden");
     }
     const {passwordAgain, ...userData} = user;
-    await axios.post("/auth/register", userData);
+    await api.post("/auth/register", userData);
     navigate("/login");
   };
 
   const register = async (data) => {
     console.log(data)
-    await axios.post("/auth/register", data);
+    await api.post("/auth/register", data);
     navigate("/login");
   }
 

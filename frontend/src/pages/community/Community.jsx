@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import axios from 'axios'
+import api from "../../mi_api";
 import { useState, useEffect } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Footer } from '../../components/Footer/Footer'
@@ -42,44 +42,44 @@ export const Community = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await axios.post("/api/community/message/" + params.id, {username: user.username, message: message, father_id: replyingTo});
+    await api.post("/api/community/message/" + params.id, {username: user.username, message: message, father_id: replyingTo});
     setMessage("")
     setReplyingTo(undefined)
     await fetchCommunity()
   };
 
   const inviteMod = async (invitedId) => {
-    await axios.put("/api/community/sendModeratorRequest/" + params.id, {user_id: invitedId});
+    await api.put("/api/community/sendModeratorRequest/" + params.id, {user_id: invitedId});
   }
   const deleteFromCommunity = async (userId) => {
-    await axios.post("/api/community/exit/" + params.id, { id: userId });
+    await api.post("/api/community/exit/" + params.id, { id: userId });
     user.communities = user.communities.filter(communityId => communityId !== params.id);
     await fetchCommunity()
   }
 
   const handleExit = async (id) => {
-    await axios.post("/api/community/exit/" + id, { id: user._id });
+    await api.post("/api/community/exit/" + id, { id: user._id });
     user.communities = user.communities.filter(communityId => communityId !== id);
     navigate("/")
   }
 
   const deleteCommunity = async (id) => {
-    await axios.delete("/api/community/" + id);
+    await api.delete("/api/community/" + id);
     navigate("/")
   }
 
   const deleteMessage = async (message) => {
     const id_msg = message._id;
-    await axios.delete("/api/community/message/" + params.id, {data: {message_id: id_msg}});
+    await api.delete("/api/community/message/" + params.id, {data: {message_id: id_msg}});
 
-    // await axios.delete("/api/community/message/" + params.id, {data: {id_msg: id_msg}});
+    // await api.delete("/api/community/message/" + params.id, {data: {id_msg: id_msg}});
     await fetchCommunity()
   }
 
   const setSpam = async (message) => {
     const id_msg = message._id;
     const spam = !message.spam
-    await axios.put("/api/message/" + id_msg, {spam: spam});
+    await api.put("/api/message/" + id_msg, {spam: spam});
 
     await fetchCommunity()
   }
@@ -87,7 +87,7 @@ export const Community = () => {
   const setPingMsg = async (message) => {
     const id_msg = message._id;
     const ping = !message.ping
-    await axios.put("/api/message/" + id_msg, {ping: ping});
+    await api.put("/api/message/" + id_msg, {ping: ping});
 
     await fetchCommunity()
   }
@@ -97,7 +97,7 @@ export const Community = () => {
   const modifyCommunityName = async (id) => {
     // const newName = prompt("Ingrese el nuevo nombre de la comunidad:");
     if (newName) {
-      await axios.patch("/api/community/" + id, { name: newName });
+      await api.patch("/api/community/" + id, { name: newName });
     }
   }
 
@@ -110,7 +110,7 @@ export const Community = () => {
 
   const handleJoin = async (id) => {
     try {
-      await axios.post("/api/community/" + id, { id: user._id });
+      await api.post("/api/community/" + id, { id: user._id });
       navigate("/community/" + id)
     } catch (err) {
       alert("Ya formas parte de esta comunidad")
@@ -120,10 +120,10 @@ export const Community = () => {
   
 
   const fetchCommunity = async () =>{
-    let res = await axios.get("/api/community/" + params.id);
+    let res = await api.get("/api/community/" + params.id);
     const today = new Date();
     const formattedDate = today.toISOString();
-    const res_user = await axios.put("/auth/user/" + user._id, {last_time_in_community: formattedDate});
+    const res_user = await api.put("/auth/user/" + user._id, {last_time_in_community: formattedDate});
     dispatch({ type: "LOGIN_SUCCESS", payload: res_user.data.details });
 
 
@@ -139,7 +139,7 @@ export const Community = () => {
       setIsMod(res.data?.moderators.includes(user._id))
 
       for (const user_data of res.data.users) {
-          const response = await axios.get("/auth/" + user_data);
+          const response = await api.get("/auth/" + user_data);
           if (user_data === user._id) {
             setIsMember(true)
           }
@@ -148,7 +148,7 @@ export const Community = () => {
       const api_messages = []
       const response_messages = []
       for (const message_id of res.data.messages) {
-        const response = await axios.get("/api/message/" + message_id)
+        const response = await api.get("/api/message/" + message_id)
         if (response.data.father_id === undefined) {
           api_messages.push(response.data)
         } else {
@@ -157,7 +157,7 @@ export const Community = () => {
 
       }
 
-      const resComm = await axios.get("/api/community");
+      const resComm = await api.get("/api/community");
 
       const filteredCommunities = resComm.data.filter((searchedCommunity) => {
         if (searchedCommunity.users.includes(user._id)) {

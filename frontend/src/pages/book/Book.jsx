@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import axios from 'axios'
+import api from "../../mi_api";
 import { useState, useEffect } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import Moment from 'react-moment'
@@ -19,7 +19,7 @@ export const Book = () => {
 
   const handleFavorite = async (id) => {
     // alert("Libro añadido a favoritos");
-    await axios.post(`/api/book/fav/${id}`, { user_id: user._id });
+    await api.post(`/api/book/fav/${id}`, { user_id: user._id });
   }
 
   const [isReversed, setIsReversed] = useState(false);
@@ -32,12 +32,12 @@ export const Book = () => {
   const handleStatusChange = async (id, status) => {
     if (status === "Leido") {
       // Logic for when the status is "Leido"
-      await axios.post(`/api/book/readBooks/${id}`, { user_id: user._id});
+      await api.post(`/api/book/readBooks/${id}`, { user_id: user._id});
     } else if (status === "Leyendo") {
-      await axios.post(`/api/book/readingBooks/${id}`, { user_id: user._id});
+      await api.post(`/api/book/readingBooks/${id}`, { user_id: user._id});
       // Logic for when the status is "Leyendo"
     } else if (status === "Por Leer") {
-      await axios.post(`/api/book/toReadBooks/${id}`, { user_id: user._id});
+      await api.post(`/api/book/toReadBooks/${id}`, { user_id: user._id});
       // Logic for when the status is "Por Leer"
     }
     // You can add your logic to handle the status change here
@@ -48,7 +48,7 @@ export const Book = () => {
       alert("Por favor, ingrese un nombre para la lista.");
       return;
     }
-    await axios.post(`/api/book/myBookLists/${id}`, { user_id: user._id, list_name: listName });
+    await api.post(`/api/book/myBookLists/${id}`, { user_id: user._id, list_name: listName });
   };
 
 
@@ -59,17 +59,17 @@ export const Book = () => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await axios.post("/api/book/message/" + params.id, {username: user.username, message: comment});
+    await api.post("/api/book/message/" + params.id, {username: user.username, message: comment});
     setComment("")
     await fetchBook()
   };
   const fetchBook = async () =>{
-    let res = await axios.get("/api/book/" + params.id);
+    let res = await api.get("/api/book/" + params.id);
     const api_messages = []
     if (res.data !== null) {
   
       for (const message_id of res.data.comments) {
-        const response = await axios.get("/api/message/" + message_id)
+        const response = await api.get("/api/message/" + message_id)
         api_messages.push(response.data)
       }
       setBook(res.data);
@@ -82,7 +82,7 @@ export const Book = () => {
 
   const deleteMessage = async (message) => {
     const id_msg = message._id;
-    await axios.put("/api/book/message/" + params.id, {message_id: id_msg});
+    await api.put("/api/book/message/" + params.id, {message_id: id_msg});
     await fetchBook()
   }
 

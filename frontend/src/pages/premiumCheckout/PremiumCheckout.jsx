@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import axios from 'axios';
+import api from "../../mi_api";;
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -12,7 +12,7 @@ export const PremiumCheckout = () => {
         // eslint-disable-next-line no-restricted-globals
         const userResponse = confirm("Estas apunto de convertirte en premium! Procede?");
         if (userResponse) {
-            const res = await axios.put(`/auth/premium/${user._id}`, { userId: user._id });
+            const res = await api.put(`/auth/premium/${user._id}`, { userId: user._id });
             dispatch({ type: 'LOGIN_SUCCESS', payload: res.data.details });
             navigate("/profile");
         } else {

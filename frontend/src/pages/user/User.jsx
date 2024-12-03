@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import axios from 'axios'
+import api from "../../mi_api";
 import { useState, useEffect } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import Moment from 'react-moment'
@@ -18,7 +18,7 @@ export const User = () => {
   const navigate = useNavigate()
 
   const fetchUser = async () =>{
-    let res = await axios.get("/auth/" + params.id);
+    let res = await api.get("/auth/" + params.id);
     console.log(res.data.username)
     console.log(user.username)
     if (res.data !== null) {
@@ -38,7 +38,7 @@ export const User = () => {
 
   const eliminateFriend = async (user_name) => {
     console.log(user_name)
-    const res = await axios.delete("/auth/deleteFriend/" + user._id, {data: {friend_name: user_name}})
+    const res = await api.delete("/auth/deleteFriend/" + user._id, {data: {friend_name: user_name}})
     dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
     setIsFriend(false);
     fetchUser();
@@ -46,7 +46,7 @@ export const User = () => {
 
   const handleSecurityChange = async (event) => {
     setLevel(Number(event.target.value)); // Convertir a número para usarlo correctamente
-    await axios.put("/auth/user/" + params.id, {level: event.target.value})
+    await api.put("/auth/user/" + params.id, {level: event.target.value})
     let stat;
     switch (event.target.value) {
       case '0':
@@ -67,12 +67,12 @@ export const User = () => {
   };
 
   const deleteUser = async () => {
-    await axios.delete("/auth/delete/" + userClicked._id)
+    await api.delete("/auth/delete/" + userClicked._id)
     navigate("/")
   }
 
   const suspendAccount = async () => {  
-    await axios.put("/auth/user/" + userClicked._id, {is_banned: true});
+    await api.put("/auth/user/" + userClicked._id, {is_banned: true});
     const stat = 'banned'
     emailjs.send(process.env.REACT_APP_SERVICE_ID, process.env.REACT_APP_TEMPLATE_ID, { email_to: userClicked.email, to_name: userClicked.username, status: stat }, {
       publicKey: process.env.REACT_APP_PUBLIC_KEY,
@@ -81,7 +81,7 @@ export const User = () => {
   }
 
   const notSuspendAccount = async () => {  
-    await axios.put("/auth/user/" + userClicked._id, {is_banned: false});
+    await api.put("/auth/user/" + userClicked._id, {is_banned: false});
     const stat = 'unbanned'
     emailjs.send(process.env.REACT_APP_SERVICE_ID, process.env.REACT_APP_TEMPLATE_ID, { email_to: userClicked.email, to_name: userClicked.username, status: stat }, {
       publicKey: process.env.REACT_APP_PUBLIC_KEY,

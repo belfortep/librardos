@@ -1,4 +1,4 @@
-import axios from "axios";
+import api from "../../mi_api";;
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
@@ -26,7 +26,7 @@ export const Login = () => {
     e.preventDefault();
     dispatch({ type: "LOGIN_START" });
     try {
-      const res = await axios.post("/auth/login", credentials);
+      const res = await api.post("/auth/login", credentials);
       if (res.data.details.is_banned) {
         alert("Tu cuenta esta suspendida por tu mal comportamiento")
         dispatch({type:"LOGIN_FAILURE", payload: "mal comportamiento"})
@@ -45,14 +45,14 @@ export const Login = () => {
     try {
       const data = {username: credentials.username, email: credentials.password, password: credentials.password }
       console.log(data)
-      await axios.post("/auth/register", data);
+      await api.post("/auth/register", data);
 
     } catch (err) {
       console.log("no pasa nada, todo tranquilo")
     }
     console.log("sigo")
     try {
-      const res = await axios.post("/auth/login", credentials);
+      const res = await api.post("/auth/login", credentials);
       dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
       navigate('/')
     } catch (err) {

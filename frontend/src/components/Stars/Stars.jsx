@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import Rating from 'react-rating-stars-component';
-import axios from 'axios';
+import api from "../../mi_api";;
 import { AuthContext } from '../../context/AuthContext';
 
 const BookRating = ({ bookId }) => {

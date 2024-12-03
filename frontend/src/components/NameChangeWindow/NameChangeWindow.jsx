@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import axios from 'axios';
+import api from "../../mi_api";;
 
 export default function CommunityNameChange({ communityId, currentName, onNameChange }) {
   const [isOpen, setIsOpen] = useState(false);

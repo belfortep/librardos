@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import axios from "axios";
+import api from "../../mi_api";;
 import { useState, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Moment from "react-moment";
@@ -30,9 +30,9 @@ export const CreateCommunities = () => {
   const handleCreate = async (e) => {
     e.preventDefault();
     try {
-      const result = await axios.post("/api/community", {name: community.name, bookId: params.id, user_id: user._id, type: selectedValue});
-      await axios.post("/api/community/" + result.data, {id: user._id})
-      await axios.post("/api/community/mod/" + result.data, {id: user._id})
+      const result = await api.post("/api/community", {name: community.name, bookId: params.id, user_id: user._id, type: selectedValue});
+      await api.post("/api/community/" + result.data, {id: user._id})
+      await api.post("/api/community/mod/" + result.data, {id: user._id})
       navigate("/");
     } catch (err) {
       alert(err.response.data.message)
@@ -41,7 +41,7 @@ export const CreateCommunities = () => {
   };
 
   const fetchBook = async () =>{
-    let res = await axios.get("/api/book/" + params.id);
+    let res = await api.get("/api/book/" + params.id);
     if (res.data !== null) {
       setBook(res.data);
     } else {

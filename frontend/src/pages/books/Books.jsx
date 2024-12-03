@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import axios from "axios";
+import api from "../../mi_api";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Moment from "react-moment";
@@ -34,13 +34,13 @@ export const Books = () => {
   };
 
   const fetchBooks = async () => {
-    const res = await axios.get("/api/book");
+    const res = await api.get("/api/book");
     setFavoriteBooks(user.books)
     setBooks(res.data)
   }
 
   const handleFavorite = async (id) => {
-    let res = await axios.post(`/api/book/fav/${id}`, { user_id: user._id });
+    let res = await api.post(`/api/book/fav/${id}`, { user_id: user._id });
     if (favoriteBooks.includes(id)) {
       setFavoriteBooks((prevBooks) =>
         prevBooks.filter((book) => book !== id)

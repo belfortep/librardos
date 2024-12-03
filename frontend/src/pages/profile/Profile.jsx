@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import axios from 'axios';
+import api from "../../mi_api";;
 import { useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import Moment from 'react-moment';
@@ -18,7 +18,7 @@ export const Profile = () => {
   const navigate = useNavigate();
 
   const acceptFriend = async (friend_name) => {
-    const res = await axios.put("/auth/acceptFriend/" + user._id, { friend_name: friend_name });
+    const res = await api.put("/auth/acceptFriend/" + user._id, { friend_name: friend_name });
     dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
   };
 
@@ -27,16 +27,16 @@ export const Profile = () => {
     const userResponse = confirm("Quieres ser administrador de esta comunidad?");
 
     if (userResponse) {
-      const res = await axios.put("/auth/acceptModeratorRequest/" + user._id, { community_name: community_name });
+      const res = await api.put("/auth/acceptModeratorRequest/" + user._id, { community_name: community_name });
       dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
     } else {
-      const res = await axios.put("/auth/refuseModReq/" + user._id, { community_name: community_name });
+      const res = await api.put("/auth/refuseModReq/" + user._id, { community_name: community_name });
       dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
     }
   };
 
   const getCommunities = async () => {
-    const communities = await axios.get("/api/community");  // todas las communities
+    const communities = await api.get("/api/community");  // todas las communities
     const myCommunities = [];
     for (const community of communities.data) {
       if (community.users.includes(user._id)) {
@@ -53,11 +53,11 @@ export const Profile = () => {
       const arrayFiltered = user.communities.filter((_, index) => index > 2)
       console.log("filtrado")
       console.log(arrayFiltered)
-      arrayFiltered.map(async (com) => await axios.post("/api/community/exit/" + com, { id: user._id }))
+      arrayFiltered.map(async (com) => await api.post("/api/community/exit/" + com, { id: user._id }))
       
       
       
-      const res = await axios.delete("/auth/premium/" + user._id, {data:{userId: user._id}});
+      const res = await api.delete("/auth/premium/" + user._id, {data:{userId: user._id}});
       dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
     } else {
     }
@@ -65,8 +65,8 @@ export const Profile = () => {
   };
 
   const handleListOfCommunities = async (friend_name) => {
-    const communities = await axios.get("/api/community");  // todas las communities
-    const friend = await axios.post("/auth/name", { username: friend_name });
+    const communities = await api.get("/api/community");  // todas las communities
+    const friend = await api.post("/auth/name", { username: friend_name });
     const communities_of_my_friend = [];
     for (const community of communities.data) {
       for (const user of community.users) {

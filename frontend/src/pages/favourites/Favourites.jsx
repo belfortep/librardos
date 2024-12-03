@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import axios from "axios";
+import api from "../../mi_api";;
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -14,45 +14,45 @@ export const Favourites = () => {
   const { user } = useContext(AuthContext);
 
   const fetchAllBooks = async () => {
-    const favorites_list = await axios.get('/auth/fav/' + user._id);
+    const favorites_list = await api.get('/auth/fav/' + user._id);
     const res = [];
     for (const book of favorites_list.data) {
-      const response = await axios.get(`/api/book/${book}`);
+      const response = await api.get(`/api/book/${book}`);
       res.push(response.data);
     }
     setBooks(res);
 
-    const read_list = await axios.get('/auth/read/' + user._id);
+    const read_list = await api.get('/auth/read/' + user._id);
     const res_read = [];
     for (const book of read_list.data) {
-      const response = await axios.get(`/api/book/${book}`);
+      const response = await api.get(`/api/book/${book}`);
       res_read.push(response.data);
     }
     setRead(res_read);
 
-    const reading_list = await axios.get('/auth/reading/' + user._id);
+    const reading_list = await api.get('/auth/reading/' + user._id);
     const res_reading = [];
     for (const book of reading_list.data) {
-      const response = await axios.get(`/api/book/${book}`);
+      const response = await api.get(`/api/book/${book}`);
       res_reading.push(response.data);
     }
     setReading(res_reading);
 
-    const toRead_list = await axios.get('/auth/toRead/' + user._id);
+    const toRead_list = await api.get('/auth/toRead/' + user._id);
     const res_toRead = [];
     for (const book of toRead_list.data) {
-      const response = await axios.get(`/api/book/${book}`);
+      const response = await api.get(`/api/book/${book}`);
       res_toRead.push(response.data);
     }
     setToRead(res_toRead);
 
-    const list_list = await axios.get('/auth/List/' + user._id);
+    const list_list = await api.get('/auth/List/' + user._id);
     const res_List = [];
     for (const list of list_list.data) {
       var res_parcial = []
       res_parcial.push(list[0])
       for (let i = 1; i < list.length; i++) {
-        const response = await axios.get(`/api/book/${list[i]}`);
+        const response = await api.get(`/api/book/${list[i]}`);
         res_parcial.push(response.data);
       }
       res_List.push(res_parcial);

@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import axios from "axios";
+import api from "../../mi_api";;
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
@@ -18,7 +18,7 @@ export const Communities = () => {
   const [coms, setComs] = useState(0)
 
   const fetchCommunities = async () => {
-    const res = await axios.get("/api/community");
+    const res = await api.get("/api/community");
     let array = []
     console.log(res.data)
 
@@ -26,7 +26,7 @@ export const Communities = () => {
       for (const community of res.data) {
         let counter = 0
         for (const message of community.messages) {
-          const msg = await axios.get("/api/message/"+ message)
+          const msg = await api.get("/api/message/"+ message)
           const dateMsg = new Date(msg.data.createdAt)
           const dateUser = new Date(user.last_time_in_community)
           if (dateMsg > dateUser) {
@@ -53,7 +53,7 @@ export const Communities = () => {
         setName("")
       }
     }
-    const res = await axios.post("/api/community/name", {name: name})
+    const res = await api.post("/api/community/name", {name: name})
     setCommunities(res.data)
   };
 
@@ -65,7 +65,7 @@ export const Communities = () => {
         setName("")
       }
     }
-    const res = await axios.post("/api/community/book", {bookName: e.target.value})
+    const res = await api.post("/api/community/book", {bookName: e.target.value})
     setCommunities(res.data)
   };
 
@@ -77,13 +77,13 @@ export const Communities = () => {
         setName("")
       }
     }
-    const res = await axios.post("/api/community/gender", {bookGender: e.target.value})
+    const res = await api.post("/api/community/gender", {bookGender: e.target.value})
     setCommunities(res.data)
   };
 
   const handleJoin = async (id) => {
     try {
-      await axios.post("/api/community/" + id, { id: user._id });
+      await api.post("/api/community/" + id, { id: user._id });
       navigate("/community/" + id)
     } catch (err) {
       alert(err.response.data.message)

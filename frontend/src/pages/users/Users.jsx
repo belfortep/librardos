@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import axios from "axios";
+import api from "../../mi_api";;
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
@@ -14,7 +14,7 @@ export const Users = () => {
   const { loading, error, dispatch } = useContext(AuthContext);
 
   const fetchUsers = async () => {
-    const res = await axios.get("/auth");
+    const res = await api.get("/auth");
     const users_to_add = []
     const users_to_block = []
     for (const other_user of res.data) {
@@ -30,11 +30,11 @@ export const Users = () => {
   }
 
   const handleFriend = async (user_id) => {
-    const res = await axios.put("/auth/sendFriend/" + user_id, {my_name: user.username})
+    const res = await api.put("/auth/sendFriend/" + user_id, {my_name: user.username})
   }
 
   const handleBlock = async (user_id) => {
-    const res = await axios.put("/auth/block/" + user._id, {user_id: user_id})
+    const res = await api.put("/auth/block/" + user._id, {user_id: user_id})
     console.log(res.data)
     dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
     setBlockedUsers((prevUsers) => [...prevUsers, user_id]);
@@ -48,7 +48,7 @@ export const Users = () => {
         setName("")
       }
     }
-    const res = await axios.post("/auth/name", {username: name})
+    const res = await api.post("/auth/name", {username: name})
     const users_to_add = []
     const users_to_block = []
     for (const other_user of res.data) {

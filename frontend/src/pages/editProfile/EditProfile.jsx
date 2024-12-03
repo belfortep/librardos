@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import axios from 'axios'
+import api from "../../mi_api";
 import { useState, useEffect } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import Moment from 'react-moment'
@@ -38,7 +38,7 @@ export const EditProfile = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.put("/auth/auth/" + user._id, credentials);
+      const res = await api.put("/auth/auth/" + user._id, credentials);
       dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
       navigate('/profile')
     } catch (err) {
@@ -49,7 +49,7 @@ export const EditProfile = () => {
   const handleGenreSubmit = async (e) => {
     e.preventDefault();
     try {
-      let res = await axios.put("/auth/genre/" + user._id, {genre: genre});
+      let res = await api.put("/auth/genre/" + user._id, {genre: genre});
       dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
       setGenre("")
       alert("Añadido nuevo genero preferido")
@@ -61,7 +61,7 @@ export const EditProfile = () => {
   const handleWriterSubmit = async (e) => {
     e.preventDefault();
     try {
-      let res = await axios.put("/auth/writer/" + user._id, {writer: writer});
+      let res = await api.put("/auth/writer/" + user._id, {writer: writer});
       dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
       setWriter("")
       alert("Añadido nuevo escritor preferido")
@@ -72,7 +72,7 @@ export const EditProfile = () => {
 
   const handleSecurityChange = async (event) => {
     setSecurityLevel(Number(event.target.value)); // Convertir a número para usarlo correctamente
-    let res = await axios.put("/auth/user/" + user._id, {privacy_level: event.target.value})
+    let res = await api.put("/auth/user/" + user._id, {privacy_level: event.target.value})
     dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
   };
 
@@ -80,7 +80,7 @@ export const EditProfile = () => {
   const handleUserSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.put("/auth/user/" + user._id, userInfo);
+      const res = await api.put("/auth/user/" + user._id, userInfo);
       dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
       navigate('/profile')
     } catch (err) {
