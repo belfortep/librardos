@@ -18,11 +18,7 @@ app.set('port', process.env.PORT || 4000);
 
 //------------------------------MIDDLEWARES------------------------------
 
-let corsOptions = {
-    origin: ["https://librardos-client.vercel.app"]
-}
-
-app.use(cors(corsOptions));
+app.use(cors());
 
 app.use(express.json());
 
