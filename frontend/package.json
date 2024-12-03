@@ -48,5 +48,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://librardos-server.vercel.app"
+  "proxy": "https://librardos-server.vercel.app"
 }
