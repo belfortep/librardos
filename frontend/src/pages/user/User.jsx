@@ -150,7 +150,7 @@ export const User = () => {
             </ul>
             <button
                 className="btn btn-primary me-2"
-                onClick={() => navigator.clipboard.writeText("http://localhost:3000/register")}
+                onClick={() => navigator.clipboard.writeText("https://librardos-client.vercel.app/register")}
               >
                 Invita a tus amigos
             </button>   

@@ -187,7 +187,7 @@ export const Profile = () => {
             <Link className="btn btn-secondary" to={'/edit'}>Editar perfil</Link>
           <button
                 className="btn btn-primary"
-                onClick={() => navigator.clipboard.writeText("http://localhost:3000/register")}
+                onClick={() => navigator.clipboard.writeText("https://librardos-client.vercel.app/register")}
                 >
                 Invita a tus amigos
             </button>
