@@ -1,36 +1,35 @@
 const express = require('express');
 const { login, register, getFavorites, getUserById, getToReadBooks, getReadingBooks, getRead, getAllUsers, getUserByName, updateAuthInformation, updateUserInformation, updateUserSubscription, addFavoriteGenres, addFavoriteWriters, sendFriendRequest, accepFriendRequest, deleteFriend ,blockUser, getListBooks, accepModeratorRequest, removeUserSubscription, deleteUser, refuseModRequest } = require('../controllers/authController');
-const { verifyUser } = require('../util/verifyToken');
 const router = express();
 
 router.post('/register', register);
 router.post('/login', login);
-router.get("/fav/:id", verifyUser, getFavorites)
-router.get("/reading/:id", verifyUser, getReadingBooks)
-router.get("/toRead/:id", verifyUser, getToReadBooks)
-router.get("/read/:id", verifyUser, getRead)
-router.get("/status/:id", verifyUser, getToReadBooks)
-router.get("/list/:id", verifyUser, getListBooks)
-router.get("/:id", verifyUser, getUserById)
+router.get("/fav/:id", getFavorites)
+router.get("/reading/:id", getReadingBooks)
+router.get("/toRead/:id", getToReadBooks)
+router.get("/read/:id", getRead)
+router.get("/status/:id", getToReadBooks)
+router.get("/list/:id", getListBooks)
+router.get("/:id", getUserById)
 
-router.get('/', verifyUser,getAllUsers);
-router.post("/name", verifyUser,getUserByName);
+router.get('/',getAllUsers);
+router.post("/name",getUserByName);
 
-router.put("/auth/:id", verifyUser, updateAuthInformation)
-router.put("/user/:id", verifyUser, updateUserInformation)
-router.put("/genre/:id", verifyUser, addFavoriteGenres)
-router.put("/writer/:id", verifyUser, addFavoriteWriters)
-router.put("/sendFriend/:id", verifyUser, sendFriendRequest)
-router.put("/acceptFriend/:id", verifyUser, accepFriendRequest)
-router.put("/block/:id", verifyUser, blockUser)
-router.put("/premium/:id", verifyUser, updateUserSubscription)
-router.delete("/premium/:id", verifyUser, removeUserSubscription)
-router.delete("/delete/:id", verifyUser, deleteUser)
+router.put("/auth/:id", updateAuthInformation)
+router.put("/user/:id", updateUserInformation)
+router.put("/genre/:id", addFavoriteGenres)
+router.put("/writer/:id", addFavoriteWriters)
+router.put("/sendFriend/:id", sendFriendRequest)
+router.put("/acceptFriend/:id", accepFriendRequest)
+router.put("/block/:id", blockUser)
+router.put("/premium/:id", updateUserSubscription)
+router.delete("/premium/:id", removeUserSubscription)
+router.delete("/delete/:id", deleteUser)
 
 
-router.delete("/deleteFriend/:id", verifyUser, deleteFriend)
+router.delete("/deleteFriend/:id", deleteFriend)
 
-router.put("/refuseModReq/:id", verifyUser, refuseModRequest)
-router.put("/acceptModeratorRequest/:id", verifyUser, accepModeratorRequest)
+router.put("/refuseModReq/:id", refuseModRequest)
+router.put("/acceptModeratorRequest/:id", accepModeratorRequest)
 
 module.exports = router;
