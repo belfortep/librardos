@@ -45,7 +45,7 @@ export const User = () => {
   }
 
   const handleSecurityChange = async (event) => {
-    setLevel(Number(event.target.value)); // Convertir a número para usarlo correctamente
+    setLevel(Number(event.target.value)); 
     await api.put("/auth/user/" + params.id, {level: event.target.value})
     let stat;
     switch (event.target.value) {

@@ -31,16 +31,12 @@ export const Book = () => {
 
   const handleStatusChange = async (id, status) => {
     if (status === "Leido") {
-      // Logic for when the status is "Leido"
       await api.post(`/api/book/readBooks/${id}`, { user_id: user._id});
     } else if (status === "Leyendo") {
       await api.post(`/api/book/readingBooks/${id}`, { user_id: user._id});
-      // Logic for when the status is "Leyendo"
     } else if (status === "Por Leer") {
       await api.post(`/api/book/toReadBooks/${id}`, { user_id: user._id});
-      // Logic for when the status is "Por Leer"
     }
-    // You can add your logic to handle the status change here
   };
 
   const addBookToPersonalList = async (id) => {

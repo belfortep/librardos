@@ -16,6 +16,5 @@ router.post('/:id',  joinCommunity);
 router.patch('/:id',  renameCommunity);
 router.delete('/:id',  deleteCommunity);
 router.put("/sendModeratorRequest/:id",  sendModeratorRequest);
-// router.put("/addModerator/:id",  addModerator);
 
 module.exports = router

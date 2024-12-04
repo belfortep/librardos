@@ -95,7 +95,6 @@ export const Community = () => {
 
 
   const modifyCommunityName = async (id) => {
-    // const newName = prompt("Ingrese el nuevo nombre de la comunidad:");
     if (newName) {
       await api.patch("/api/community/" + id, { name: newName });
     }
@@ -277,13 +276,13 @@ const getMessageColor = (message, color) => {
             <h5 className="card-title">Mensajes Destacados</h5>
             <ul className="list-group list-group-flush mb-4">
               {messages?.filter((message) => message.ping).map((message, index) => {
-                const messageDate = new Date(message.createdAt); // Convierte el string en un objeto Date
-                const lastLoginDate = new Date(user.updatedAt); // Convierte la fecha de inicio de sesión
+                const messageDate = new Date(message.createdAt); 
+                const lastLoginDate = new Date(user.updatedAt); 
 
-                // Sumar 5 minutos (300,000 ms) a la fecha de creación del mensaje
+                
                 const messageDatePlus5Min = new Date(messageDate.getTime() + 5 * 60 * 1000);
 
-                // Determina el color según la comparación
+               
                 const textColor = messageDatePlus5Min > lastLoginDate ? 'blue' : 'black';
                 return (
                   <li key={index} className="list-group-item" style={{ padding: "10px", marginBottom: "10px", cursor: "pointer", color: textColor }}>
@@ -299,19 +298,19 @@ const getMessageColor = (message, color) => {
             </span>
             <ul className="list-group list-group-flush mb-4">
               {isMember || user.isAdmin ? messages?.map((message, index) => {
-                const messageDate = new Date(message.createdAt); // Convierte el string en un objeto Date
-                const lastLoginDate = new Date(user.updatedAt); // Convierte la fecha de inicio de sesión
+                const messageDate = new Date(message.createdAt); 
+                const lastLoginDate = new Date(user.updatedAt);
                 
-                // Sumar 5 minutos (300,000 ms) a la fecha de creación del mensaje
+               
                 const messageDatePlus5Min = new Date(messageDate.getTime() + 5 * 60 * 1000);
                 
-                // Determina el color según la comparación
+                
                 const textColor = messageDatePlus5Min > lastLoginDate ? 'blue' : 'black';
                 return (
 
                   <>
                 <li onClick={() => handleReplyMessage(message._id)}  style={{
-            backgroundColor: replyingTo === message._id ? "#c3c3c3" : "white", // Cambia el color según el estado
+            backgroundColor: replyingTo === message._id ? "#c3c3c3" : "white",
             padding: "10px",
             marginBottom: "10px",
             cursor: "pointer",

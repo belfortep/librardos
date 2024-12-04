@@ -10,10 +10,10 @@ import BookRatingDisplay from "../../components/DisplayBookRating/DisplayBookRat
 
 
 export const Books = () => {
-  const [bookToSearch, setBookToSearch] = useState(""); // Estado para el término de búsqueda
-  const [writerToSearch, setWriterToSearch] = useState(""); // Estado para el término de búsqueda
-  const [genderToSearch, setGenderToSearch] = useState(""); // Estado para el término de búsqueda
-  const [starsToSearch, setStarsToSearch] = useState(""); // Estado para el término de búsqueda
+  const [bookToSearch, setBookToSearch] = useState(""); 
+  const [writerToSearch, setWriterToSearch] = useState(""); 
+  const [genderToSearch, setGenderToSearch] = useState(""); 
+  const [starsToSearch, setStarsToSearch] = useState(""); 
   const [favoriteBooks, setFavoriteBooks] = useState([]);
 
   const [writerCheckbox, setWriterCheckbox] = useState(false);
@@ -25,7 +25,7 @@ export const Books = () => {
 
   const calculateAverageScore = (book) => {
     const scores = book.scores;
-    if (scores.length === 0) return 0; // Maneja el caso donde no haya scores
+    if (scores.length === 0) return 0; 
     
     const totalScore = scores.reduce((sum, entry) => sum + entry.score, 0);
     const averageScore = totalScore / scores.length;
@@ -59,7 +59,7 @@ export const Books = () => {
     }
   }, []);
 
-   // Filtra los libros según el término de búsqueda
+   
   const filteredBooks = books.filter((book) =>
     book.title.toLowerCase().includes(bookToSearch.toLowerCase()) &&
     book.writer.toLowerCase().includes(writerToSearch.toLowerCase()) &&

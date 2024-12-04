@@ -60,9 +60,9 @@ export const CreateCommunities = () => {
     <>
       <h1 style={{marginTop:"20px"}}>Crear Comunidad</h1>
       <form onSubmit={handleCreate} className="loginBoxSmall">
-        {/* Radio button 1 */}
+        
         <div style={{ display: 'flex', width: '100%' }}>
-        {/* Radio button 1 */}
+        
         <label style={{ flex: 1, textAlign: 'center' }}>
           <input
             type="radio"
@@ -74,7 +74,7 @@ export const CreateCommunities = () => {
           Comunidad del Libro
         </label>
 
-        {/* Radio button 2 */}
+        
         <label style={{ flex: 1, textAlign: 'center' }}>
           <input
             type="radio"
@@ -86,7 +86,7 @@ export const CreateCommunities = () => {
           Comunidad del Autor
         </label>
 
-        {/* Radio button 3 */}
+       
         <label style={{ flex: 1, textAlign: 'center' }}>
           <input
             type="radio"

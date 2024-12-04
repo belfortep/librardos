@@ -71,7 +71,7 @@ export const EditProfile = () => {
   };
 
   const handleSecurityChange = async (event) => {
-    setSecurityLevel(Number(event.target.value)); // Convertir a número para usarlo correctamente
+    setSecurityLevel(Number(event.target.value)); 
     let res = await api.put("/auth/user/" + user._id, {privacy_level: event.target.value})
     dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
   };
